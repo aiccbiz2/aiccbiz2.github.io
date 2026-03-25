@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KT Agentic AICC 경쟁사 분석</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --kt-blue: #0070C0;
+    --kt-dark-blue: #003087;
+    --kt-light-blue: #00A3E0;
+    --kt-cyan: #00C9FF;
+    --accent: #FF6B35;
+    --gold: #FFD700;
+    --bg-dark: #060B18;
+    --bg-card: #0D1B2A;
+    --bg-card2: #112240;
+    --text-primary: #F0F4FF;
+    --text-secondary: #8B9DC3;
+    --border: rgba(0,112,192,0.3);
+    --glow: rgba(0,163,224,0.4);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--kt-blue); border-radius: 3px; }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px var(--glow); }
+    50% { box-shadow: 0 0 50px var(--glow), 0 0 80px rgba(0,163,224,0.2); }
+  }
+  @keyframes counter {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes bgPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+  .animate-fadeInUp { animation: fadeInUp 0.8s ease forwards; }
+  .animate-slideInLeft { animation: slideInLeft 0.8s ease forwards; }
+  .animate-slideInRight { animation: slideInRight 0.8s ease forwards; }
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--kt-cyan), var(--kt-blue), var(--kt-light-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Cards */
+  .glass-card {
+    background: rgba(13,27,42,0.8);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  .glass-card:hover {
+    border-color: rgba(0,163,224,0.6);
+    box-shadow: 0 8px 40px rgba(0,112,192,0.3);
+    transform: translateY(-4px);
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(6,11,24,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--kt-cyan);
+    letter-spacing: -0.5px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover {
+    color: var(--kt-cyan);
+    background: rgba(0,163,224,0.1);
+  }
+
+  /* Sections */
+  .section {
+    padding: 100px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--kt-cyan);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,112,192,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(0,163,224,0.1) 0%, transparent 50%),
+                var(--bg-dark);
+  }
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(0,112,192,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,112,192,0.08) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: bgPulse 4s ease-in-out infinite;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,112,192,0.2);
+    border: 1px solid rgba(0,163,224,0.4);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--kt-cyan);
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+  }
+  .hero-title {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -2px;
+  }
+  .hero-desc {
+    font-size: 20px;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat-value {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .hero-stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .hero-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--border);
+    align-self: center;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--kt-blue), var(--kt-cyan));
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 48px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--kt-cyan);
+    background: var(--bg-dark);
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .timeline-dot.active {
+    background: var(--kt-cyan);
+    animation: pulse-glow 2s infinite;
+  }
+
+  /* Metric cards */
+  .metric-card {
+    background: linear-gradient(135deg, rgba(0,112,192,0.15), rgba(0,163,224,0.05));
+    border: 1px solid rgba(0,163,224,0.3);
+    border-radius: 20px;
+    padding: 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--kt-blue), var(--kt-cyan));
+  }
+  .metric-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,112,192,0.3);
+  }
+  .metric-before {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+  }
+  .metric-arrow {
+    font-size: 28px;
+    color: var(--kt-cyan);
+    margin: 8px 0;
+  }
+  .metric-after {
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .metric-label {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Feature grid */
+  .feature-card {
+    background: var(--bg-card2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+  .feature-card:hover {
+    border-color: var(--kt-blue);
+    box-shadow: 0 0 30px rgba(0,112,192,0.2);
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(0,112,192,0.3), rgba(0,163,224,0.1));
+  }
+  .feature-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+  .feature-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Architecture */
+  .arch-box {
+    background: rgba(0,112,192,0.12);
+    border: 1px solid rgba(0,163,224,0.3);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+  }
+  .arch-box.highlight {
+    background: linear-gradient(135deg, rgba(0,112,192,0.3), rgba(0,163,224,0.15));
+    border-color: var(--kt-cyan);
+    box-shadow: 0 0 20px rgba(0,163,224,0.2);
+  }
+  .arch-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--kt-cyan);
+    font-size: 24px;
+  }
+
+  /* Image gallery */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .gallery-item:hover {
+    border-color: var(--kt-cyan);
+    box-shadow: 0 0 30px rgba(0,163,224,0.3);
+    transform: scale(1.02);
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  .gallery-caption {
+    background: rgba(13,27,42,0.95);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,11,24,0.95);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: pointer;
+  }
+  .modal-img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 0 80px rgba(0,112,192,0.4);
+    cursor: default;
+  }
+
+  /* Use case card */
+  .usecase-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    transition: all 0.3s ease;
+  }
+  .usecase-card:hover {
+    border-color: var(--kt-blue);
+    box-shadow: 0 0 40px rgba(0,112,192,0.25);
+  }
+  .usecase-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  /* Roadmap */
+  .roadmap-phase {
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .roadmap-phase.past {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .roadmap-phase.present {
+    background: rgba(0,112,192,0.15);
+    border: 1px solid rgba(0,163,224,0.4);
+  }
+  .roadmap-phase.future {
+    background: linear-gradient(135deg, rgba(0,112,192,0.2), rgba(0,163,224,0.1));
+    border: 1px solid var(--kt-cyan);
+    box-shadow: 0 0 30px rgba(0,163,224,0.2);
+  }
+
+  /* Competitive grid */
+  .comp-item {
+    background: var(--bg-card2);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    background: rgba(0,112,192,0.2);
+    border: 1px solid rgba(0,163,224,0.3);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--kt-cyan);
+    letter-spacing: 0.5px;
+  }
+  .tag.red {
+    background: rgba(255,107,53,0.2);
+    border-color: rgba(255,107,53,0.4);
+    color: #FF8C65;
+  }
+  .tag.gold {
+    background: rgba(255,215,0,0.15);
+    border-color: rgba(255,215,0,0.3);
+    color: var(--gold);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--kt-blue), var(--kt-cyan));
+    transition: width 1.5s ease;
+  }
+
+  /* Section divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 60px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section { padding: 60px 24px; }
+    .section-title { font-size: 28px; }
+    .nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-title { font-size: 42px; }
+    .hero-stats { gap: 24px; }
+    .hero-divider { display: none; }
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+  .scroll-mouse {
+    width: 24px;
+    height: 38px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 12px;
+    position: relative;
+  }
+  .scroll-mouse::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: var(--kt-cyan);
+    border-radius: 2px;
+    animation: float 1.5s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// Image paths (relative)
+const IMAGES = Array.from({length: 22}, (_, i) => {
+  const num = String(i + 1).padStart(3, '0');
+  const files = [
+    "KakaoTalk_Photo_2026-03-24-10-50-39 001.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-40 002.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-40 003.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-41 004.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-41 005.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-42 006.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-43 007.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-43 008.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-44 009.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-45 010.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-45 011.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-46 012.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-47 013.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-47 014.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-48 015.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-49 016.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-49 017.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-50 018.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-50 019.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-51 020.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-52 021.jpeg",
+    "KakaoTalk_Photo_2026-03-24-10-50-52 022.jpeg",
+  ];
+  return `images/${files[i]}`;
+});
+
+const SLIDE_TITLES = [
+  "KT Agentic AICC 전략 발표",
+  "Agentic AICC로의 확장 로드맵",
+  "고객경험(CX)의 새로운 기준",
+  "챗봇/보이스봇 성과 (Agent 이전)",
+  "Agentic AICC 목표",
+  "Agent 기반 상담 TO-BE (전체)",
+  "Agent 기반 상담 TO-BE (클로즈업)",
+  "확장을 위한 고객 고민사항",
+  "기술 및 솔루션 스택",
+  "시스템 구성도",
+  "서비스 구성 아키텍처",
+  "비정형 문의 처리 방식",
+  "Agent Connector 핵심 기능",
+  "KT AICC 현황 및 실적",
+  "LLM 상담요약 및 유형분류",
+  "지식기반 RAG Agent (1)",
+  "지식기반 RAG Agent (2)",
+  "도입 Case 1/2",
+  "도입 Case 2/2",
+  "04 향후 발전 방향",
+  "KT AICC B2B 사업 로드맵",
+  "경쟁 구조 전환 전략",
+];
+
+function AnimatedNumber({ target, suffix = '' }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef();
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        let start = 0;
+        const step = target / 60;
+        const timer = setInterval(() => {
+          start += step;
+          if (start >= target) { setValue(target); clearInterval(timer); }
+          else setValue(Math.floor(start));
+        }, 16);
+      }
+    }, { threshold: 0.5 });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target]);
+  return <span ref={ref}>{value}{suffix}</span>;
+}
+
+function Modal({ src, title, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [onClose]);
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:16}}>
+        <img className="modal-img" src={src} alt={title} onClick={e=>e.stopPropagation()} />
+        <p style={{color:'#8B9DC3',fontSize:14}}>{title}</p>
+        <p style={{color:'#556',fontSize:12}}>ESC 또는 클릭하여 닫기</p>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [modal, setModal] = useState(null);
+
+  return (
+    <div>
+      {/* Navigation */}
+      <nav className="nav">
+        <div className="nav-logo">KT · Agentic AICC 분석</div>
+        <ul className="nav-links">
+          {[
+            ['#overview','개요'],
+            ['#evolution','진화'],
+            ['#metrics','성과'],
+            ['#cx','CX전략'],
+            ['#tech','기술'],
+            ['#cases','사례'],
+            ['#roadmap','로드맵'],
+            ['#competition','경쟁'],
+            ['#gallery','슬라이드'],
+          ].map(([href, label]) => (
+            <li key={href}><a href={href}>{label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Hero */}
+      <section className="hero" id="overview">
+        <div className="hero-bg-grid" />
+        <div className="hero-content">
+          <div className="hero-badge animate-fadeInUp">
+            <span style={{width:8,height:8,borderRadius:'50%',background:'#00C9FF',display:'inline-block'}} />
+            경쟁사 분석 리포트 · 2026.03.24
+          </div>
+          <h1 className="hero-title animate-fadeInUp" style={{animationDelay:'0.1s'}}>
+            <span className="gradient-text">KT</span><br />
+            <span style={{fontSize:'0.7em',fontWeight:700,color:'var(--text-primary)'}}>Agentic AICC</span><br />
+            <span style={{fontSize:'0.45em',fontWeight:500,color:'var(--text-secondary)'}}>고객경험을 고려한 전략 분석</span>
+          </h1>
+          <p className="hero-desc animate-fadeInUp" style={{animationDelay:'0.2s'}}>
+            KT가 발표한 Agentic AICC 전략의 핵심 내용을 심층 분석합니다.<br/>
+            기술 아키텍처, 성과 지표, B2B 로드맵, 경쟁 전략을 총망라합니다.
+          </p>
+          <div className="hero-stats animate-fadeInUp" style={{animationDelay:'0.3s'}}>
+            <div className="hero-stat">
+              <div className="hero-stat-value gradient-text"><AnimatedNumber target={87} suffix="%" /></div>
+              <div className="hero-stat-label">기업 AICC 도입률</div>
+            </div>
+            <div className="hero-divider" />
+            <div className="hero-stat">
+              <div className="hero-stat-value" style={{color:'#00C9FF'}}><AnimatedNumber target={400} suffix="+" /></div>
+              <div className="hero-stat-label">KT AICC 적용 기업</div>
+            </div>
+            <div className="hero-divider" />
+            <div className="hero-stat">
+              <div className="hero-stat-value gradient-text-gold"><AnimatedNumber target={22} /></div>
+              <div className="hero-stat-label">발표 슬라이드</div>
+            </div>
+            <div className="hero-divider" />
+            <div className="hero-stat">
+              <div className="hero-stat-value" style={{color:'#FF6B35'}}><AnimatedNumber target={2026} /></div>
+              <div className="hero-stat-label">Agentic AICC 본격 확장</div>
+            </div>
+          </div>
+        </div>
+        <div className="scroll-indicator">
+          <div className="scroll-mouse" />
+          <span>SCROLL</span>
+        </div>
+      </section>
+
+      {/* Executive Summary */}
+      <div className="section-divider" />
+      <section className="section" id="summary">
+        <p className="section-label">Executive Summary</p>
+        <h2 className="section-title">핵심 요약</h2>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:20,marginTop:40}}>
+          {[
+            {icon:'🎯', title:'전략 방향', desc:'ML/DL 시나리오 기반에서 LLM·Agent 기반의 자율실행형 Agentic AICC로 전환. 오케스트레이터를 통한 다중 Agent 협업 구조 구현.'},
+            {icon:'📊', title:'시장 현황', desc:'KT AICC 구독형 점유율 70%, 400여개 기업 적용. 87%의 기업이 AICC 도입 완료, 84%가 챗봇·41%가 보이스봇 운영 중.'},
+            {icon:'🚀', title:'성과 목표', desc:'전체 업무 커버리지 30%→60%, 상담 완결율 75%→90%로 2배 향상. LLM 기반 상담요약으로 상담사 업무시간 42초/건 단축.'},
+            {icon:'🔧', title:'핵심 기술', desc:'Agent Connector가 기존 AICC 플랫폼에 Plug-in 방식으로 AI Agent를 즉시 연결. Easy Plug-in, Agent Coordination, Seamless Operation, Context Management.'},
+            {icon:'💼', title:'B2B 로드맵', desc:'2026년부터 Conventional AICC를 넘어 Data Platform(RAG), AI Agent, Personalized Marketing Solution으로 사업 영역 확장.'},
+            {icon:'⚔️', title:'경쟁 전략', desc:'기술 선도입(First Penguin)을 통한 데이터 선점, 고객 경험 격차를 활용한 브랜드 격차 창출, AI 실행역량을 기업 경쟁력으로 전환.'},
+          ].map(card => (
+            <div key={card.title} className="feature-card">
+              <div className="feature-icon">{card.icon}</div>
+              <div className="feature-title">{card.title}</div>
+              <div className="feature-desc">{card.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Evolution Timeline */}
+      <div className="section-divider" />
+      <section className="section" id="evolution">
+        <p className="section-label">Paradigm Shift</p>
+        <h2 className="section-title">Agentic AICC <span className="gradient-text">진화 여정</span></h2>
+        <p className="section-subtitle" style={{marginBottom:60}}>ML/DL 시나리오 기반에서 자율실행형 Agentic AICC까지, KT의 3단계 전환 전략</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:24}}>
+          {[
+            {
+              phase:'PAST', period:'2021 ~ 2024', color:'rgba(255,255,255,0.08)',
+              border:'rgba(255,255,255,0.15)', titleColor:'#8B9DC3',
+              title:'Scenario-Driven AICC', icon:'📋',
+              desc:'ML/DL 기반 시나리오 중심 운영. 정해진 시나리오 내에서만 응답 가능. 한계: 시나리오 외 질문 대응 불가',
+              tags:['ML/DL', '시나리오 봇', '제한적 응답'],
+              items:['머신러닝/딥러닝 엔진', '고정 시나리오', '제한적 업무 처리'],
+            },
+            {
+              phase:'PRESENT', period:'2024 ~ 2025', color:'rgba(0,112,192,0.15)',
+              border:'rgba(0,163,224,0.5)', titleColor:'var(--kt-cyan)',
+              title:'Generative & Multimodal AICC', icon:'🤖',
+              desc:'LLM 및 멀티모달 기반으로 전환. KT 자체 AICC에서 검증 완료. 챗봇/보이스봇 상담완결율 75% 달성',
+              tags:['LLM', '멀티모달', 'Generative AI'],
+              items:['LLM 기반 자유 대화', '멀티모달 처리', '70% 구독형 점유율'],
+              current: true,
+            },
+            {
+              phase:'FUTURE', period:'2026 ~', color:'linear-gradient(135deg,rgba(0,112,192,0.25),rgba(0,163,224,0.1))',
+              border:'var(--kt-cyan)', titleColor:'var(--gold)',
+              title:'자율실행형 Agentic AICC', icon:'⚡',
+              desc:'Orchestrator가 다수의 AI Agent를 자율 조율. 고객 의도를 파악해 최적 Agent를 선택·실행. 업무 커버리지 60%, 완결율 90% 목표',
+              tags:['Orchestrator', 'Multi-Agent', 'MCP', 'RAG'],
+              items:['자율 Agent 협업', 'Zero-Effort CX', '60% 업무 커버리지'],
+            },
+          ].map((item, i) => (
+            <div key={i} style={{
+              background: item.color.includes('gradient') ? item.color : item.color,
+              backgroundImage: item.color.includes('gradient') ? item.color : undefined,
+              border: `1px solid ${item.border}`,
+              borderRadius: 20,
+              padding: 32,
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: item.current ? '0 0 40px rgba(0,163,224,0.2)' : 'none',
+            }}>
+              {item.current && (
+                <div style={{
+                  position:'absolute', top:16, right:16,
+                  background:'var(--kt-cyan)', color:'var(--bg-dark)',
+                  fontSize:11, fontWeight:700, padding:'4px 10px',
+                  borderRadius:100, letterSpacing:1,
+                }}>NOW</div>
+              )}
+              <div style={{fontSize:40,marginBottom:16}}>{item.icon}</div>
+              <div style={{fontSize:12,fontWeight:700,letterSpacing:2,color:item.titleColor,marginBottom:8}}>{item.phase}</div>
+              <div style={{fontSize:22,fontWeight:900,marginBottom:4}}>{item.title}</div>
+              <div style={{fontSize:13,color:'var(--text-secondary)',marginBottom:16}}>{item.period}</div>
+              <p style={{fontSize:14,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:20}}>{item.desc}</p>
+              <div style={{display:'flex',flexWrap:'wrap',gap:6,marginBottom:20}}>
+                {item.tags.map(t => <span key={t} className="tag">{t}</span>)}
+              </div>
+              <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:8}}>
+                {item.items.map(it => (
+                  <li key={it} style={{display:'flex',alignItems:'center',gap:8,fontSize:13,color:'var(--text-primary)'}}>
+                    <span style={{color:'var(--kt-cyan)',fontSize:10}}>◆</span>{it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Key Metrics */}
+      <div className="section-divider" />
+      <section className="section" id="metrics" style={{background:'linear-gradient(180deg,transparent,rgba(0,112,192,0.05),transparent)'}}>
+        <p className="section-label">Key Performance Indicators</p>
+        <h2 className="section-title">핵심 <span className="gradient-text">성과 지표</span></h2>
+        <p className="section-subtitle" style={{marginBottom:60}}>Agent 도입 전→후 목표 수치와 현재 달성 현황</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))',gap:24,marginBottom:60}}>
+          {[
+            {before:'30%', after:'60%', label:'전체 업무 커버리지', color:'var(--kt-cyan)', achieved:'현재 30%', progress:30},
+            {before:'75%', after:'90%', label:'상담 완결율', color:'#FFD700', achieved:'현재 75%', progress:75},
+            {before:'87%', after:'400+', label:'기업 AICC 도입 / KT 적용 수', color:'#FF6B35', achieved:'시장 87% 도입', progress:87},
+            {before:'기존', after:'42초↓', label:'상담사 업무시간 단축/건', color:'#00FF88', achieved:'LLM 요약 적용', progress:70},
+          ].map((m, i) => (
+            <div key={i} className="metric-card">
+              <div style={{fontSize:13,color:'var(--text-secondary)',marginBottom:12}}>{m.label}</div>
+              <div className="metric-before">{m.before}</div>
+              <div className="metric-arrow">↓</div>
+              <div className="metric-after" style={{color:m.color}}>{m.after}</div>
+              <div style={{marginTop:12}}>
+                <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'var(--text-secondary)',marginBottom:4}}>
+                  <span>{m.achieved}</span><span>{m.progress}%</span>
+                </div>
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{width:`${m.progress}%`, background:`linear-gradient(90deg, var(--kt-dark-blue), ${m.color})`}} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Slide 4 & 5 preview */}
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:24}}>
+          <div style={{cursor:'pointer'}} onClick={()=>setModal({src:IMAGES[3],title:SLIDE_TITLES[3]})}>
+            <div style={{borderRadius:12,overflow:'hidden',border:'1px solid var(--border)'}}>
+              <img src={IMAGES[3]} alt={SLIDE_TITLES[3]} style={{width:'100%',display:'block'}} />
+            </div>
+            <p style={{fontSize:13,color:'var(--text-secondary)',marginTop:8,textAlign:'center'}}>슬라이드 04 · 클릭하여 확대</p>
+          </div>
+          <div style={{cursor:'pointer'}} onClick={()=>setModal({src:IMAGES[4],title:SLIDE_TITLES[4]})}>
+            <div style={{borderRadius:12,overflow:'hidden',border:'1px solid rgba(0,163,224,0.4)'}}>
+              <img src={IMAGES[4]} alt={SLIDE_TITLES[4]} style={{width:'100%',display:'block'}} />
+            </div>
+            <p style={{fontSize:13,color:'var(--text-secondary)',marginTop:8,textAlign:'center'}}>슬라이드 05 · 클릭하여 확대</p>
+          </div>
+        </div>
+      </section>
+
+      {/* CX Strategy */}
+      <div className="section-divider" />
+      <section className="section" id="cx">
+        <p className="section-label">Customer Experience</p>
+        <h2 className="section-title">고객경험(CX) <span className="gradient-text">새로운 기준</span></h2>
+        <p className="section-subtitle" style={{marginBottom:60}}>고객·상담사·운영자 3자 관점에서 재정의한 AICC의 가치</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:24,marginBottom:48}}>
+          {[
+            {
+              title:'고객', emoji:'👤', color:'#00C9FF',
+              points:[
+                '사람같이 자연스러운 대화 경험',
+                '고객 이력과 상황을 이해한 맞춤형 응대',
+                '원하는 업무의 One-Stop 처리',
+              ]
+            },
+            {
+              title:'상담사', emoji:'💻', color:'#FFD700',
+              points:[
+                '실시간 응대 가이드 지원',
+                '빠른 비정형 문서 검색 (KMS)',
+                '백락 인식 기반 정확한 상담 요약',
+              ]
+            },
+            {
+              title:'운영자', emoji:'⚙️', color:'#FF6B35',
+              points:[
+                'AI기반 시나리오 자동 저작',
+                '실시간 AI 학습/개선 관리',
+                'AI 플랫폼 기반 운영관리 자동화',
+              ]
+            },
+          ].map(cx => (
+            <div key={cx.title} className="usecase-card" style={{borderColor:`rgba(${cx.color === '#00C9FF' ? '0,201,255' : cx.color === '#FFD700' ? '255,215,0' : '255,107,53'},0.3)`}}>
+              <span className="usecase-icon">{cx.emoji}</span>
+              <h3 style={{fontSize:24,fontWeight:800,color:cx.color,marginBottom:16}}>{cx.title}</h3>
+              <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:12}}>
+                {cx.points.map(p => (
+                  <li key={p} style={{display:'flex',gap:10,fontSize:14,color:'var(--text-primary)',lineHeight:1.6}}>
+                    <span style={{color:cx.color,marginTop:2,flexShrink:0}}>✦</span>{p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div style={{cursor:'pointer'}} onClick={()=>setModal({src:IMAGES[2],title:SLIDE_TITLES[2]})}>
+          <div style={{borderRadius:12,overflow:'hidden',border:'1px solid var(--border)',maxWidth:800,margin:'0 auto'}}>
+            <img src={IMAGES[2]} alt={SLIDE_TITLES[2]} style={{width:'100%',display:'block'}} />
+          </div>
+          <p style={{textAlign:'center',fontSize:13,color:'var(--text-secondary)',marginTop:8}}>클릭하여 원본 슬라이드 확대</p>
+        </div>
+      </section>
+
+      {/* Technology */}
+      <div className="section-divider" />
+      <section className="section" id="tech">
+        <p className="section-label">2. Agentic AICC Tech</p>
+        <h2 className="section-title">기술 <span className="gradient-text">아키텍처</span></h2>
+        <p className="section-subtitle" style={{marginBottom:48}}>KT intelligence 기반의 3계층 AI 플랫폼 구조</p>
+
+        {/* 3-layer architecture */}
+        <div style={{display:'flex',flexDirection:'column',gap:16,marginBottom:48}}>
+          {[
+            {
+              label:'응용 서비스 계층', color:'#00C9FF',
+              items:['AI봇', 'KMS', '상담Assist', 'AI Agent', '...'],
+            },
+            {
+              label:'AI 플랫폼 계층', color:'#0070C0',
+              items:['콜운 커넥터', '통합운영분석', '보 프레임워크 (MRT)', 'LLMOps', 'Agent Builder', 'Agent Connector'],
+            },
+            {
+              label:'AI Core 엔진', color:'#003087',
+              items:['STT', 'TTS', '목소리합성', 'LLM', '...'],
+            },
+          ].map((layer, i) => (
+            <div key={i} style={{
+              background:`rgba(${i===0?'0,201,255':i===1?'0,112,192':'0,48,135'},0.1)`,
+              border:`1px solid rgba(${i===0?'0,201,255':i===1?'0,112,192':'0,48,135'},0.4)`,
+              borderRadius:16, padding:'20px 28px',
+            }}>
+              <div style={{fontSize:12,fontWeight:700,color:layer.color,letterSpacing:2,marginBottom:12}}>{layer.label}</div>
+              <div style={{display:'flex',flexWrap:'wrap',gap:10}}>
+                {layer.items.map(item => (
+                  <div key={item} style={{
+                    background:`rgba(${i===0?'0,201,255':i===1?'0,112,192':'0,48,135'},0.15)`,
+                    border:`1px solid rgba(${i===0?'0,201,255':i===1?'0,112,192':'0,48,135'},0.3)`,
+                    borderRadius:8, padding:'8px 16px', fontSize:13, fontWeight:600,
+                  }}>{item}</div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Agent Connector features */}
+        <h3 style={{fontSize:28,fontWeight:800,marginBottom:8}}>Agent Connector <span className="gradient-text">핵심 기능</span></h3>
+        <p style={{color:'var(--text-secondary)',marginBottom:32,fontSize:14}}>Orchestrator로 AICC플랫폼과 AI Agent를 통합·조율</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:20,marginBottom:48}}>
+          {[
+            {icon:'🔌', title:'Easy Plug-in', desc:'Agent를 Plug & Play 방식으로 연동하여 즉시 서비스 적용 가능'},
+            {icon:'🤝', title:'Agent Coordination', desc:'다양한 에이전트↔시나리오 챗봇/보이스봇 간 유기적인 협업 지원'},
+            {icon:'🔄', title:'Seamless Operation', desc:'에이전트와 시나리오봇의 업무 흐름을 유연하게 통합 운영 및 관리'},
+            {icon:'💡', title:'Context Management', desc:'문맥유지 기능으로 개인별/상황에 맞는 AI 응대 가능'},
+          ].map(f => (
+            <div key={f.title} className="feature-card">
+              <div className="feature-icon">{f.icon}</div>
+              <div className="feature-title">{f.title}</div>
+              <div className="feature-desc">{f.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Slide images */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(320px,1fr))',gap:20}}>
+          {[8,9,10,11,12].map(idx => (
+            <div key={idx} style={{cursor:'pointer'}} onClick={()=>setModal({src:IMAGES[idx],title:SLIDE_TITLES[idx]})}>
+              <div style={{borderRadius:10,overflow:'hidden',border:'1px solid var(--border)'}}>
+                <img src={IMAGES[idx]} alt={SLIDE_TITLES[idx]} style={{width:'100%',display:'block'}} />
+              </div>
+              <p style={{fontSize:12,color:'var(--text-secondary)',marginTop:6,textAlign:'center'}}>슬라이드 {String(idx+1).padStart(2,'0')} · {SLIDE_TITLES[idx]}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Demo: Video Content */}
+      <div className="section-divider" />
+      <section className="section" style={{background:'linear-gradient(180deg,transparent,rgba(0,112,192,0.05),transparent)'}}>
+        <p className="section-label">Live Demo · 영상 음성 전사</p>
+        <h2 className="section-title">Agent Connector <span className="gradient-text">데모 시나리오</span></h2>
+        <p className="section-subtitle" style={{marginBottom:48}}>발표 현장 영상에서 추출한 Agent Connector 카드 발급 데모 시나리오</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(360px,1fr))',gap:24}}>
+          <div className="glass-card" style={{padding:32}}>
+            <div className="tag red" style={{marginBottom:16}}>AS-IS · 기존 시나리오 봇</div>
+            <h3 style={{fontSize:20,fontWeight:700,marginBottom:16,color:'#FF8C65'}}>한계 상황</h3>
+            <div style={{display:'flex',flexDirection:'column',gap:12}}>
+              {[
+                '"카드 발급하고 싶어" → 3가지 카드만 발급 가능',
+                '"스타벅스 혜택 카드 있어?" → ❌ 준비된 시나리오 없음',
+                '시나리오 외 질문에 응답 불가 → 고객 이탈',
+              ].map((s,i) => (
+                <div key={i} style={{
+                  background:'rgba(255,107,53,0.08)',border:'1px solid rgba(255,107,53,0.2)',
+                  borderRadius:10,padding:'12px 16px',fontSize:14,color:'var(--text-primary)',lineHeight:1.6,
+                }}>
+                  {s}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="glass-card" style={{padding:32,border:'1px solid rgba(0,163,224,0.4)'}}>
+            <div className="tag" style={{marginBottom:16}}>TO-BE · Agent Connector 적용</div>
+            <h3 style={{fontSize:20,fontWeight:700,marginBottom:16,color:'var(--kt-cyan)'}}>해결 흐름</h3>
+            <div style={{display:'flex',flexDirection:'column',gap:10}}>
+              {[
+                {step:1, text:'"스타벅스 카드 있어?" → Q&A Agent 자동 연결'},
+                {step:2, text:'개인, Discover 카드가 스타벅스 혜택 카드임을 확인'},
+                {step:3, text:'"발급할게" → 기존 발급 시나리오로 자동 복귀'},
+                {step:4, text:'"회사에서 받을게" → 개인화 주소 데이터 자동 확인'},
+                {step:5, text:'요약 Agent가 SMS로 상담 내용 압축 전송 (Discover 카드 신청 완료)'},
+              ].map(s => (
+                <div key={s.step} style={{display:'flex',gap:12,alignItems:'flex-start'}}>
+                  <div style={{
+                    width:24,height:24,borderRadius:'50%',background:'var(--kt-blue)',
+                    display:'flex',alignItems:'center',justifyContent:'center',
+                    fontSize:12,fontWeight:700,flexShrink:0,marginTop:2,
+                  }}>{s.step}</div>
+                  <div style={{fontSize:14,color:'var(--text-primary)',lineHeight:1.6}}>{s.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{
+          marginTop:24,background:'rgba(0,201,255,0.05)',border:'1px solid rgba(0,201,255,0.2)',
+          borderRadius:16,padding:'20px 24px',
+        }}>
+          <div style={{fontSize:12,color:'var(--kt-cyan)',fontWeight:700,letterSpacing:2,marginBottom:8}}>💡 핵심 인사이트</div>
+          <p style={{fontSize:14,color:'var(--text-secondary)',lineHeight:1.7}}>
+            Agent Connector는 기존 AICC 플랫폼을 교체하지 않고 <strong style={{color:'var(--text-primary)'}}>Plug-in 방식</strong>으로 AI Agent를 연결합니다.
+            오케스트레이터가 시나리오봇과 여러 AI Agent를 <strong style={{color:'var(--text-primary)'}}>자동 조율</strong>하여 고객은 하나의 자연스러운 대화 흐름을 경험합니다.
+            중복 투자 없이 기존 자산을 그대로 활용하면서 Agentic 기능을 즉시 추가할 수 있는 구조가 핵심 경쟁력입니다.
+          </p>
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <div className="section-divider" />
+      <section className="section" id="cases">
+        <p className="section-label">3. 고객 도입 사례</p>
+        <h2 className="section-title">도입 <span className="gradient-text">사례 분석</span></h2>
+        <p className="section-subtitle" style={{marginBottom:48}}>병원·보험·은행 3개 산업군 Agent 기반 상담 TO-BE 시나리오</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:24,marginBottom:48}}>
+          {[
+            {
+              industry:'🏥 병원', color:'#00C9FF',
+              before:'시나리오 기반 예약/안내',
+              after:'환자 이력 기반 맞춤 안내, 복약 지도, 검사 결과 설명',
+              agent:'의료정보 RAG Agent + 예약 시나리오봇',
+            },
+            {
+              industry:'🏦 보험', color:'#FFD700',
+              before:'FAQ 봇 + 상담사 연결',
+              after:'보험 조건 분석, 청구 프로세스 자동화, 갱신 추천',
+              agent:'보험 약관 RAG Agent + 청구 처리 Agent',
+            },
+            {
+              industry:'🏧 은행', color:'#FF6B35',
+              before:'자동응답 시스템',
+              after:'계좌/대출/카드 원스톱 처리, 개인화 금융 상품 추천',
+              agent:'금융상품 Q&A Agent + 개인화 데이터 Agent',
+            },
+          ].map(uc => (
+            <div key={uc.industry} className="usecase-card">
+              <h3 style={{fontSize:22,fontWeight:800,marginBottom:20}}>{uc.industry}</h3>
+              <div style={{marginBottom:12}}>
+                <div style={{fontSize:11,color:'var(--text-secondary)',letterSpacing:1,marginBottom:4}}>AS-IS</div>
+                <div style={{fontSize:14,color:'var(--text-secondary)',padding:'10px 14px',background:'rgba(255,255,255,0.04)',borderRadius:8}}>{uc.before}</div>
+              </div>
+              <div style={{marginBottom:12}}>
+                <div style={{fontSize:11,color:uc.color,letterSpacing:1,marginBottom:4}}>TO-BE</div>
+                <div style={{fontSize:14,color:'var(--text-primary)',padding:'10px 14px',background:`rgba(${uc.color==='#00C9FF'?'0,201,255':uc.color==='#FFD700'?'255,215,0':'255,107,53'},0.08)`,borderRadius:8,lineHeight:1.6}}>{uc.after}</div>
+              </div>
+              <div>
+                <div style={{fontSize:11,color:'var(--text-secondary)',letterSpacing:1,marginBottom:4}}>AGENT 구성</div>
+                <div style={{fontSize:13,color:uc.color,padding:'10px 14px',border:`1px solid rgba(${uc.color==='#00C9FF'?'0,201,255':uc.color==='#FFD700'?'255,215,0':'255,107,53'},0.3)`,borderRadius:8}}>{uc.agent}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* LLM features */}
+        <h3 style={{fontSize:26,fontWeight:800,marginBottom:8}}>LLM 기반 <span className="gradient-text">지식 서비스</span></h3>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(320px,1fr))',gap:20,marginTop:24}}>
+          <div className="glass-card" style={{padding:28}}>
+            <div className="tag" style={{marginBottom:12}}>LLM 상담요약 및 유형분류</div>
+            <h4 style={{fontSize:18,fontWeight:700,marginBottom:12}}>상담 자동 요약</h4>
+            <p style={{fontSize:14,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:16}}>
+              대화 스타일을 분석하여 1~2문장으로 핵심 내용 요약. 유형분류 자동화(이체/수신/대출 등).
+            </p>
+            <div style={{background:'rgba(0,112,192,0.1)',borderRadius:10,padding:'14px 18px',fontSize:13}}>
+              <span style={{color:'var(--kt-cyan)',fontWeight:700}}>효과:</span> 상담사 업무시간 <strong>42초/건 단축</strong>
+            </div>
+          </div>
+          <div className="glass-card" style={{padding:28}}>
+            <div className="tag" style={{marginBottom:12}}>KMS 기반 RAG Agent</div>
+            <h4 style={{fontSize:18,fontWeight:700,marginBottom:12}}>실시간 지식 추천</h4>
+            <p style={{fontSize:14,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:16}}>
+              상담 대화 중 의도를 실시간 탐지하여 관련 질문·답변을 AI가 자동 생성. 추천 질의/주요 키워드 제공.
+            </p>
+            <div style={{background:'rgba(0,112,192,0.1)',borderRadius:10,padding:'14px 18px',fontSize:13}}>
+              <span style={{color:'var(--kt-cyan)',fontWeight:700}}>방식:</span> 생성형 AI <strong>실시간 RAG 답변 생성</strong>
+            </div>
+          </div>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:16,marginTop:20}}>
+          {[14,15,16,17,18].map(idx => (
+            <div key={idx} style={{cursor:'pointer'}} onClick={()=>setModal({src:IMAGES[idx],title:SLIDE_TITLES[idx]})}>
+              <div style={{borderRadius:10,overflow:'hidden',border:'1px solid var(--border)'}}>
+                <img src={IMAGES[idx]} alt={SLIDE_TITLES[idx]} style={{width:'100%',display:'block'}} />
+              </div>
+              <p style={{fontSize:12,color:'var(--text-secondary)',marginTop:6,textAlign:'center'}}>{SLIDE_TITLES[idx]}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Roadmap */}
+      <div className="section-divider" />
+      <section className="section" id="roadmap">
+        <p className="section-label">4. 향후 발전 방향</p>
+        <h2 className="section-title">B2B 사업 <span className="gradient-text">로드맵</span></h2>
+        <p className="section-subtitle" style={{marginBottom:48}}>상담지원 솔루션 중심에서 개인화/마케팅 Agent 영역으로 사업 확대</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1.5fr',gap:32,alignItems:'start'}}>
+          <div>
+            <div className="roadmap-phase past" style={{marginBottom:20}}>
+              <div style={{fontSize:12,fontWeight:700,letterSpacing:2,color:'var(--text-secondary)',marginBottom:8}}>CONVENTIONAL AICC · ~2025년</div>
+              <h3 style={{fontSize:20,fontWeight:700,marginBottom:12}}>기존 사업 영역</h3>
+              <p style={{fontSize:14,color:'var(--text-secondary)',marginBottom:16}}>상담업무 효율화를 통한 비용 절감 중심</p>
+              <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                {['음성데이터 자동화 (STT)', 'Chatbot/Voicebot', 'Customer Service Assist'].map(t=>(
+                  <span key={t} style={{fontSize:12,background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:100,padding:'4px 12px',color:'var(--text-secondary)'}}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="roadmap-phase future">
+              <div style={{fontSize:12,fontWeight:700,letterSpacing:2,color:'var(--gold)',marginBottom:8}}>AGENTIC AICC · 2026년~</div>
+              <h3 style={{fontSize:20,fontWeight:700,marginBottom:12}}>신규 시장 확장 영역</h3>
+              <p style={{fontSize:14,color:'var(--text-secondary)',marginBottom:16}}>AI 기반 고객 서비스 혁신으로 부가가치 창출</p>
+              <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                {['Data Platform (RAG/Data)', 'AI Agent', 'Personalized Marketing Solution', 'Zero-Effort CX Platform'].map(t=>(
+                  <span key={t} className="tag gold">{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={{display:'flex',flexDirection:'column',gap:16}}>
+            <div onClick={()=>setModal({src:IMAGES[20],title:SLIDE_TITLES[20]})} style={{cursor:'pointer'}}>
+              <div style={{borderRadius:12,overflow:'hidden',border:'1px solid rgba(0,163,224,0.4)'}}>
+                <img src={IMAGES[20]} alt={SLIDE_TITLES[20]} style={{width:'100%',display:'block'}} />
+              </div>
+              <p style={{fontSize:12,color:'var(--text-secondary)',marginTop:6,textAlign:'center'}}>KT AICC B2B 사업 로드맵 · 클릭하여 확대</p>
+            </div>
+
+            <div style={{
+              background:'rgba(255,215,0,0.05)',border:'1px solid rgba(255,215,0,0.2)',
+              borderRadius:12,padding:'20px 24px',
+            }}>
+              <div style={{fontSize:12,color:'var(--gold)',fontWeight:700,letterSpacing:2,marginBottom:8}}>🏁 10개 사 대상 컨설팅 진행중</div>
+              <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.7}}>
+                KT AICC 구독형 점유율 <strong style={{color:'var(--text-primary)'}}>70%</strong>, 적용 기업 <strong style={{color:'var(--text-primary)'}}>400여개</strong> 기반으로
+                Agentic AICC 고도화를 위한 컨설팅을 현재 10개 사 대상으로 진행 중. 26년 상반기 통합 고객 채널 구축 완료 목표.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Competition Analysis */}
+      <div className="section-divider" />
+      <section className="section" id="competition" style={{background:'linear-gradient(180deg,transparent,rgba(0,112,192,0.05),transparent)'}}>
+        <p className="section-label">경쟁 구조 분석</p>
+        <h2 className="section-title">경쟁 구조 <span className="gradient-text">전환 전략</span></h2>
+        <p className="section-subtitle" style={{marginBottom:48}}>Agentic AICC를 통해 기술·경험·실행력에서 구조적 우위 선점</p>
+
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:24,marginBottom:48}}>
+          {[
+            {
+              from:'기술 선도입', fromSub:'First Penguin',
+              to:'데이터 선점', toSub:'Data Supremacy',
+              icon:'🐧', color:'#00C9FF',
+              desc:'가장 먼저 Agentic AI를 도입하여 실사용 데이터와 학습 자산을 선점. 후발주자와의 데이터 격차 확대.',
+              implications:['빠른 PoC 검증 후 스케일업', '고객 대화 데이터 독점 축적', '모델 파인튜닝 우위'],
+            },
+            {
+              from:'고객 경험 격차', fromSub:'Experience Gap',
+              to:'브랜드 격차', toSub:'Brand Gap',
+              icon:'⭐', color:'#FFD700',
+              desc:'자연스러운 AI 상담 경험이 브랜드 신뢰도와 충성도로 연결. CX 품질이 브랜드 자산이 되는 구조.',
+              implications:['CX 품질로 이탈률 최소화', 'AI 상담 만족도 → 재구매율', '경쟁사 대비 차별화 포인트'],
+            },
+            {
+              from:'AI 실행역량', fromSub:'AI Execution',
+              to:'기업 경쟁력', toSub:'Company Competitiveness',
+              icon:'🏆', color:'#FF6B35',
+              desc:'AI 운영·고도화 역량이 기업 전체 경쟁력으로 전이. AICC가 단순 비용 절감 도구를 넘어 가치 창출 엔진으로.',
+              implications:['AI 운영 내재화', '비용절감 → 부가가치 창출', 'Zero-Effort CX 실현'],
+            },
+          ].map(c => (
+            <div key={c.from} className="comp-item">
+              <div style={{fontSize:36,marginBottom:8}}>{c.icon}</div>
+              <div>
+                <div style={{fontSize:12,color:'var(--text-secondary)',marginBottom:2}}>{c.fromSub}</div>
+                <div style={{fontSize:16,fontWeight:600,color:'var(--text-secondary)',textDecoration:'line-through'}}>{c.from}</div>
+              </div>
+              <div style={{color:'var(--kt-cyan)',fontSize:20}}>↓</div>
+              <div>
+                <div style={{fontSize:12,color:c.color,marginBottom:2}}>{c.toSub}</div>
+                <div style={{fontSize:24,fontWeight:900,color:c.color}}>{c.to}</div>
+              </div>
+              <p style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.7}}>{c.desc}</p>
+              <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:6}}>
+                {c.implications.map(imp => (
+                  <li key={imp} style={{fontSize:12,color:'var(--text-primary)',display:'flex',gap:8,alignItems:'center'}}>
+                    <span style={{color:c.color,fontSize:8}}>◆</span>{imp}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Our implications */}
+        <div style={{
+          background:'linear-gradient(135deg,rgba(0,112,192,0.15),rgba(0,163,224,0.05))',
+          border:'1px solid rgba(0,163,224,0.4)',
+          borderRadius:20,padding:40,
+        }}>
+          <div style={{fontSize:12,color:'var(--kt-cyan)',fontWeight:700,letterSpacing:3,marginBottom:16}}>전략적 시사점</div>
+          <h3 style={{fontSize:26,fontWeight:800,marginBottom:24}}>우리에게 주는 <span className="gradient-text">메시지</span></h3>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:20}}>
+            {[
+              {num:'01', title:'진입 타이밍', desc:'KT가 26년 본격 확장 전 컨설팅 단계인 지금이 대응 전략 수립의 골든타임. 10개 사 파일럿 결과가 시장 표준이 될 가능성 높음.'},
+              {num:'02', title:'기술 격차 우려', desc:'Agent Connector Plug-in 구조는 기존 고객이 이탈 없이 Agentic으로 전환 가능. Lock-in 효과로 경쟁사 전환 비용 상승.'},
+              {num:'03', title:'차별화 포인트', desc:'KT의 구독형 70% 점유율을 감안하면 나머지 30% 신규 고객과 타 솔루션 고객이 주요 공략 대상. 특화 산업 Agent에서 승부해야 함.'},
+              {num:'04', title:'대응 전략', desc:'KT 미적용 산업/고객 발굴, 특화 Agent 품질 차별화, RAG 데이터 품질 우위, MCP 생태계 연계 등이 핵심 대응 방향.'},
+            ].map(s => (
+              <div key={s.num} style={{display:'flex',gap:16}}>
+                <div style={{fontSize:36,fontWeight:900,color:'rgba(0,163,224,0.2)',flexShrink:0,lineHeight:1}}>{s.num}</div>
+                <div>
+                  <div style={{fontSize:15,fontWeight:700,marginBottom:6,color:'var(--text-primary)'}}>{s.title}</div>
+                  <div style={{fontSize:13,color:'var(--text-secondary)',lineHeight:1.7}}>{s.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Full Slide Gallery */}
+      <div className="section-divider" />
+      <section className="section" id="gallery">
+        <p className="section-label">원본 슬라이드 아카이브</p>
+        <h2 className="section-title">전체 <span className="gradient-text">슬라이드</span></h2>
+        <p className="section-subtitle" style={{marginBottom:48}}>발표 현장 촬영 22장 전체 원본. 클릭하면 확대 가능.</p>
+
+        <div className="gallery-grid">
+          {IMAGES.map((src, i) => (
+            <div key={i} className="gallery-item" onClick={()=>setModal({src, title:`${String(i+1).padStart(2,'0')} · ${SLIDE_TITLES[i]}`})}>
+              <img src={src} alt={SLIDE_TITLES[i]} loading="lazy" />
+              <div className="gallery-caption">
+                <span style={{color:'var(--kt-cyan)',fontWeight:700,marginRight:8}}>{String(i+1).padStart(2,'0')}</span>
+                {SLIDE_TITLES[i]}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{
+        background:'rgba(6,11,24,0.95)',
+        borderTop:'1px solid var(--border)',
+        padding:'40px 60px',
+        textAlign:'center',
+      }}>
+        <div style={{fontSize:20,fontWeight:800,color:'var(--kt-cyan)',marginBottom:8}}>KT Agentic AICC 경쟁사 분석</div>
+        <div style={{fontSize:13,color:'var(--text-secondary)'}}>
+          분석 기준일: 2026년 3월 24일 · 슬라이드 22장 · 영상 2편 (약 5분 30초 음성 전사 포함)
+        </div>
+        <div style={{fontSize:12,color:'rgba(139,157,195,0.5)',marginTop:8}}>
+          본 자료는 경쟁사 분석 목적으로 작성된 내부 보고용 자료입니다.
+        </div>
+      </footer>
+
+      {/* Modal */}
+      {modal && (
+        <Modal src={modal.src} title={modal.title} onClose={()=>setModal(null)} />
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

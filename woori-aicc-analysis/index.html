@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>우리금융캐피탈 AICC 사업 현황</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F9FC;--card:#fff;--border:#E8EDF5;
+  --blue:#2563EB;--blue-light:#EFF6FF;--blue-mid:#BFDBFE;
+  --green:#16A34A;--green-light:#F0FDF4;
+  --yellow:#CA8A04;--yellow-light:#FEFCE8;
+  --red:#DC2626;--red-light:#FEF2F2;
+  --purple:#7C3AED;--purple-light:#F5F3FF;
+  --gray:#6B7280;--dark:#111827;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark);line-height:1.6}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:3px}
+
+/* Layout */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:#1E293B;position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0}
+.sidebar-logo{padding:0 24px 24px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.sidebar-logo h1{font-size:15px;font-weight:700;color:#fff;line-height:1.4}
+.sidebar-logo p{font-size:11px;color:#94A3B8;margin-top:4px}
+.sidebar-nav{padding:16px 0}
+.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:10px 24px;color:#94A3B8;text-decoration:none;font-size:13px;font-weight:500;transition:all 0.2s;border-left:3px solid transparent}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:#fff;background:rgba(255,255,255,0.06);border-left-color:#3B82F6}
+.sidebar-nav .section-title{font-size:10px;font-weight:700;color:#475569;letter-spacing:2px;padding:16px 24px 6px;text-transform:uppercase}
+.main{overflow-y:auto;max-height:100vh}
+.page{padding:40px 48px;max-width:1100px}
+.section{margin-bottom:60px}
+
+/* Headers */
+.page-title{font-size:28px;font-weight:900;color:var(--dark);margin-bottom:4px}
+.page-sub{font-size:14px;color:var(--gray);margin-bottom:32px}
+.sec-title{font-size:18px;font-weight:800;color:var(--dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';width:4px;height:20px;background:var(--blue);border-radius:2px;display:inline-block}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px}
+.card-sm{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px}
+
+/* Grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700}
+.badge-blue{background:var(--blue-light);color:var(--blue)}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-yellow{background:var(--yellow-light);color:var(--yellow)}
+.badge-red{background:var(--red-light);color:var(--red)}
+.badge-purple{background:var(--purple-light);color:var(--purple)}
+.badge-gray{background:#F1F5F9;color:var(--gray)}
+
+/* Status dot */
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot-blue{background:#3B82F6;box-shadow:0 0 0 2px #BFDBFE}
+.dot-green{background:#22C55E;box-shadow:0 0 0 2px #BBF7D0}
+.dot-gray{background:#9CA3AF;box-shadow:0 0 0 2px #E5E7EB}
+
+/* KPI Cards */
+.kpi{text-align:center;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+.kpi-value{font-size:32px;font-weight:900;line-height:1.1}
+.kpi-label{font-size:12px;color:var(--gray);margin-top:4px;font-weight:500}
+.kpi-sub{font-size:11px;color:var(--gray);margin-top:2px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,#3B82F6,#E2E8F0)}
+.tl-item{position:relative;margin-bottom:0}
+.tl-dot{position:absolute;left:-24px;top:16px;width:16px;height:16px;border-radius:50%;border:2px solid;background:#fff;display:flex;align-items:center;justify-content:center}
+.tl-dot-blue{border-color:#3B82F6;box-shadow:0 0 0 3px #BFDBFE}
+.tl-dot-green{border-color:#22C55E;background:#22C55E}
+.tl-dot-gray{border-color:#9CA3AF}
+.tl-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;overflow:hidden;cursor:pointer;transition:all 0.2s}
+.tl-card:hover{border-color:#93C5FD;box-shadow:0 4px 20px rgba(59,130,246,0.1)}
+.tl-card.expanded{border-color:#3B82F6}
+.tl-header{padding:16px 20px;display:flex;align-items:center;gap:12px}
+.tl-date{font-size:12px;font-weight:700;color:var(--blue);min-width:80px}
+.tl-title{font-size:14px;font-weight:700;color:var(--dark);flex:1}
+.tl-body{padding:0 20px 16px;border-top:1px solid var(--border)}
+.tl-body ul{list-style:none;display:flex;flex-direction:column;gap:6px;padding-top:12px}
+.tl-body li{display:flex;gap:8px;font-size:13px;color:#374151;align-items:flex-start;line-height:1.5}
+.tl-body li::before{content:'•';color:var(--blue);flex-shrink:0;margin-top:1px}
+
+/* Solution map */
+.sol-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all 0.2s}
+.sol-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.sol-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+.sol-title{font-size:14px;font-weight:700;margin-bottom:6px}
+.sol-desc{font-size:12px;color:var(--gray);line-height:1.6}
+.sol-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+
+/* Consortium */
+.org-chart{display:flex;flex-direction:column;align-items:center;gap:0}
+.org-top{display:flex;justify-content:center}
+.org-line{width:2px;height:32px;background:#CBD5E1;margin:0 auto}
+.org-row{display:flex;gap:24px;justify-content:center}
+.org-node{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:16px 24px;text-align:center;min-width:140px}
+.org-node.highlight{border-color:var(--blue);background:var(--blue-light)}
+.org-node.customer{border-color:#7C3AED;background:var(--purple-light)}
+.org-name{font-size:13px;font-weight:700;margin-bottom:4px}
+.org-role{font-size:11px;color:var(--gray)}
+.org-connector{display:flex;gap:24px;justify-content:center;height:2px;position:relative;margin:0 70px}
+.org-connector::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:#CBD5E1}
+
+/* Risks */
+.risk-item{display:flex;gap:14px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.risk-level{width:4px;border-radius:2px;flex-shrink:0}
+.risk-level.high{background:var(--red)}
+.risk-level.mid{background:var(--yellow)}
+.risk-level.low{background:var(--green)}
+.risk-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.risk-desc{font-size:12px;color:var(--gray);line-height:1.6}
+
+/* Action items */
+.action-item{display:flex;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;align-items:flex-start}
+.action-check{width:18px;height:18px;border-radius:4px;border:2px solid #CBD5E1;flex-shrink:0;margin-top:1px}
+.action-check.done{background:var(--green);border-color:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px}
+.action-text{font-size:13px;color:var(--dark);flex:1;line-height:1.5}
+.action-owner{font-size:11px;color:var(--blue);font-weight:600;margin-top:3px}
+
+/* Decision box */
+.decision-box{background:linear-gradient(135deg,#FFF7ED,#FEF3C7);border:2px solid #FCD34D;border-radius:12px;padding:20px 24px;margin-bottom:12px}
+.decision-urgent{background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border-color:#FCA5A5}
+.decision-title{font-size:14px;font-weight:700;color:#92400E;margin-bottom:6px}
+.decision-title.urgent{color:#991B1B}
+.decision-desc{font-size:13px;color:#78350F;line-height:1.6}
+.decision-desc.urgent{color:#7F1D1D}
+
+/* Progress */
+.progress-row{margin-bottom:12px}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.progress-bar{height:8px;background:#E5E7EB;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width 1s ease}
+
+/* Responsive */
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.grid3,.grid4{grid-template-columns:1fr 1fr}.page{padding:24px}}
+@media(max-width:600px){.grid2,.grid3,.grid4{grid-template-columns:1fr}.page{padding:16px}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+/* ===== DATA ===== */
+const meetings = [
+  {
+    id:1, date:"2026.01.27", status:"done",
+    title:"AI 도입 방향 논의",
+    subtitle:"상담·업무 어드바이저, AI 플랫폼 구축 방향 설정",
+    badges:[{label:"완료",color:"badge-green"},{label:"초기 논의",color:"badge-blue"}],
+    points:[
+      "예산 약 20억 규모로 사업 검토 시작",
+      "상담 어드바이저(고객센터용) & 업무 어드바이저(내부 직원용) 우선 추진 결정",
+      "AI 플랫폼: ML옵스, RAG 등 에이전트 구축 도구 포함",
+      "콜봇 고도화 사업과 연계 방안 검토",
+      "온프레미스 구축 vs 클라우드 구축 방식 미결정",
+      "ROI 중심으로 성과 측정 방향 설정",
+    ],
+    actions:["최소 기능 요소 정리 및 제안 (@LGU+ / 미정)","견적 재산정 (@LGU+ / 미정)"],
+  },
+  {
+    id:2, date:"2026.02.13", status:"done",
+    title:"AICC 구축 및 업무 효율화 논의",
+    subtitle:"도입 솔루션 구체화 및 요구사항 정의",
+    badges:[{label:"완료",color:"badge-green"},{label:"요구사항 정의",color:"badge-purple"}],
+    points:[
+      "5대 솔루션 도입 방향 확정: 상담 어드바이저, 디지털ARS, KMS, AI OCR, 상품 추천 에이전트",
+      "상담 어드바이저: 실시간 통화 분석 + 상담 가이드 + 자동 요약",
+      "디지털ARS: 기존 음성봇 연동 + 화면 제공 ARS",
+      "KMS: 내부 직원 및 제휴 영업 직원 모바일 접근 지원 필요",
+      "AI OCR: 대출 서류 자동 인식 + DB 자동 적재",
+      "핵심 리스크: 모바일 보안, KMS 자료 현행화, AI 답변 정확도",
+    ],
+    actions:[
+      "RFP 준비 (보안 솔루션 범위, 오픈소스 범위 확인)",
+      "차량 이미지 인식 기술 실현 가능성 검토",
+      "상담 어드바이저 UI/UX 사례 제안",
+    ],
+  },
+  {
+    id:3, date:"2026.02.26", status:"done",
+    title:"AICC 제안 전략 협의 (with ECS)",
+    subtitle:"LGU+ + ECS 컨소시엄 구성 및 경쟁 전략 수립",
+    badges:[{label:"완료",color:"badge-green"},{label:"전략 협의",color:"badge-yellow"}],
+    points:[
+      "KT는 50억 초과 견적 → LGU+는 50억 미만으로 경쟁 우위",
+      "기존 STT 100채널 선납품 → 별도 RT 게이트웨이 불필요 = 강점",
+      "엑사원(EXAONE) LLM 도입 여부: RFP 제출 3일 전까지 결정 유보",
+      "하드웨어: LGU+ 구매력 활용하여 뉴타닉스/GPU 가격 경쟁력 확보",
+      "고객 일정: 3월 말 RFP 공고 → 4월 착수 목표",
+      "컨소시엄 보안 유지 강조 (정보 유출 시 흥행 실패 리스크)",
+    ],
+    actions:[
+      "엑사원 GPU 스펙 및 인건비 역산 검토 (@지환/LGU+)",
+      "RFP 강점 항목 정리 (3/4)",
+      "다이퀘스트 상담 어시스트 레퍼런스 확인",
+      "LGU+ ↔ ECS RnR 확정 미팅 (차주 초)",
+    ],
+  },
+  {
+    id:4, date:"2026.03.11", status:"inprogress",
+    title:"AI 솔루션 QnA (다이퀘스트)",
+    subtitle:"다이퀘스트 솔루션 기능 검증 및 기술 협의",
+    badges:[{label:"진행 중",color:"badge-blue"},{label:"기술 검증",color:"badge-purple"}],
+    points:[
+      "KMS: 부서별 저장소 분리 권한 관리 + 그룹웨어 SSO 연동 가능 확인",
+      "상담 어드바이저: 실시간 STT 의도 분석 → 자동 답변 추천 기능 확인",
+      "STT 채널 현황: 보유 90~100개, 필요 300개 (추가 구매 필요)",
+      "AI 플랫폼 '델마(Delma)': 콜봇/챗봇/어드바이저 통합 관리 UI에 고객 긍정 반응",
+      "상품 추천 엔진: Wide&Deep + GDCN + 협업 필터링 혼합 방식",
+      "LLM 모델 교체 유연성 강점: 라마→QWen→DeepSeek 전환 이력",
+    ],
+    actions:[
+      "솔루션별 서버 매핑 분리 견적서 재제출 (@다이퀘스트)",
+      "STT 라이선스 현황 확인 및 추가 구매량 산정 (@우리금융캐피탈)",
+      "기관계 연동 범위 및 부서별 핵심 표시 항목 요건 정리",
+      "모바일 접속용 WAS 구성 방안 검토",
+    ],
+  },
+  {
+    id:5, date:"2026.03.16", status:"inprogress",
+    title:"AICC 제안 전략 최종 논의",
+    subtitle:"LGU+ + ECS + 다이퀘스트 3사 제안 방향 확정",
+    badges:[{label:"진행 중",color:"badge-blue"},{label:"긴급",color:"badge-red"}],
+    points:[
+      "1차 제안서 마감 3월 30일 — 일정 극도로 촉박",
+      "핵심 의사결정: 엑사원 SLM 도입 여부 (이번 주 초 확정 필수)",
+      "핵심 차별화: 델마 AI 플랫폼 = 콜봇/챗봇/어드바이저 하나의 UI로 통합 관리",
+      "평가위원 8~10명 임원급 → 기술보다 '명분/확장성/내재화' 메시지 중심",
+      "최대 리스크: 환율 상승 + 뉴타닉스 가격 2배 인상 → HW 견적 재검토 시급",
+      "3사 협업: 구글 스프레드시트 메인 도구, 프로젝트 범위·인력 즉시 업데이트",
+    ],
+    actions:[
+      "엑사원 SLM 도입 여부 확정 (3/19 목요일 전)",
+      "1차 제안서 완성 (3/30)",
+      "하드웨어 대안 견적 확보 (뉴타닉스 가격 급등 대응)",
+      "발표 전략 수립 (경영진 설득 포인트 중심)",
+    ],
+  },
+];
+
+const solutions = [
+  {icon:"🎧",title:"상담 어드바이저",color:"#EFF6FF",border:"#BFDBFE",
+   desc:"고객센터 상담사용. 실시간 통화 내용을 AI가 분석하여 관련 답변을 자동으로 추천해주는 시스템",
+   tags:["실시간 STT","RAG","KMS 연동"],priority:"1순위"},
+  {icon:"💼",title:"업무 어드바이저",color:"#F5F3FF",border:"#DDD6FE",
+   desc:"내부 직원용. 복리후생·내부 통제·운영 매뉴얼 등 사내 지식을 AI가 즉시 답변. 모바일 접근 지원",
+   tags:["그룹웨어 연동","모바일","부서별 권한"],priority:"1순위"},
+  {icon:"📚",title:"KMS",color:"#F0FDF4",border:"#BBF7D0",
+   desc:"지식 관리 시스템. 문서·URL·그룹웨어 등 다양한 형태의 자료를 등록하고 AI 검색으로 즉시 활용",
+   tags:["문서 업로드","SSO 연동","자동 현행화"],priority:"기반 인프라"},
+  {icon:"📱",title:"디지털 ARS",color:"#FEFCE8",border:"#FEF08A",
+   desc:"기존 음성봇에 화면을 추가. 고객이 전화하면 스마트폰에 메뉴/정보 화면이 함께 표시되는 ARS",
+   tags:["음성봇 연동","화면 제공","자료 발송"],priority:"2순위"},
+  {icon:"🔍",title:"AI OCR",color:"#FFF7ED",border:"#FED7AA",
+   desc:"대출 신청 서류나 범칙금 고지서 등 종이 문서를 AI가 자동으로 읽어서 시스템에 데이터 입력",
+   tags:["서류 자동 인식","DB 자동 적재","사기방지"],priority:"2순위"},
+  {icon:"🚗",title:"상품·차량 추천 에이전트",color:"#FDF2F8",border:"#F9A8D4",
+   desc:"고객 신용정보·구매 이력·연령대 등을 분석하여 맞춤형 금융 상품과 차량을 자동 추천",
+   tags:["협업 필터링","Wide&Deep","딥러닝"],priority:"3순위"},
+];
+
+const risks = [
+  {level:"high",title:"하드웨어 비용 급등",desc:"환율 상승 + 뉴타닉스 서버 가격 2배 이상 인상. 50억 미만 견적 유지가 어려워질 수 있음. 대안 견적 확보 시급"},
+  {level:"high",title:"엑사원 LLM 도입 여부 미결정",desc:"LG 자사 모델을 넣을지 오픈소스를 쓸지 결정이 안 됨. 이 결정이 전체 제안 컨셉과 비용을 좌우함. 3월 19일 전 결정 필요"},
+  {level:"high",title:"일정 극도 촉박",desc:"1차 제안서 마감 3월 30일. 역할 분담(RnR)이 미확정이고 컨설팅 인력도 이번 주부터 합류. 동시에 여러 변수 처리 필요"},
+  {level:"mid",title:"STT 채널 부족",desc:"상담사 150명 → 300채널 필요. 현재 보유 90~100채널. 추가 구매 비용 발생 불가피"},
+  {level:"mid",title:"기관계 연동 범위 불명확",desc:"부서별로 연결할 시스템 데이터 범위가 아직 정의되지 않음. 범위가 넓어질수록 비용과 복잡도 증가"},
+  {level:"mid",title:"KMS 자료 현행화 문제",desc:"AI가 참조하는 문서가 오래되면 잘못된 답변을 줄 수 있음. ERP·그룹웨어 자동 연동 방안 필요"},
+  {level:"low",title:"모바일 보안",desc:"외부 협력 직원의 모바일 접근 허용 시 보안 가이드 준수 필요. IT팀 사전 검토 필요"},
+  {level:"low",title:"AI 답변 정확도 관리",desc:"LLM 기반 시스템은 오픈 초기 3~4개월간 품질 문제가 생길 수 있음. 지속적인 튜닝 체계 필요"},
+];
+
+const decisions = [
+  {urgent:true, title:"⚡ 이번 주 결정 필요: 엑사원 SLM 도입 여부",
+   desc:"LGU+ 자사 LLM 엑사원을 도입하면 '국가대표 LLM' 명분을 얻지만 GPU 비용과 품질 보증 부담이 큼. 오픈소스(DeepSeek 등) 유지 시 비용 효율적이나 차별화 포인트 약함. 3월 19일(목) 전 최종 결정 필요"},
+  {urgent:true, title:"⚡ 긴급: 하드웨어 대안 견적 확보",
+   desc:"뉴타닉스 서버 가격이 2배 이상 오른 상황. 50억 미만 견적 유지를 위해 대체 하드웨어 옵션을 긴급히 검토해야 함"},
+  {urgent:false, title:"📋 확정 필요: LGU+ ↔ ECS ↔ 다이퀘스트 역할 분담(RnR)",
+   desc:"3사가 각각 어떤 부분을 맡을지 아직 최종 확정 안 됨. 제안서에 수행 PM을 기재해야 하므로 빠른 확정 필요"},
+  {urgent:false, title:"📋 확정 필요: 기관계 연동 범위",
+   desc:"어떤 부서의 어떤 데이터를 AI 어드바이저에 연결할지 범위를 명확히 해야 비용과 일정 산정 가능"},
+];
+
+/* ===== COMPONENTS ===== */
+
+function Sidebar({page, setPage}){
+  const navs = [
+    {id:'overview', icon:'🏠', label:'개요'},
+    {id:'timeline', icon:'📅', label:'회의 타임라인'},
+    {id:'solutions', icon:'🧩', label:'도입 솔루션 지도'},
+    {id:'consortium', icon:'🤝', label:'컨소시엄 구조'},
+    {id:'decisions', icon:'⚡', label:'핵심 결정사항'},
+    {id:'risks', icon:'⚠️', label:'리스크 현황'},
+    {id:'actions', icon:'✅', label:'Next Action'},
+  ];
+  return(
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <h1>우리금융캐피탈<br/>AICC 사업</h1>
+        <p>2026.01 ~ 현재</p>
+      </div>
+      <nav className="sidebar-nav">
+        <div className="section-title">메뉴</div>
+        {navs.map(n=>(
+          <a key={n.id} href={`#${n.id}`} className={page===n.id?'active':''}
+             onClick={()=>setPage(n.id)}>
+            <span>{n.icon}</span>{n.label}
+          </a>
+        ))}
+      </nav>
+      <div style={{padding:'24px',borderTop:'1px solid rgba(255,255,255,0.08)',marginTop:16}}>
+        <div style={{fontSize:11,color:'#475569',marginBottom:8}}>전체 진행 상황</div>
+        <div className="progress-bar" style={{marginBottom:8}}>
+          <div className="progress-fill" style={{width:'60%',background:'#3B82F6'}}/>
+        </div>
+        <div style={{fontSize:11,color:'#94A3B8'}}>5회 회의 중 3회 완료 · 제안서 준비 중</div>
+      </div>
+    </aside>
+  );
+}
+
+function Overview(){
+  return(
+    <div className="section" id="overview">
+      <div className="page-title">우리금융캐피탈 AICC 사업 현황</div>
+      <div className="page-sub">2026년 1월부터 진행 중인 AI 컨택센터 구축 사업의 전체 현황을 한눈에 확인하세요</div>
+
+      {/* What is this? */}
+      <div className="card" style={{marginBottom:24,background:'linear-gradient(135deg,#EFF6FF,#F5F3FF)',border:'1px solid #BFDBFE'}}>
+        <div style={{fontSize:14,fontWeight:700,marginBottom:12,color:'#1E40AF'}}>이 사업이 무엇인가요?</div>
+        <p style={{fontSize:13,color:'#1E3A5F',lineHeight:1.8}}>
+          <strong>우리금융캐피탈</strong>(자동차 금융 회사)의 고객센터를 <strong>AI 기반 컨택센터(AICC)</strong>로 전환하는 사업입니다.<br/>
+          LG유플러스가 주관사로, ECS·다이퀘스트와 컨소시엄을 구성하여 입찰 준비 중입니다.<br/>
+          상담사를 돕는 AI 도우미, 고객이 쓰는 AI 안내 시스템, 서류 자동 처리 등 총 6가지 AI 솔루션 도입이 목표입니다.
+        </p>
+      </div>
+
+      {/* KPI */}
+      <div className="grid4" style={{marginBottom:24}}>
+        {[
+          {v:'약 20억',l:'사업 예산 규모',s:'초기 논의 기준',c:'#2563EB'},
+          {v:'50억↓',l:'LGU+ 견적 목표',s:'KT는 50억 초과',c:'#16A34A'},
+          {v:'3월 30일',l:'1차 제안서 마감',s:'극도로 촉박한 일정',c:'#DC2626'},
+          {v:'6종',l:'도입 검토 솔루션',s:'상담·업무·KMS 등',c:'#7C3AED'},
+        ].map(k=>(
+          <div className="kpi" key={k.l}>
+            <div className="kpi-value" style={{color:k.c}}>{k.v}</div>
+            <div className="kpi-label">{k.l}</div>
+            <div className="kpi-sub">{k.s}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* 현재 상태 */}
+      <div className="sec-title">현재 어디까지 왔나?</div>
+      <div className="grid3">
+        {[
+          {step:'1단계',title:'요구사항 정의',status:'done',desc:'어떤 AI 기능이 필요한지 우리금융캐피탈과 논의 완료'},
+          {step:'2단계',title:'솔루션 선정',status:'done',desc:'다이퀘스트 솔루션 기술 검증 및 기능 확인 완료'},
+          {step:'3단계',title:'제안서 작성',status:'inprogress',desc:'3사 컨소시엄이 입찰 제안서 작성 중 (마감 3/30)'},
+          {step:'4단계',title:'입찰 제출',status:'todo',desc:'RFP 공고 후 제안서 제출 예정'},
+          {step:'5단계',title:'수주/협상',status:'todo',desc:'기술 발표 및 가격 협상'},
+          {step:'6단계',title:'사업 착수',status:'todo',desc:'4월 착수 목표'},
+        ].map(s=>(
+          <div className="card-sm" key={s.step} style={{borderLeft:`3px solid ${s.status==='done'?'#22C55E':s.status==='inprogress'?'#3B82F6':'#E5E7EB'}`}}>
+            <div style={{display:'flex',justifyContent:'space-between',marginBottom:6}}>
+              <span style={{fontSize:11,fontWeight:700,color:'#6B7280'}}>{s.step}</span>
+              <span className={`badge ${s.status==='done'?'badge-green':s.status==='inprogress'?'badge-blue':'badge-gray'}`}>
+                {s.status==='done'?'✓ 완료':s.status==='inprogress'?'→ 진행 중':'대기'}
+              </span>
+            </div>
+            <div style={{fontSize:13,fontWeight:700,marginBottom:4}}>{s.title}</div>
+            <div style={{fontSize:12,color:'#6B7280'}}>{s.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Timeline(){
+  const [expanded, setExpanded] = useState(null);
+  return(
+    <div className="section" id="timeline">
+      <div className="sec-title">회의 타임라인</div>
+      <p style={{fontSize:13,color:'#6B7280',marginBottom:24}}>2026년 1월부터 현재까지 진행된 5차례 회의의 흐름입니다. 클릭하면 상세 내용을 확인할 수 있습니다.</p>
+      <div className="timeline">
+        {meetings.map((m,i)=>(
+          <div className="tl-item" key={m.id}>
+            <div className={`tl-dot ${m.status==='done'?'tl-dot-green':m.status==='inprogress'?'tl-dot-blue':'tl-dot-gray'}`}/>
+            <div className={`tl-card ${expanded===m.id?'expanded':''}`} onClick={()=>setExpanded(expanded===m.id?null:m.id)}>
+              <div className="tl-header">
+                <div className="tl-date">{m.date}</div>
+                <div style={{flex:1}}>
+                  <div className="tl-title">{m.title}</div>
+                  <div style={{fontSize:12,color:'#6B7280',marginTop:2}}>{m.subtitle}</div>
+                </div>
+                <div style={{display:'flex',gap:4,flexWrap:'wrap',justifyContent:'flex-end'}}>
+                  {m.badges.map(b=><span key={b.label} className={`badge ${b.color}`}>{b.label}</span>)}
+                </div>
+                <div style={{color:'#9CA3AF',marginLeft:8,fontSize:16}}>{expanded===m.id?'▲':'▼'}</div>
+              </div>
+              {expanded===m.id&&(
+                <div className="tl-body">
+                  <div style={{fontSize:12,fontWeight:700,color:'#6B7280',marginBottom:4}}>주요 내용</div>
+                  <ul>
+                    {m.points.map((p,pi)=><li key={pi}>{p}</li>)}
+                  </ul>
+                  {m.actions.length>0&&(
+                    <>
+                      <div style={{fontSize:12,fontWeight:700,color:'#6B7280',marginTop:14,marginBottom:6}}>Next Action</div>
+                      {m.actions.map((a,ai)=>(
+                        <div key={ai} style={{display:'flex',gap:8,fontSize:12,color:'#374151',marginBottom:4,alignItems:'flex-start'}}>
+                          <span style={{color:'#3B82F6',fontWeight:700,flexShrink:0}}>→</span>{a}
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Solutions(){
+  const [sel, setSel] = useState(null);
+  return(
+    <div className="section" id="solutions">
+      <div className="sec-title">도입 솔루션 지도</div>
+      <p style={{fontSize:13,color:'#6B7280',marginBottom:24}}>우리금융캐피탈이 도입을 검토하고 있는 AI 솔루션 6가지입니다. 카드를 클릭하면 상세 내용을 확인할 수 있습니다.</p>
+
+      {/* 사용자 그룹 */}
+      <div style={{display:'flex',gap:16,marginBottom:20,flexWrap:'wrap'}}>
+        {[
+          {label:'👤 고객 (전화·앱 이용)',items:['디지털 ARS','상품·차량 추천 에이전트']},
+          {label:'🎧 상담사 (고객센터)',items:['상담 어드바이저','KMS']},
+          {label:'💼 내부 직원',items:['업무 어드바이저','KMS']},
+          {label:'🔧 백오피스',items:['AI OCR']},
+        ].map(g=>(
+          <div key={g.label} style={{background:'#F8FAFC',border:'1px solid #E2E8F0',borderRadius:10,padding:'12px 16px',flex:'1',minWidth:160}}>
+            <div style={{fontSize:12,fontWeight:700,color:'#374151',marginBottom:6}}>{g.label}</div>
+            {g.items.map(i=><div key={i} style={{fontSize:11,color:'#6B7280'}}>• {i}</div>)}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid3">
+        {solutions.map(s=>(
+          <div key={s.title} className="sol-card" style={{background:s.color,border:`1px solid ${s.border}`,cursor:'pointer'}} onClick={()=>setSel(sel===s.title?null:s.title)}>
+            <div className="sol-icon" style={{background:'rgba(255,255,255,0.7)'}}>{s.icon}</div>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:6}}>
+              <div className="sol-title">{s.title}</div>
+              <span className={`badge ${s.priority==='1순위'?'badge-red':s.priority==='2순위'?'badge-yellow':'badge-gray'}`}>{s.priority}</span>
+            </div>
+            <div className="sol-desc">{s.desc}</div>
+            <div className="sol-tags">
+              {s.tags.map(t=><span key={t} className="badge badge-gray">{t}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Consortium(){
+  return(
+    <div className="section" id="consortium">
+      <div className="sec-title">컨소시엄 구조</div>
+      <p style={{fontSize:13,color:'#6B7280',marginBottom:32}}>LG유플러스가 주관사로, ECS와 다이퀘스트가 참여하는 3사 컨소시엄 구조입니다.</p>
+
+      <div className="org-chart" style={{marginBottom:32}}>
+        <div className="org-top">
+          <div className="org-node customer">
+            <div className="org-name">🏦 우리금융캐피탈</div>
+            <div className="org-role">발주처 (고객사)</div>
+          </div>
+        </div>
+        <div className="org-line"/>
+        <div className="org-top">
+          <div className="org-node highlight">
+            <div className="org-name">📡 LG유플러스</div>
+            <div className="org-role">주관사 · 총괄 PM</div>
+          </div>
+        </div>
+        <div style={{display:'flex',justifyContent:'center',alignItems:'flex-start',gap:0,position:'relative',width:400,margin:'0 auto'}}>
+          <div style={{position:'absolute',top:0,left:'25%',right:'25%',height:2,background:'#CBD5E1'}}/>
+          <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center'}}>
+            <div style={{width:2,height:24,background:'#CBD5E1'}}/>
+            <div className="org-node">
+              <div className="org-name">🔧 ECS</div>
+              <div className="org-role">AICC 솔루션 구축</div>
+            </div>
+          </div>
+          <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center'}}>
+            <div style={{width:2,height:24,background:'#CBD5E1'}}/>
+            <div className="org-node">
+              <div className="org-name">🤖 다이퀘스트</div>
+              <div className="org-role">AI 플랫폼 제공</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 각사 역할 */}
+      <div className="grid3">
+        {[
+          {name:'LG유플러스',color:'#2563EB',bg:'#EFF6FF',
+           roles:['총괄 PM 및 영업 주도','STT 100채널 기 납품 (강점)','HW 구매력으로 가격 경쟁','엑사원 LLM 도입 여부 결정'],
+           strength:'기존 STT 자원 활용 → 별도 게이트웨이 비용 절감'},
+          {name:'ECS',color:'#7C3AED',bg:'#F5F3FF',
+           roles:['AICC 플랫폼 구축 담당','상담 어드바이저 화면 개발','기존 콜봇 시스템 연동','현장 상주 인력 제공'],
+           strength:'이전 음성봇 사업 경험 보유'},
+          {name:'다이퀘스트',color:'#059669',bg:'#F0FDF4',
+           roles:['AI 플랫폼 델마(Delma) 제공','KMS(OKMS) 솔루션','상담·업무 어드바이저 엔진','상품 추천 AI(딥러닝)'],
+           strength:'통합 AI 플랫폼 = 핵심 차별화 무기'},
+        ].map(c=>(
+          <div className="card" key={c.name} style={{borderTop:`3px solid ${c.color}`}}>
+            <div style={{fontSize:15,fontWeight:800,color:c.color,marginBottom:12}}>{c.name}</div>
+            <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:6,marginBottom:12}}>
+              {c.roles.map(r=>(
+                <li key={r} style={{fontSize:12,color:'#374151',display:'flex',gap:6,alignItems:'flex-start'}}>
+                  <span style={{color:c.color,flexShrink:0}}>•</span>{r}
+                </li>
+              ))}
+            </ul>
+            <div style={{background:c.bg,borderRadius:8,padding:'8px 12px',fontSize:11,color:c.color,fontWeight:600}}>
+              강점: {c.strength}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 경쟁 현황 */}
+      <div style={{marginTop:24}}>
+        <div className="sec-title">경쟁 현황</div>
+        <div className="grid2">
+          <div className="card" style={{borderLeft:'4px solid #16A34A'}}>
+            <div style={{fontSize:13,fontWeight:700,color:'#16A34A',marginBottom:8}}>✅ LGU+ 컨소시엄 (유리)</div>
+            <div style={{fontSize:13,color:'#374151',lineHeight:1.7}}>
+              • 견적: <strong>50억 미만</strong> (지주사 승인 불필요)<br/>
+              • STT 100채널 기 납품 = 즉시 활용 가능<br/>
+              • 다이퀘스트 통합 AI 플랫폼이 핵심 차별화<br/>
+              • 고객(우리금융)과 기존 음성봇 협업 경험
+            </div>
+          </div>
+          <div className="card" style={{borderLeft:'4px solid #DC2626'}}>
+            <div style={{fontSize:13,fontWeight:700,color:'#DC2626',marginBottom:8}}>❌ KT (불리)</div>
+            <div style={{fontSize:13,color:'#374151',lineHeight:1.7}}>
+              • 견적: <strong>50억 초과</strong> (지주사 승인 필요 → 고객 기피)<br/>
+              • 우리금융 내부에서 KT 선호도 낮음<br/>
+              • 연결고리 없어 독자 영업 어려운 상황
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Decisions(){
+  return(
+    <div className="section" id="decisions">
+      <div className="sec-title">핵심 결정사항</div>
+      <p style={{fontSize:13,color:'#6B7280',marginBottom:24}}>현재 빠르게 결정해야 할 사항들입니다. 이 결정들이 사업 전체 방향을 좌우합니다.</p>
+
+      {/* 핵심 딜레마 */}
+      <div className="card" style={{marginBottom:24,borderLeft:'4px solid #F59E0B',background:'#FFFBEB'}}>
+        <div style={{fontSize:14,fontWeight:800,color:'#92400E',marginBottom:12}}>🤔 가장 큰 딜레마: 엑사원 LLM을 넣을까, 말까?</div>
+        <div className="grid2">
+          <div style={{background:'#FEF3C7',borderRadius:8,padding:14}}>
+            <div style={{fontSize:12,fontWeight:700,color:'#92400E',marginBottom:6}}>넣으면 (엑사원 도입)</div>
+            <div style={{fontSize:12,color:'#78350F',lineHeight:1.7}}>
+              👍 "국가대표 LLM" 명분으로 평가위원 설득 용이<br/>
+              👍 LG그룹 자사 기술 사용 = 내부 명분<br/>
+              👎 GPU 비용 크게 증가<br/>
+              👎 품질 보증 및 튜닝 공수 추가 발생<br/>
+              👎 50억 미만 견적 유지 어려울 수 있음
+            </div>
+          </div>
+          <div style={{background:'#ECFDF5',borderRadius:8,padding:14}}>
+            <div style={{fontSize:12,fontWeight:700,color:'#065F46',marginBottom:6}}>안 넣으면 (오픈소스 유지)</div>
+            <div style={{fontSize:12,color:'#064E3B',lineHeight:1.7}}>
+              👍 비용 효율적<br/>
+              👍 다이퀘스트가 DeepSeek 등 이미 검증<br/>
+              👍 50억 미만 견적 유지 가능<br/>
+              👎 LG 자사 기술 차별화 포인트 없음<br/>
+              👎 내부 요구사항(자사 기술 포함) 미충족
+            </div>
+          </div>
+        </div>
+        <div style={{marginTop:12,padding:'10px 14px',background:'#FEF08A',borderRadius:8,fontSize:12,fontWeight:700,color:'#713F12'}}>
+          📅 결정 기한: 2026년 3월 19일(목) 이전 — 이 결정이 나야 제안서 방향 확정 가능
+        </div>
+      </div>
+
+      {decisions.map((d,i)=>(
+        <div key={i} className={`decision-box ${d.urgent?'decision-urgent':''}`}>
+          <div className={`decision-title ${d.urgent?'urgent':''}`}>{d.title}</div>
+          <div className={`decision-desc ${d.urgent?'urgent':''}`}>{d.desc}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Risks(){
+  return(
+    <div className="section" id="risks">
+      <div className="sec-title">리스크 현황</div>
+      <p style={{fontSize:13,color:'#6B7280',marginBottom:16}}>현재 식별된 주요 리스크입니다. 빨간색이 가장 시급한 리스크입니다.</p>
+      <div style={{display:'flex',gap:16,marginBottom:20}}>
+        {[{label:'높음',color:'#DC2626',cnt:risks.filter(r=>r.level==='high').length},
+          {label:'중간',color:'#CA8A04',cnt:risks.filter(r=>r.level==='mid').length},
+          {label:'낮음',color:'#16A34A',cnt:risks.filter(r=>r.level==='low').length}].map(l=>(
+          <div key={l.label} style={{display:'flex',alignItems:'center',gap:6,fontSize:13}}>
+            <div style={{width:12,height:12,borderRadius:2,background:l.color}}/>
+            <span style={{color:l.color,fontWeight:700}}>{l.label}</span>
+            <span style={{color:'#6B7280'}}>{l.cnt}건</span>
+          </div>
+        ))}
+      </div>
+      {risks.map((r,i)=>(
+        <div className="risk-item" key={i}>
+          <div className={`risk-level ${r.level}`}/>
+          <div>
+            <div className="risk-title">{r.title}</div>
+            <div className="risk-desc">{r.desc}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Actions(){
+  const allActions = meetings.flatMap(m=>
+    m.actions.map(a=>({meeting:m.date, title:m.title, text:a, done:m.status==='done'}))
+  );
+  const pending = allActions.filter(a=>!a.done);
+  return(
+    <div className="section" id="actions">
+      <div className="sec-title">Next Action 전체 현황</div>
+      <p style={{fontSize:13,color:'#6B7280',marginBottom:24}}>진행 중이거나 앞으로 해야 할 액션 아이템들입니다.</p>
+
+      <div style={{marginBottom:8,padding:'10px 16px',background:'#FEF2F2',border:'1px solid #FCA5A5',borderRadius:10,fontSize:13,color:'#991B1B',fontWeight:600}}>
+        ⚡ 긴급: 1차 제안서 마감 D-Day = 2026년 3월 30일
+      </div>
+
+      <div style={{marginBottom:20}}>
+        <div style={{fontSize:13,fontWeight:700,color:'#374151',marginBottom:10}}>🔴 즉시 처리 필요</div>
+        {[
+          '엑사원 SLM 도입 여부 확정 (3/19 목요일 전)',
+          '하드웨어 대안 견적 확보 (뉴타닉스 가격 급등 대응)',
+          '솔루션별 서버 매핑 분리 견적서 재제출 (@다이퀘스트)',
+          '1차 제안서 완성 (3/30 마감)',
+        ].map((a,i)=>(
+          <div className="action-item" key={i} style={{borderLeft:'3px solid #DC2626'}}>
+            <div className="action-check"/>
+            <div>
+              <div className="action-text">{a}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <div style={{fontSize:13,fontWeight:700,color:'#374151',marginBottom:10}}>🟡 진행 필요</div>
+        {[
+          'STT 라이선스 현황 확인 및 추가 구매량 산정 (@우리금융캐피탈)',
+          '기관계 연동 범위 및 부서별 핵심 표시 항목 요건 정리',
+          '개인정보 암호화 범위 보안 요건 정의',
+          'LGU+ ↔ ECS ↔ 다이퀘스트 역할 분담(RnR) 최종 확정',
+          '모바일 접속용 WAS 구성 방안 검토',
+          '발표 전략 수립 (경영진 설득 포인트 중심)',
+        ].map((a,i)=>(
+          <div className="action-item" key={i}>
+            <div className="action-check"/>
+            <div className="action-text">{a}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ===== APP ===== */
+function App(){
+  const [page, setPage] = useState('overview');
+  return(
+    <div className="app">
+      <Sidebar page={page} setPage={setPage}/>
+      <main className="main">
+        <div className="page">
+          <Overview/>
+          <Timeline/>
+          <Solutions/>
+          <Consortium/>
+          <Decisions/>
+          <Risks/>
+          <Actions/>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
