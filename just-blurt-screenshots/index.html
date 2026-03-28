@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Just Blurt - Screenshots</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 48px 32px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 0.95rem;
+      margin-bottom: 48px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #1a1a1a;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #2a2a2a;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #555;
+    }
+    .card img {
+      width: 100%;
+      display: block;
+    }
+    .card .label {
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ccc;
+      text-transform: capitalize;
+      letter-spacing: 0.3px;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Just Blurt</h1>
+  <p class="subtitle">App Screenshots</p>
+  <div class="grid">
+    <div class="card">
+      <img src="record.png" alt="Record">
+      <div class="label">Record</div>
+    </div>
+    <div class="card">
+      <img src="memo.png" alt="Memo">
+      <div class="label">Memo</div>
+    </div>
+    <div class="card">
+      <img src="notes.png" alt="Notes">
+      <div class="label">Notes</div>
+    </div>
+    <div class="card">
+      <img src="idea.png" alt="Idea">
+      <div class="label">Idea</div>
+    </div>
+    <div class="card">
+      <img src="todo.png" alt="Todo">
+      <div class="label">Todo</div>
+    </div>
+    <div class="card">
+      <img src="reflection.png" alt="Reflection">
+      <div class="label">Reflection</div>
+    </div>
+  </div>
+</body>
+</html>
