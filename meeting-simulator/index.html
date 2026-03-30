@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICC Meeting Simulator | AI 롤플레이 Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --card: #1e293b;
+    --border: rgba(255,255,255,0.08);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --blue: #3b82f6;
+    --blue-light: #60a5fa;
+    --accent: #e8b800;
+    --green: #22c55e;
+    --green-light: #86efac;
+    --purple: #a855f7;
+    --purple-light: #d8b4fe;
+    --red: #ef4444;
+    --red-light: #fca5a5;
+    --orange: #f97316;
+    --orange-light: #fdba74;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #050c1a 0%, #0d1f3c 60%, #050c1a 100%);
+    border-bottom: 1px solid rgba(59,130,246,0.2);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .back-link {
+    position: absolute; top: 1.25rem; left: 1.5rem;
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--blue-light); }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.35);
+    color: var(--blue-light); font-size: 0.72rem; font-weight: 700;
+    padding: 4px 14px; border-radius: 20px; margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+  header h1 { font-size: 2rem; font-weight: 900; line-height: 1.3; margin-bottom: 0.5rem; position: relative; }
+  header h1 span { color: var(--blue-light); }
+  header .subtitle { color: var(--muted); font-size: 0.85rem; position: relative; }
+
+  /* Stats */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 0;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    flex: 1; max-width: 180px; text-align: center;
+    padding: 1.1rem 0.75rem; border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-value { font-size: 1.4rem; font-weight: 900; color: var(--blue-light); }
+  .stat-value.green { color: var(--green-light); }
+  .stat-value.purple { color: var(--purple-light); }
+  .stat-value.orange { color: var(--orange-light); }
+  .stat-value.red { color: var(--red-light); }
+  .stat-label { font-size: 0.68rem; color: var(--muted); margin-top: 3px; }
+
+  /* Main */
+  main { max-width: 800px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+
+  /* Section */
+  .section {
+    margin-bottom: 3rem;
+  }
+  .section-title {
+    font-size: 0.72rem; color: var(--muted); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Message box */
+  .msg-box {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem; line-height: 1.9; font-size: 0.92rem;
+  }
+  .msg-box p { margin-bottom: 1rem; }
+  .msg-box p:last-child { margin-bottom: 0; }
+  .msg-box strong { color: #fff; }
+  .msg-box .greeting { color: var(--muted); font-size: 0.85rem; }
+  .msg-box .sign { color: var(--muted); font-size: 0.85rem; margin-top: 1.5rem; }
+  .msg-box hr {
+    border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;
+  }
+  .highlight {
+    background: rgba(59,130,246,0.1); border-left: 3px solid var(--blue);
+    padding: 1rem 1.25rem; border-radius: 0 10px 10px 0;
+    margin: 1.25rem 0; font-size: 0.9rem;
+  }
+  .highlight strong { color: var(--blue-light); }
+
+  /* Problem cards */
+  .problem-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin: 1.25rem 0;
+  }
+  .problem-card {
+    background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);
+    border-radius: 12px; padding: 1rem 1.25rem;
+  }
+  .problem-card .label {
+    font-size: 0.7rem; color: var(--red-light); font-weight: 700;
+    letter-spacing: 0.5px; margin-bottom: 0.4rem;
+  }
+  .problem-card .value {
+    font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem;
+  }
+  .problem-card .desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* Solution list */
+  .solution-list {
+    list-style: none; margin: 1.25rem 0;
+  }
+  .solution-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 0.6rem 0; font-size: 0.88rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .solution-list li:last-child { border-bottom: none; }
+  .solution-list .bullet {
+    flex-shrink: 0; width: 6px; height: 6px; margin-top: 8px;
+    background: var(--blue); border-radius: 50%;
+  }
+
+  /* Before/After table */
+  .ba-table {
+    width: 100%; border-collapse: collapse; margin: 1.25rem 0;
+    font-size: 0.85rem;
+  }
+  .ba-table th {
+    background: rgba(255,255,255,0.04); padding: 0.75rem 1rem;
+    text-align: left; font-weight: 700; font-size: 0.75rem;
+    color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .ba-table td {
+    padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  .ba-table .before { color: var(--red-light); }
+  .ba-table .after { color: var(--green-light); font-weight: 700; }
+
+  /* Status badges */
+  .status-row {
+    display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.25rem 0;
+  }
+  .status-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2);
+    padding: 0.6rem 1rem; border-radius: 10px; font-size: 0.82rem;
+  }
+  .status-badge .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Scenario matrix */
+  .matrix-box {
+    background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.15);
+    border-radius: 12px; padding: 1.5rem; margin: 1.25rem 0;
+  }
+  .matrix-title {
+    font-size: 0.75rem; color: var(--blue-light); font-weight: 700;
+    letter-spacing: 0.5px; margin-bottom: 1rem;
+  }
+  .stage-pills {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem;
+  }
+  .stage-pill {
+    padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.75rem;
+    background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.25);
+    color: var(--blue-light);
+  }
+  .industry-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .industry-pill {
+    padding: 0.35rem 0.7rem; border-radius: 8px; font-size: 0.72rem;
+    background: rgba(232,184,0,0.08); border: 1px solid rgba(232,184,0,0.2);
+    color: var(--accent);
+  }
+  .matrix-formula {
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid rgba(59,130,246,0.15);
+    font-size: 0.85rem; color: var(--muted); text-align: center;
+  }
+  .matrix-formula strong { color: #fff; font-size: 1.1rem; }
+
+  /* Domain list */
+  .domain-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    margin: 1rem 0;
+  }
+  .domain-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0.5rem 0.75rem; border-radius: 8px;
+    background: rgba(255,255,255,0.03); font-size: 0.8rem;
+  }
+  .domain-item .icon { font-size: 0.9rem; }
+
+  /* Footer */
+  footer {
+    text-align: center; padding: 2rem; border-top: 1px solid var(--border);
+    font-size: 0.75rem; color: var(--muted);
+  }
+  footer a { color: var(--blue-light); text-decoration: none; }
+
+  @media (max-width: 768px) {
+    header h1 { font-size: 1.5rem; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat { min-width: 50%; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .domain-grid { grid-template-columns: 1fr; }
+    main { padding: 2rem 1.25rem; }
+    .msg-box { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="../">← 허브로 돌아가기</a>
+  <div class="header-badge">AI Agent MVP · AI사업2팀</div>
+  <h1>AICC Meeting <span>Simulator</span></h1>
+  <div class="subtitle">실제 고객 미팅 Use Case 기반 AI 롤플레이 Agent</div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-value">150+</div><div class="stat-label">실제 고객 미팅</div></div>
+  <div class="stat"><div class="stat-value green">25</div><div class="stat-label">Use Case 시나리오</div></div>
+  <div class="stat"><div class="stat-value purple">75</div><div class="stat-label">훈련 조합</div></div>
+  <div class="stat"><div class="stat-value orange">8</div><div class="stat-label">영업 단계</div></div>
+  <div class="stat"><div class="stat-value">6</div><div class="stat-label">업종 커버리지</div></div>
+</div>
+
+<main>
+
+  <!-- 배경 -->
+  <div class="section">
+    <div class="section-title">배경</div>
+    <div class="msg-box">
+      <p class="greeting">상무님 안녕하세요, AI사업2팀 양준모입니다.</p>
+      <p>팀 역량 향상 관점에서 <strong>AICC 고객 미팅 롤플레이 AI Agent</strong> MVP를 구축하여 공유드립니다.</p>
+    </div>
+  </div>
+
+  <!-- 문제 정의 -->
+  <div class="section">
+    <div class="section-title">문제 정의</div>
+    <div class="msg-box">
+      <p>저희 팀 10명 중 AICC/IPCC 도메인 경험자는 <strong>2명</strong>뿐이고, 나머지 <strong>8명(팀장 포함)</strong>은 타 부서 전입자입니다.</p>
+      <p>사업담당자가 고객 앞에서 혼자 <strong>SA(Solution Architect) 역할</strong>을 수행해야 하는데, 알아야 할 내용이 방대합니다.</p>
+
+      <div class="domain-grid">
+        <div class="domain-item"><span class="icon">🏗️</span> IPCC 아키텍처 (PBX/CTI/IVR)</div>
+        <div class="domain-item"><span class="icon">🎙️</span> 음성기술 (STT/TTS/화자분리)</div>
+        <div class="domain-item"><span class="icon">🤖</span> AI/LLM (RAG/콜봇/에이전트)</div>
+        <div class="domain-item"><span class="icon">📞</span> 상담운영 (ACD/WFM/QA)</div>
+        <div class="domain-item"><span class="icon">🔧</span> 도입/구축 (PoC/연동/GPU)</div>
+        <div class="domain-item"><span class="icon">💰</span> 견적 (구독형 vs 구축형)</div>
+        <div class="domain-item"><span class="icon">⚔️</span> 경쟁사 대응 (KT/네이버 등)</div>
+        <div class="domain-item"><span class="icon">📋</span> 제안서/RFP 작성</div>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="label">현재 OJT 부담</div>
+          <div class="value">일 2시간+</div>
+          <div class="desc">Domain Expert 2명이 매일 2시간 이상 Onboarding에 투입</div>
+        </div>
+        <div class="problem-card">
+          <div class="label">구조적 한계</div>
+          <div class="value">2명 → 8명</div>
+          <div class="desc">2명이 8명을 OJT하는 것은 현실적으로 불가능. 본업에도 지장</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 핵심 아이디어 -->
+  <div class="section">
+    <div class="section-title">핵심 아이디어</div>
+    <div class="msg-box">
+      <div class="highlight">
+        <strong>3개월간 150회+ 실제 고객 미팅에서 축적된 Use Case를 기반으로,<br/>
+        실제 사례와 유사하게 시뮬레이션하고 롤플레이할 수 있는 AI Agent를 만든다.</strong>
+      </div>
+
+      <ul class="solution-list">
+        <li><span class="bullet"></span>실제 고객이 던졌던 질문, 반박, 함정을 그대로 재현</li>
+        <li><span class="bullet"></span>영업 전 단계 커버: 첫 미팅 → 시연 → 기술 Q&A → 견적 → PoC → 운영 → 경쟁 입찰</li>
+        <li><span class="bullet"></span>금융, 물류, 여행, 이커머스, 공공 등 6개 업종별 특화 시나리오</li>
+        <li><span class="bullet"></span>대화 종료 후 AI가 자동으로 A~D 등급 피드백 리포트 제공</li>
+        <li><span class="bullet"></span>전입자가 Use Case를 반복 체험하며 스스로 SA 역할 독립 수행</li>
+      </ul>
+
+      <div class="matrix-box">
+        <div class="matrix-title">시나리오 매트릭스</div>
+        <div class="stage-pills">
+          <span class="stage-pill">A. 첫 미팅</span>
+          <span class="stage-pill">B. 시연/데모</span>
+          <span class="stage-pill">C. 기술 Q&A</span>
+          <span class="stage-pill">D. 견적/제안서</span>
+          <span class="stage-pill">E. PoC 사전</span>
+          <span class="stage-pill">F. PoC 리뷰</span>
+          <span class="stage-pill">G. 운영 안정화</span>
+          <span class="stage-pill">H. 경쟁 입찰</span>
+        </div>
+        <div class="industry-pills">
+          <span class="industry-pill">금융 (증권/보험)</span>
+          <span class="industry-pill">금융 (은행/캐피탈)</span>
+          <span class="industry-pill">물류/유통</span>
+          <span class="industry-pill">여행/서비스</span>
+          <span class="industry-pill">이커머스</span>
+          <span class="industry-pill">공공/특수</span>
+        </div>
+        <div class="matrix-formula">
+          25개 시나리오 × 3단계 난이도(초급/중급/고급) = <strong>75가지 훈련 조합</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기대 효과 -->
+  <div class="section">
+    <div class="section-title">기대 효과</div>
+    <div class="msg-box">
+      <table class="ba-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>Before</th>
+            <th>After</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Expert OJT 시간</td>
+            <td class="before">일 2시간+ × 2명</td>
+            <td class="after">주 1회 피드백으로 전환</td>
+          </tr>
+          <tr>
+            <td>독립 SA 수행까지</td>
+            <td class="before">수개월</td>
+            <td class="after">Use Case 반복 훈련으로 대폭 단축</td>
+          </tr>
+          <tr>
+            <td>학습 방식</td>
+            <td class="before">Expert 일정에 의존</td>
+            <td class="after">24시간 자기주도 훈련</td>
+          </tr>
+          <tr>
+            <td>SA 인력 풀</td>
+            <td class="before">2명만 가능</td>
+            <td class="after">10명 전원 SA 역할 수행</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>전입자들이 실제 Use Case를 반복 체험하면서 <strong>빠르게 안정적으로 SA 역할을 독립 수행</strong>할 수 있고, Domain Expert 2명은 본업에 집중할 수 있는 구조입니다.</p>
+    </div>
+  </div>
+
+  <!-- 현재 상태 -->
+  <div class="section">
+    <div class="section-title">현재 상태</div>
+    <div class="msg-box">
+      <div class="status-row">
+        <div class="status-badge"><span class="dot"></span>MVP 개발 완료</div>
+        <div class="status-badge"><span class="dot"></span>GitHub 배포 완료</div>
+        <div class="status-badge"><span class="dot"></span>팀 PC 설치 준비 중</div>
+      </div>
+      <p style="margin-top:1rem;">Claude AI + RAG + FastAPI 기반 구축. <strong>API Key 불필요</strong> (Claude Pro/Max 구독 인증 활용).</p>
+      <p style="margin-top:0.75rem;">시연이 필요하시면 말씀 부탁드립니다.</p>
+      <p class="sign">감사합니다.<br/>양준모 드림</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 AI사업2팀 | <a href="https://github.com/aiccbiz2/aicc_meeting_simulator">GitHub Repo</a> | <a href="../">허브로 돌아가기</a>
+</footer>
+
+</body>
+</html>
