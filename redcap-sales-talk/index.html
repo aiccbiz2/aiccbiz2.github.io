@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>레드캡투어 미팅 Sales Talk | 그룹고객담당 준비자료</title>
+<style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ :root {
+ --magenta: #D81B60;
+ --magenta-light: #F8BBD9;
+ --magenta-bg: #FFF0F6;
+ --magenta-mid: #E91E8C;
+ --black: #1A1A1A;
+ --gray: #555;
+ --gray-light: #F5F5F5;
+ --border: #E0E0E0;
+ }
+ body { font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #fff; color: var(--black); line-height: 1.6; }
+
+ /* Header */
+ .header { background: var(--black); color: #fff; padding: 40px 60px; }
+ .header .badge { display: inline-block; background: var(--magenta); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 16px; }
+ .header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+ .header p { font-size: 14px; color: #ccc; }
+ .header .meta { display: flex; gap: 24px; margin-top: 20px; }
+ .header .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #aaa; }
+ .header .meta-item span { color: #fff; font-weight: 600; }
+
+ /* Layout */
+ .container { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
+ .section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+ .section:last-child { border-bottom: none; }
+ .section-label { font-size: 11px; font-weight: 700; color: var(--magenta); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+ .section-title { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+
+ /* Score Banner */
+ .score-banner { background: var(--magenta-bg); border: 2px solid var(--magenta-light); border-radius: 16px; padding: 32px 40px; display: flex; align-items: center; gap: 48px; margin-bottom: 32px; }
+ .score-circle { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--magenta) 0%, var(--magenta-mid) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: 0 8px 24px rgba(216,27,96,0.3); }
+ .score-circle .num { font-size: 36px; font-weight: 900; line-height: 1; }
+ .score-circle .denom { font-size: 13px; opacity: 0.85; }
+ .score-info h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+ .score-info p { font-size: 14px; color: var(--gray); max-width: 600px; }
+
+ /* Score bar */
+ .score-bar-wrap { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+ .score-bar { flex: 1; height: 10px; background: var(--border); border-radius: 10px; max-width: 400px; }
+ .score-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--magenta) 0%, var(--magenta-mid) 100%); width: 70%; }
+ .score-bar-label { font-size: 13px; color: var(--gray); }
+
+ /* Pain Points */
+ .pain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+ .pain-card { border: 1.5px solid var(--border); border-radius: 14px; padding: 24px; position: relative; overflow: hidden; }
+ .pain-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--magenta), var(--magenta-mid)); }
+ .pain-card .pain-num { font-size: 11px; font-weight: 700; color: var(--magenta); letter-spacing: 1px; margin-bottom: 8px; }
+ .pain-card .pain-title { font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+ .pain-card .pain-desc { font-size: 13.5px; color: var(--gray); line-height: 1.7; }
+ .pain-card .pain-impact { margin-top: 14px; background: var(--magenta-bg); border-radius: 8px; padding: 10px 14px; font-size: 12.5px; }
+ .pain-card .pain-impact .impact-label { font-weight: 700; color: var(--magenta); font-size: 11px; margin-bottom: 4px; }
+
+ /* Process Flow */
+ .flow-wrap { background: var(--gray-light); border-radius: 16px; padding: 32px; }
+ .flow-title { font-size: 14px; font-weight: 700; color: var(--gray); margin-bottom: 20px; text-align: center; }
+ .flow-row { display: flex; align-items: center; gap: 0; justify-content: center; flex-wrap: wrap; }
+ .flow-node { background: #fff; border: 2px solid var(--border); border-radius: 12px; padding: 16px 18px; text-align: center; min-width: 110px; }
+ .flow-node.active { border-color: var(--magenta); background: var(--magenta-bg); }
+ .flow-node.broken { border-color: #FFB300; background: #FFFDE7; }
+ .flow-node .fn-icon { font-size: 22px; margin-bottom: 4px; }
+ .flow-node .fn-label { font-size: 12px; font-weight: 700; }
+ .flow-node .fn-sub { font-size: 11px; color: var(--gray); }
+ .flow-arrow { color: var(--border); font-size: 20px; padding: 0 6px; font-weight: 300; }
+ .flow-arrow.broken-arrow { color: #FFB300; }
+ .break-badge { background: #FFB300; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; margin-top: 6px; display: inline-block; }
+
+ /* As-Is / To-Be */
+ .compare-table { width: 100%; border-collapse: collapse; }
+ .compare-table th { padding: 14px 20px; font-size: 13px; font-weight: 700; text-align: left; }
+ .compare-table th:first-child { color: var(--gray); background: var(--gray-light); border-radius: 10px 0 0 0; width: 30%; }
+ .compare-table th.asis { background: #F3E5F5; color: #7B1FA2; border-radius: 0; }
+ .compare-table th.tobe { background: var(--magenta-bg); color: var(--magenta); border-radius: 0 10px 0 0; }
+ .compare-table td { padding: 14px 20px; font-size: 13.5px; border-bottom: 1px solid var(--border); vertical-align: top; }
+ .compare-table td:first-child { font-weight: 700; color: var(--black); background: var(--gray-light); }
+ .compare-table td.asis-val { color: var(--gray); }
+ .compare-table td.tobe-val { color: var(--black); font-weight: 600; }
+ .tag-bad { display: inline-block; background: #FCE4EC; color: #C62828; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-right: 4px; }
+ .tag-good { display: inline-block; background: var(--magenta-bg); color: var(--magenta); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-right: 4px; }
+
+ /* Talking Points */
+ .tp-list { display: flex; flex-direction: column; gap: 16px; }
+ .tp-item { border-left: 4px solid var(--magenta); padding: 20px 24px; background: var(--gray-light); border-radius: 0 12px 12px 0; }
+ .tp-item .tp-tag { font-size: 10px; font-weight: 700; color: var(--magenta); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+ .tp-item .tp-text { font-size: 15px; font-weight: 700; color: var(--black); line-height: 1.6; margin-bottom: 8px; }
+ .tp-item .tp-context { font-size: 13px; color: var(--gray); line-height: 1.7; }
+ .tp-item .tp-guide { margin-top: 12px; background: #fff; border: 1px solid var(--magenta-light); border-radius: 8px; padding: 12px 16px; font-size: 13px; }
+ .tp-item .tp-guide .guide-label { font-size: 11px; font-weight: 700; color: var(--magenta); margin-bottom: 4px; }
+
+ /* Proposal Cards */
+ .proposal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+ .prop-card { background: #fff; border: 2px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; transition: transform 0.2s; }
+ .prop-card:hover { transform: translateY(-3px); border-color: var(--magenta-light); }
+ .prop-card .prop-icon { font-size: 36px; margin-bottom: 12px; }
+ .prop-card .prop-phase { font-size: 11px; font-weight: 700; color: var(--magenta); letter-spacing: 1px; margin-bottom: 8px; }
+ .prop-card .prop-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+ .prop-card .prop-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+ .prop-card .prop-outcome { margin-top: 14px; background: var(--magenta-bg); border-radius: 8px; padding: 10px; font-size: 12px; font-weight: 600; color: var(--magenta); }
+
+ /* KPI Chips */
+ .kpi-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px; }
+ .kpi-chip { flex: 1; min-width: 180px; background: var(--black); color: #fff; border-radius: 14px; padding: 20px 24px; }
+ .kpi-chip .kpi-num { font-size: 28px; font-weight: 900; color: var(--magenta-light); line-height: 1; }
+ .kpi-chip .kpi-label { font-size: 12px; color: #aaa; margin-top: 4px; }
+
+ /* Footer */
+ .footer { background: var(--gray-light); padding: 32px 60px; text-align: center; font-size: 12px; color: var(--gray); }
+ .footer strong { color: var(--black); }
+
+ /* Caution box */
+ .caution-box { background: #FFF8E1; border: 1.5px solid #FFD54F; border-radius: 12px; padding: 16px 20px; font-size: 13.5px; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 24px; }
+ .caution-box .icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+
+ @media print {
+ body { -webkit-print-color-adjust: exact; }
+ }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+ <div class="container">
+ <div class="badge">INTERNAL USE ONLY · 그룹고객담당 미팅 준비자료</div>
+ <h1>레드캡투어 서비스 개선 제안<br>Sales Talk</h1>
+ <p>임원 VOE 인터뷰 기반 · 그룹고객담당 → 레드캡투어 전무님 미팅 대비</p>
+ <div class="meta">
+ <div class="meta-item"> 미팅 예정일 <span>2026-04-02</span></div>
+ <div class="meta-item"> 목적 <span>서비스 품질 개선 공동 추진 협의</span></div>
+ <div class="meta-item"> 기반자료 <span>VOE 인터뷰 (2026.03.31)</span></div>
+ </div>
+ </div>
+</div>
+
+<div class="container">
+
+ <!-- 1. 개요 -->
+ <div class="section">
+ <div class="section-label">Overview</div>
+ <div class="section-title">현황 요약</div>
+
+ <div class="caution-box">
+ <span class="icon"></span>
+ <div>이 자료는 내부 VOE 인터뷰를 기반으로 작성되었습니다. 미팅에서는 <strong>"임직원 관점에서 함께 서비스를 발전시키자"</strong>는 협력적 프레이밍을 유지하고, 직접적인 불만 표현보다는 <strong>개선 기회 제안</strong> 방식으로 접근하세요.
+ </div>
+ </div>
+
+ <div class="score-banner">
+ <div class="score-circle">
+ <div class="num">7</div>
+ <div class="denom">/ 10점</div>
+ </div>
+ <div class="score-info">
+ <h3>임원 차량 서비스 종합 만족도</h3>
+ <p>정기 점검 및 빠른 긴급 출동 대응 등 기본 서비스는 긍정 평가. 다만 <strong>정비 후 검증 프로세스</strong>와 <strong>상담–현장 연계 체계</strong>에서 반복적인 아쉬움이 확인됨.</p>
+ <div class="score-bar-wrap">
+ <div class="score-bar"><div class="score-bar-fill"></div></div>
+ <div class="score-bar-label">만족 요인: 정기점검·빠른 출동 / 개선 필요: 완성도·시스템 연계</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- 2. 페인포인트 -->
+ <div class="section">
+ <div class="section-label">Pain Points</div>
+ <div class="section-title">주요 개선 기회 영역 (4가지)</div>
+
+ <div class="pain-grid">
+
+ <div class="pain-card">
+ <div class="pain-num">POINT 01</div>
+ <div class="pain-title"> 정비 후 검증 프로세스 미흡</div>
+ <div class="pain-desc">
+ 타이어 교체 후 기본 얼라인먼트가 이루어지지 않아 고속 주행 시 핸들 떨림이 반복 발생. 동절기·하절기 두 차례 동일 패턴이 재현됨.
+ </div>
+ <div class="pain-impact">
+ <div class="impact-label"> 핵심 이슈</div>
+ 정비 체크리스트 존재에도 불구, <strong>완료 후 검증 단계</strong>가 없어 동일 미스가 반복됨. 임원 차량 안전 리스크로 직결.
+ </div>
+ </div>
+
+ <div class="pain-card">
+ <div class="pain-num">POINT 02</div>
+ <div class="pain-title"> 반복 문제 근본 원인 분석 부재</div>
+ <div class="pain-desc">
+ 타이어 공기압 이상으로 5회 긴급출동 발생. 매회 임시방편 조치(공기 보충, 타이어 교체)를 반복하다 마지막에야 밸브 캡 불량이 원인임을 발견.
+ </div>
+ <div class="pain-impact">
+ <div class="impact-label"> 핵심 이슈</div>
+ 반복 증상 이력 추적 없이 단건 처리에 그쳐 <strong>5회 불필요한 출동 비용 및 고객 불편</strong> 발생. 이력 기반 원인 분석 체계 필요.
+ </div>
+ </div>
+
+ <div class="pain-card">
+ <div class="pain-num">POINT 03</div>
+ <div class="pain-title"> 상담–현장–보험사 연계 분절</div>
+ <div class="pain-desc">
+ 상담센터 접수 내용이 현장 대리인에게 구두로만 전달되며, 보험사 긴급출동은 독립적으로 운영. 차량별 반복 이력이 어디에도 통합되지 않음.
+ </div>
+ <div class="pain-impact">
+ <div class="impact-label"> 핵심 이슈</div>
+ 3개 채널(상담센터 / 현장대리인 / 보험사)이 분절 운영되어 고객 컨텍스트가 <strong>매번 리셋</strong>. 반복 민원 패턴 파악 불가.
+ </div>
+ </div>
+
+ <div class="pain-card">
+ <div class="pain-num">POINT 04</div>
+ <div class="pain-title"> 상담 접수 UX 개선 여지</div>
+ <div class="pain-desc">
+ 긴급 상황에서도 법인/개인 구분 → 차량번호 입력 → 임직원 재확인 등 복수의 수동 절차를 거쳐야 함. CID(발신번호) 기반 자동 식별이 활용되지 않음.
+ </div>
+ <div class="pain-impact">
+ <div class="impact-label"> 핵심 이슈</div>
+ 긴급 상황에서의 불필요한 인증 절차가 고객 불편을 가중. <strong>CID + 고객 이력 DB 연동</strong>으로 즉시 개선 가능한 영역.
+ </div>
+ </div>
+
+ </div>
+ </div>
+
+ <!-- 3. 현황 프로세스 -->
+ <div class="section">
+ <div class="section-label">Process Analysis</div>
+ <div class="section-title">현재 서비스 프로세스 진단</div>
+
+ <div class="flow-wrap">
+ <div class="flow-title">고객 접수 → 처리 → 사후관리 흐름 (현황)</div>
+ <div class="flow-row" style="margin-bottom:16px;">
+ <div class="flow-node active">
+ <div class="fn-icon"></div>
+ <div class="fn-label">고객 인입</div>
+ <div class="fn-sub">CID 미활용</div>
+ </div>
+ <div class="flow-arrow broken-arrow">→</div>
+ <div class="flow-node broken">
+ <div class="fn-icon"></div>
+ <div class="fn-label">상담센터</div>
+ <div class="fn-sub">수동 접수</div>
+ <div class="break-badge"> 절차 과다</div>
+ </div>
+ <div class="flow-arrow broken-arrow">→</div>
+ <div class="flow-node broken">
+ <div class="fn-icon"></div>
+ <div class="fn-label">현장대리인</div>
+ <div class="fn-sub">구두 전달</div>
+ <div class="break-badge"> 이력 단절</div>
+ </div>
+ <div class="flow-arrow">→</div>
+ <div class="flow-node">
+ <div class="fn-icon"></div>
+ <div class="fn-label">출동·정비</div>
+ <div class="fn-sub">현장 처리</div>
+ </div>
+ <div class="flow-arrow broken-arrow">→</div>
+ <div class="flow-node broken">
+ <div class="fn-icon"></div>
+ <div class="fn-label">사후 검증</div>
+ <div class="fn-sub">절차 미비</div>
+ <div class="break-badge"> 검증 없음</div>
+ </div>
+ </div>
+ <div class="flow-row">
+ <div class="flow-node">
+ <div class="fn-icon"></div>
+ <div class="fn-label">보험사</div>
+ <div class="fn-sub">별도 운영</div>
+ </div>
+ <div class="flow-arrow" style="opacity:0.3;">→</div>
+ <div class="flow-node" style="opacity:0.4;">
+ <div class="fn-icon"></div>
+ <div class="fn-label">통합 이력</div>
+ <div class="fn-sub">미구현</div>
+ </div>
+ </div>
+ <p style="text-align:center; font-size:12px; color:#999; margin-top:16px;"> 3개 채널 분절 운영 · 이력 통합 없음 · 반복 패턴 감지 불가</p>
+ </div>
+ </div>
+
+ <!-- 4. As-Is / To-Be -->
+ <div class="section">
+ <div class="section-label">Opportunity Map</div>
+ <div class="section-title">개선 전·후 비교</div>
+
+ <table class="compare-table">
+ <thead>
+ <tr>
+ <th>영역</th>
+ <th class="asis"> 현재 (As-Is)</th>
+ <th class="tobe"> 개선 방향 (To-Be)</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>고객 식별</td>
+ <td class="asis-val"><span class="tag-bad">수동</span> 차량번호 재입력 + 임직원 재확인 절차</td>
+ <td class="tobe-val"><span class="tag-good">자동화</span> CID 기반 고객 자동 식별 → 바로 용건 접수</td>
+ </tr>
+ <tr>
+ <td>이력 관리</td>
+ <td class="asis-val"><span class="tag-bad">분절</span> 상담·현장·보험사 각자 관리. 사람 기억에 의존</td>
+ <td class="tobe-val"><span class="tag-good">통합</span> 차량별 단일 이력 DB — 반복 패턴 자동 감지</td>
+ </tr>
+ <tr>
+ <td>반복 문제 감지</td>
+ <td class="asis-val"><span class="tag-bad">없음</span> 동일 고객 반복 접수 여부 파악 불가</td>
+ <td class="tobe-val"><span class="tag-good">AI 분석</span> STT + AI로 반복 증상 감지 → 현장 대리인 알림</td>
+ </tr>
+ <tr>
+ <td>정비 검증</td>
+ <td class="asis-val"><span class="tag-bad">미흡</span> 정비 후 검증 단계 없음 → 동일 불량 반복</td>
+ <td class="tobe-val"><span class="tag-good">체계화</span> 정비 완료 후 안전 체크리스트 필수 검증 프로세스</td>
+ </tr>
+ <tr>
+ <td>현장 대리인 지원</td>
+ <td class="asis-val"><span class="tag-bad">주먹구구</span> 담당 차량 이력·고객 만족도 파악 불가</td>
+ <td class="tobe-val"><span class="tag-good">대시보드</span> 담당 차량 전체 이력·VOC 요약 실시간 제공</td>
+ </tr>
+ <tr>
+ <td>고객 경험</td>
+ <td class="asis-val"><span class="tag-bad">기계적</span> 매뉴얼 응대 — 감정적 케어 없음</td>
+ <td class="tobe-val"><span class="tag-good">맞춤 케어</span> 반복 불편 고객 감지 시 우선 공감·에스컬레이션</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <!-- 5. Sales Talk -->
+ <div class="section">
+ <div class="section-label">Talking Points</div>
+ <div class="section-title">Sales Talk (권장 순서)</div>
+
+ <div class="tp-list">
+
+ <div class="tp-item">
+ <div class="tp-tag">OPEN · 관계 강화</div>
+ <div class="tp-text">"저희 회사가 레드캡투어의 가장 큰 법인 고객이기도 하지만, 동시에 컨택센터 서비스의 파트너이기도 하죠. 그 양쪽 관점을 다 가지고 있다 보니 드릴 수 있는 이야기가 있어서 왔습니다."</div>
+ <div class="tp-context">운영사로서 BPO를 맡고 있다는 입장을 먼저 상기시켜 '갑질'이 아닌 '파트너십' 프레임으로 시작합니다.</div>
+ </div>
+
+ <div class="tp-item">
+ <div class="tp-tag">POINT 01 · 정비 프로세스</div>
+ <div class="tp-text">"정기 점검을 성실하게 해주신다는 점은 임원분들도 좋게 평가하십니다. 다만 정비 완료 후 안전 항목 검증 단계를 하나 더 추가하면, 서비스 완성도가 한 단계 올라갈 것 같아요."</div>
+ <div class="tp-context">불만 표현이 아니라 "이미 잘하는 것에 마지막 한 단계"를 제안하는 방식으로 접근.</div>
+ <div class="tp-guide">
+ <div class="guide-label"> 구체적 제안 포인트</div>
+ 타이어 교체 시 얼라인먼트 체크를 체크리스트에 포함 → 완료 후 담당 현장대리인에게 결과 공유하는 프로세스
+ </div>
+ </div>
+
+ <div class="tp-item">
+ <div class="tp-tag">POINT 02 · 이력 기반 관리</div>
+ <div class="tp-text">"저희도 BPO를 운영하면서 느끼는 건데, 반복 접수 패턴을 시스템이 잡아주지 않으면 상담원이 아무리 열심히 해도 한계가 있더라고요. 같은 차량에서 같은 증상이 두 번 이상 접수될 때 현장 대리인에게 자동으로 알림이 가는 구조면 어떨까요?"</div>
+ <div class="tp-context">상담원 역량 문제가 아닌 시스템 구조 문제로 프레이밍 — 상대방이 방어적이 되지 않도록 합니다.</div>
+ <div class="tp-guide">
+ <div class="guide-label"> 구체적 제안 포인트</div>
+ STT 기반 상담 이력 정리 → 차량번호 단위 반복 접수 감지 → 현장 대리인 앱/문자 자동 알림
+ </div>
+ </div>
+
+ <div class="tp-item">
+ <div class="tp-tag">POINT 03 · 접수 UX</div>
+ <div class="tp-text">"긴급 출동 요청하실 때 CID로 이미 임직원 번호임을 알 수 있는데, 다시 차량번호 확인하고 임직원 여부 확인하는 절차가 있잖아요. 긴급 상황에서의 첫 접점인 만큼, 이 부분을 조금 간소화하면 고객 만족도가 눈에 띄게 올라갈 것 같습니다."</div>
+ <div class="tp-context">작고 바로 개선 가능한 UX 이슈부터 제안해 '실행 가능성'을 보여줍니다.</div>
+ <div class="tp-guide">
+ <div class="guide-label"> 구체적 제안 포인트</div>
+ 발신 CID → 고객 DB 자동 매핑 → 이름/차량 호명 후 용건 바로 접수 (IVR 분기 최소화)
+ </div>
+ </div>
+
+ <div class="tp-item">
+ <div class="tp-tag">BRIDGE · PoC 연결</div>
+ <div class="tp-text">"저희가 마침 상담센터 AI 고도화 솔루션을 운영하고 있어서, 실제로 같은 방향으로 적용한 사례가 있거든요. 규모가 크지 않아도 되니까, 저희 법인 임직원 차량 케이스 기준으로 작게 PoC를 한 번 해보는 건 어떨까요? 결과가 좋으면 전체 법인 고객으로 확대하는 로드맵을 같이 그려봐도 좋을 것 같습니다."</div>
+ <div class="tp-context">LGU+ 법인 차량을 PoC 대상으로 삼으면 "우리 먼저 실험해보자"는 협력 구도가 자연스럽게 형성됩니다.</div>
+ </div>
+
+ </div>
+ </div>
+
+ <!-- 6. 제안 로드맵 -->
+ <div class="section">
+ <div class="section-label">Proposal Roadmap</div>
+ <div class="section-title">단계별 제안 방향</div>
+
+ <div class="proposal-grid">
+ <div class="prop-card">
+ <div class="prop-icon"></div>
+ <div class="prop-phase">STEP 1 · 즉시 개선</div>
+ <div class="prop-title">접수 프로세스 간소화</div>
+ <div class="prop-desc">CID 기반 고객 자동 식별 + IVR 분기 최소화. 시스템 변경 없이 운영 정책만 바꿔도 가능한 영역부터 시작.</div>
+ <div class="prop-outcome"> 기대효과: 접수 시간 단축 · 긴급 상황 고객 경험 개선</div>
+ </div>
+
+ <div class="prop-card">
+ <div class="prop-icon"></div>
+ <div class="prop-phase">STEP 2 · PoC</div>
+ <div class="prop-title">AI 기반 이력 통합 관리</div>
+ <div class="prop-desc">STT로 상담 내용 자동 정리 + 차량 단위 이력 DB 구축. LGU+ 임직원 차량 대상 소규모 PoC로 효과 검증.</div>
+ <div class="prop-outcome"> 기대효과: 반복 출동 감소 · 현장 대리인 업무 효율화</div>
+ </div>
+
+ <div class="prop-card">
+ <div class="prop-icon"></div>
+ <div class="prop-phase">STEP 3 · 확대</div>
+ <div class="prop-title">AICC 전면 고도화</div>
+ <div class="prop-desc">전체 법인 고객 대상 AI 상담 어플 고도화 + 현장대리인 앱 연동 + 보험사 채널 통합. MPS 지표 공동 설정.</div>
+ <div class="prop-outcome"> 기대효과: 캡티브 외 법인 영업 경쟁력 강화</div>
+ </div>
+ </div>
+
+ <div class="kpi-row">
+ <div class="kpi-chip">
+ <div class="kpi-num">5회 → 1회</div>
+ <div class="kpi-label">동일 증상 긴급출동 감소 목표 (이력 관리 시)</div>
+ </div>
+ <div class="kpi-chip">
+ <div class="kpi-num">7점 → 9점</div>
+ <div class="kpi-label">임원 차량 서비스 만족도 향상 목표</div>
+ </div>
+ <div class="kpi-chip">
+ <div class="kpi-num">3채널 → 1뷰</div>
+ <div class="kpi-label">상담·현장·보험사 이력 통합 목표</div>
+ </div>
+ </div>
+ </div>
+
+</div>
+
+<div class="footer">
+ <strong>AI사업2팀 내부 자료</strong> · 레드캡투어 VOE 인터뷰 (2026.03.31) 기반 · 외부 공유 금지
+</div>
+
+</body>
+</html>
