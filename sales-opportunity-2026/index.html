@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICC 영업기회 현황 | 2026</title>
+<style>
+  :root {
+    --shinhan: #0046ad;
+    --shinhan-light: #e8f0ff;
+    --bg: #f8f9fc;
+    --card: #ffffff;
+    --text: #1a1d2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --win: #059669;
+    --win-bg: #ecfdf5;
+    --high: #d97706;
+    --high-bg: #fffbeb;
+    --mid: #2563eb;
+    --mid-bg: #eff6ff;
+    --low: #9ca3af;
+    --low-bg: #f3f4f6;
+    --lead: #7c3aed;
+    --lead-bg: #f5f3ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  .header {
+    background: linear-gradient(135deg, #0046ad 0%, #1a6fd4 60%, #3b82f6 100%);
+    color: white; padding: 32px 40px; position: relative; overflow: hidden;
+  }
+  .header::after {
+    content: ''; position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+  .header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .header .badge {
+    display: inline-block; background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;
+    padding: 3px 12px; font-size: 12px; margin-top: 10px;
+  }
+
+  .container { max-width: 1300px; margin: 0 auto; padding: 28px 24px; }
+
+  /* KPI Cards */
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
+  .kpi-card {
+    background: var(--card); border-radius: 12px; padding: 18px 20px;
+    border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .kpi-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .kpi-card .value { font-size: 28px; font-weight: 700; line-height: 1; }
+  .kpi-card .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .kpi-card.shinhan .value { color: var(--shinhan); }
+  .kpi-card.win .value { color: var(--win); }
+  .kpi-card.high .value { color: var(--high); }
+
+  /* Shinhan Spotlight */
+  .shinhan-section {
+    background: linear-gradient(135deg, #e8f0ff 0%, #f0f4ff 100%);
+    border: 2px solid #b3c9f5; border-radius: 16px; padding: 24px 28px; margin-bottom: 28px;
+  }
+  .shinhan-section h2 {
+    color: var(--shinhan); font-size: 16px; font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .shinhan-section h2::before {
+    content: '★'; font-size: 18px;
+  }
+  .shinhan-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .shinhan-card {
+    background: white; border-radius: 12px; padding: 16px;
+    border: 1.5px solid #c5d8f9; position: relative; overflow: hidden;
+  }
+  .shinhan-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--shinhan);
+  }
+  .shinhan-card .co { font-weight: 700; font-size: 15px; color: var(--shinhan); }
+  .shinhan-card .solution { font-size: 12px; color: var(--muted); margin: 6px 0; line-height: 1.5; }
+  .shinhan-card .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .shinhan-card .meta span {
+    font-size: 11px; padding: 2px 9px; border-radius: 20px; font-weight: 600;
+  }
+  .tag-scale { background: #f0f4ff; color: #2563eb; }
+  .tag-status { background: #fef3c7; color: #92400e; }
+  .tag-date { background: #f0fdf4; color: #065f46; }
+  .tag-win { background: var(--win-bg); color: var(--win); }
+  .tag-mid { background: var(--mid-bg); color: var(--mid); }
+  .tag-lead { background: var(--lead-bg); color: var(--lead); }
+
+  .shinhan-strategy {
+    background: white; border-radius: 12px; padding: 16px 20px; margin-top: 16px;
+    border: 1px solid #c5d8f9;
+  }
+  .shinhan-strategy h3 { font-size: 13px; color: var(--shinhan); font-weight: 700; margin-bottom: 8px; }
+  .shinhan-strategy p { font-size: 12px; color: #374151; line-height: 1.7; }
+  .shinhan-strategy strong { color: var(--shinhan); }
+
+  /* Main Table Section */
+  .section-title {
+    font-size: 16px; font-weight: 700; color: var(--text);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .count {
+    background: var(--shinhan); color: white; font-size: 11px;
+    padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+
+  /* Bar Chart */
+  .chart-card {
+    background: var(--card); border-radius: 14px; padding: 20px 24px;
+    border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .bar-row { display: flex; align-items: center; margin-bottom: 10px; gap: 10px; }
+  .bar-label { width: 110px; font-size: 12px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-wrap { flex: 1; background: #f3f4f6; border-radius: 6px; height: 22px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 8px; transition: width 0.8s; }
+  .bar-fill span { font-size: 11px; font-weight: 700; color: white; white-space: nowrap; }
+  .bar-val { width: 40px; font-size: 12px; font-weight: 700; text-align: right; }
+
+  /* Priority Table */
+  .table-card {
+    background: var(--card); border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    margin-bottom: 20px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: #f8fafc; }
+  th {
+    padding: 11px 14px; text-align: left; font-weight: 600; font-size: 11px;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px;
+    border-bottom: 2px solid var(--border);
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafbfc; }
+
+  .tr-shinhan td { background: #f5f8ff !important; }
+  .tr-shinhan:hover td { background: #eef3ff !important; }
+  .shinhan-tag {
+    display: inline-block; background: var(--shinhan); color: white;
+    font-size: 10px; padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle;
+  }
+
+  .badge-win { background: var(--win-bg); color: var(--win); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .badge-high { background: var(--high-bg); color: var(--high); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-mid { background: var(--mid-bg); color: var(--mid); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-low { background: var(--low-bg); color: var(--low); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-lead { background: var(--lead-bg); color: var(--lead); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-neg { background: #fee2e2; color: #991b1b; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-contract { background: #d1fae5; color: #065f46; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+
+  .scale { font-weight: 700; color: var(--text); }
+  .scale.big { color: #1d4ed8; }
+
+  /* 업종 badge */
+  .ind { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+  .ind-금융 { background: #dbeafe; color: #1e40af; }
+  .ind-공공 { background: #d1fae5; color: #065f46; }
+  .ind-유통 { background: #fef3c7; color: #92400e; }
+  .ind-여행 { background: #ede9fe; color: #5b21b6; }
+  .ind-플랫폼 { background: #fce7f3; color: #9d174d; }
+  .ind-보안 { background: #fee2e2; color: #991b1b; }
+
+  /* Pipeline chart */
+  .pipeline { display: flex; gap: 0; margin: 16px 0; border-radius: 10px; overflow: hidden; height: 36px; }
+  .pipeline-seg {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: white; transition: flex 0.5s;
+    cursor: default;
+  }
+  .pipeline-seg:hover { filter: brightness(1.1); }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* Tabs */
+  .tab-row { display: flex; gap: 4px; margin-bottom: 14px; }
+  .tab {
+    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border: 1.5px solid var(--border); background: white;
+    color: var(--muted); transition: all 0.15s;
+  }
+  .tab.active { background: var(--shinhan); color: white; border-color: var(--shinhan); }
+
+  .sector-block { display: none; }
+  .sector-block.active { display: block; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 24px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏦 AICC 영업기회 현황 대시보드</h1>
+  <p>AI사업2팀 | AICC 구축형 타겟리스트 기준</p>
+  <span class="badge">📅 2026.01.26 기준 &nbsp;|&nbsp; 42건 / 금융 31건</span>
+</div>
+
+<div class="container">
+
+  <!-- KPI Summary -->
+  <div class="kpi-row">
+    <div class="kpi-card win">
+      <div class="label">수주 완료</div>
+      <div class="value">3건</div>
+      <div class="sub">KB FCC · IBK · 농협은행</div>
+    </div>
+    <div class="kpi-card high">
+      <div class="label">수주가능성 상</div>
+      <div class="value">6건</div>
+      <div class="sub">SC제일은행 3건 포함</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">수주가능성 중</div>
+      <div class="value">13건</div>
+      <div class="sub">신한은행·한국투자증권 등</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">수주가능성 하</div>
+      <div class="value">9건</div>
+      <div class="sub">장기 파이프라인</div>
+    </div>
+    <div class="kpi-card shinhan">
+      <div class="label">신한 그룹 계열</div>
+      <div class="value">4건</div>
+      <div class="sub">신한은행·카드·투자증권 +1</div>
+    </div>
+  </div>
+
+  <!-- Pipeline Visual -->
+  <div class="chart-card" style="margin-bottom:28px;">
+    <div class="section-title">📊 파이프라인 현황 (전체 42건)</div>
+    <div class="pipeline">
+      <div class="pipeline-seg" style="flex:3; background:#059669;" title="수주 3건">수주 3</div>
+      <div class="pipeline-seg" style="flex:1; background:#10b981;" title="계약협상 1건">협상</div>
+      <div class="pipeline-seg" style="flex:6; background:#d97706;" title="수주가능성 상 6건">상 6</div>
+      <div class="pipeline-seg" style="flex:13; background:#2563eb;" title="수주가능성 중 13건">중 13</div>
+      <div class="pipeline-seg" style="flex:9; background:#9ca3af;" title="수주가능성 하 9건">하 9</div>
+      <div class="pipeline-seg" style="flex:4; background:#7c3aed;" title="리드/미정 4건">리드/미정 4</div>
+      <div class="pipeline-seg" style="flex:2; background:#ef4444;" title="기타 2건">기타 2</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#059669"></div> 수주완료</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div> 가능성 상</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> 가능성 중</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#9ca3af"></div> 가능성 하</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div> 리드/미정</div>
+    </div>
+  </div>
+
+  <!-- ★ Shinhan Spotlight -->
+  <div class="shinhan-section">
+    <h2>신한 그룹 영업기회 — 핵심 타겟</h2>
+    <div class="shinhan-cards">
+      <div class="shinhan-card">
+        <div class="co">신한은행 (AICC)</div>
+        <div class="solution">어드바이저, Auto QA<br>상담App (Outsourcing)</div>
+        <div class="meta">
+          <span class="tag-scale">💰 80억</span>
+          <span class="tag-date">📅 26년 3월</span>
+          <span class="tag-mid">● 가능성 중</span>
+        </div>
+        <div style="font-size:11px; color:#6b7280; margin-top:8px;">예가 제출·PoC 준비 / HW분리발주 별도 시연회 완료</div>
+      </div>
+      <div class="shinhan-card">
+        <div class="co">신한은행 (헬프데스크)</div>
+        <div class="solution">STT (Insourcing)<br>상담App (Outsourcing)</div>
+        <div class="meta">
+          <span class="tag-scale">💰 20억</span>
+          <span class="tag-date">📅 26년</span>
+          <span class="tag-mid">● 가능성 중</span>
+        </div>
+        <div style="font-size:11px; color:#6b7280; margin-top:8px;">연동/대응개발 포함 별도 사업</div>
+      </div>
+      <div class="shinhan-card">
+        <div class="co">신한카드 (TMM)</div>
+        <div class="solution">STT, 어드바이저, Auto QA<br>인프라 투자형 5년 패키지</div>
+        <div class="meta">
+          <span class="tag-scale">💰 20억+ (추정)</span>
+          <span class="tag-date">📅 26년</span>
+          <span class="tag-lead">● 리드/TMM 추진</span>
+        </div>
+        <div style="font-size:11px; color:#6b7280; margin-top:8px;">CEO TMM 추진 중 · 콜봇·BPO 패키지 제안</div>
+      </div>
+      <div class="shinhan-card">
+        <div class="co">신한투자증권</div>
+        <div class="solution">입찰공고 확인(26.03.30)<br>제안작업 착수</div>
+        <div class="meta">
+          <span class="tag-scale">💰 27억</span>
+          <span class="tag-date">📅 26년</span>
+          <span class="tag-mid">● 제안 착수</span>
+        </div>
+        <div style="font-size:11px; color:#6b7280; margin-top:8px;">26.03.30 입찰공고 확인, 강천길 담당</div>
+      </div>
+    </div>
+
+    <div class="shinhan-strategy">
+      <h3>📌 신한카드 TMM 전략 요약 (2025.12.03 사전미팅)</h3>
+      <p>
+        <strong>핵심 메시지:</strong> "인프라 신경 쓰지 말고 상담에 집중해라. 우리가 다 해줄게." — 개별 솔루션 경쟁 X, <strong>패키지 토털 솔루션</strong>으로 승부 (심플리 철학)<br>
+        <strong>구조:</strong> 인프라 투자 5년 계약 + 제네시스 클라우드 전환 로드맵 + AI/AX(어드바이저·콜봇·오토QA) + BPO/운영까지<br>
+        <strong>확장 전략:</strong> 신한카드 레퍼런스 → KB, SC 등 금융권 리피터블 모델로 확장<br>
+        <strong>주의:</strong> "비용 절감 약속 금지" → <strong>"운영 부담을 덜어준다"</strong>는 메시지로 포지셔닝
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Table: Financial Priority -->
+  <div class="section-title">
+    🏆 금융권 영업기회 우선순위 <span class="count">31건</span>
+  </div>
+
+  <div class="tab-row">
+    <div class="tab active" onclick="showTab('all')">전체 금융</div>
+    <div class="tab" onclick="showTab('high')">🔥 우선순위 HIGH</div>
+    <div class="tab" onclick="showTab('nonfinance')">기타 업종</div>
+  </div>
+
+  <!-- ALL FINANCIAL -->
+  <div id="tab-all" class="sector-block active">
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>고객사</th>
+            <th>제안 솔루션</th>
+            <th>규모</th>
+            <th>사업시기</th>
+            <th>진행상태</th>
+            <th>수주가능성</th>
+                      </tr>
+        </thead>
+        <tbody>
+          <!-- 수주 완료 -->
+          <tr>
+            <td style="color:#9ca3af; font-size:11px">▲수주완료</td>
+            <td colspan="7" style="background:#ecfdf5; color:#065f46; font-size:11px; font-weight:600; padding:6px 14px;">
+              ✅ 수주 완료 — KB FCC · IBK투자증권 · 농협은행(KT연동)
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><strong>KB FCC</strong></td>
+            <td>STT (Insourcing)</td>
+            <td class="scale">13억</td>
+            <td>25년</td>
+            <td><span class="badge-contract">수주완료</span></td>
+            <td><span class="badge-win">수주</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>IBK투자증권</strong></td>
+            <td>STT/IPCC/상담App/어드바이저</td>
+            <td class="scale">10.7억</td>
+            <td>26년 1월</td>
+            <td><span class="badge-contract">수주완료</span></td>
+            <td><span class="badge-win">수주</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>농협은행 (KT연동)</strong></td>
+            <td>SBC 구축 (통신사 구간)</td>
+            <td class="scale">9억</td>
+            <td>26년 1월</td>
+            <td><span class="badge-contract">수주완료</span></td>
+            <td><span class="badge-win">수주</span></td>
+          </tr>
+
+          <!-- 계약협상 -->
+          <tr>
+            <td>19</td>
+            <td><strong>새마을금고중앙회</strong></td>
+            <td>IPCC (Outsourcing)</td>
+            <td class="scale">40억</td>
+            <td>26년 8월</td>
+            <td><span class="badge-contract">계약협상</span></td>
+            <td>—</td>
+          </tr>
+
+          <!-- 가능성 상 -->
+          <tr>
+            <td style="color:#9ca3af; font-size:11px">▲가능성 상</td>
+            <td colspan="7" style="background:#fffbeb; color:#92400e; font-size:11px; font-weight:600; padding:6px 14px;">
+              🔥 수주가능성 上 — SC제일은행(3건) · 우리투자증권 · 두나무 · 우리카드
+            </td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><strong>SC제일은행</strong> <span style="font-size:11px;color:#9ca3af">(회선)</span></td>
+            <td>회선 (Outsourcing)</td>
+            <td class="scale big">58억</td>
+            <td>26년 1월</td>
+            <td><span class="badge-high">제안</span></td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><strong>SC제일은행</strong> <span style="font-size:11px;color:#9ca3af">(ITO)</span></td>
+            <td>ITO</td>
+            <td class="scale big">90억</td>
+            <td>26년 2월</td>
+            <td><span class="badge-high">제안</span></td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><strong>SC제일은행</strong> <span style="font-size:11px;color:#9ca3af">(IPCC)</span></td>
+            <td>IPCC, STT (Outsourcing)</td>
+            <td class="scale big">70억</td>
+            <td>26년 2~3월</td>
+            <td><span class="badge-high">제안</span></td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+          <tr>
+            <td>22</td>
+            <td><strong>우리투자증권</strong></td>
+            <td>어드바이저/콜봇</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-high">제안</span></td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+          <tr>
+            <td>33</td>
+            <td><strong>우리카드</strong></td>
+            <td>상담품질고도화</td>
+            <td class="scale">5억</td>
+            <td>26년</td>
+            <td><span class="badge-high">제안</span></td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+          <tr>
+            <td>37</td>
+            <td><strong>두나무</strong></td>
+            <td>어드바이저, Auto QA</td>
+            <td class="scale">15억</td>
+            <td>26년</td>
+            <td><span class="badge-high">제안</span></td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+
+          <!-- 가능성 중 -->
+          <tr>
+            <td style="color:#9ca3af; font-size:11px">▲가능성 중</td>
+            <td colspan="7" style="background:#eff6ff; color:#1e40af; font-size:11px; font-weight:600; padding:6px 14px;">
+              📌 수주가능성 中 — 신한은행·한국투자증권·우리은행 등 주요 딜
+            </td>
+          </tr>
+          <tr class="tr-shinhan">
+            <td>12</td>
+            <td><strong>신한은행</strong><span class="shinhan-tag">신한</span></td>
+            <td>어드바이저, AutoQA, 상담App</td>
+            <td class="scale big">80억</td>
+            <td>26년 3월</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td><strong>한국투자증권</strong></td>
+            <td>STT/IPCC/NLP·TA</td>
+            <td class="scale big">78억</td>
+            <td>26년 4월</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td><strong>우리은행</strong></td>
+            <td>STT/TTS/어드바이저/NLP·TA/콜봇/챗봇</td>
+            <td class="scale big">70억</td>
+            <td>26년 3월</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>26</td>
+            <td><strong>OK저축은행</strong></td>
+            <td>어드바이저/콜봇</td>
+            <td class="scale big">80억</td>
+            <td>26년</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>32</td>
+            <td><strong>우리금융캐피탈</strong></td>
+            <td>STT, 어드바이저</td>
+            <td class="scale">40억</td>
+            <td>26년</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>18</td>
+            <td><strong>농협손해보험</strong></td>
+            <td>STT/어드바이저/AutoQA/NLP·TA</td>
+            <td class="scale">25억</td>
+            <td>26년 4월</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>16</td>
+            <td><strong>우리FIS</strong></td>
+            <td>STT/어드바이저/IPCC/상담App/챗봇</td>
+            <td class="scale">18억</td>
+            <td>26년 3월</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>25</td>
+            <td><strong>SBI저축은행</strong></td>
+            <td>어드바이저/콜봇/챗봇</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr class="tr-shinhan">
+            <td>29</td>
+            <td><strong>신한은행 (헬프데스크)</strong><span class="shinhan-tag">신한</span></td>
+            <td>STT/상담App</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-mid">제안</span></td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+
+          <!-- 리드/미정 -->
+          <tr>
+            <td style="color:#9ca3af; font-size:11px">▲리드/미정</td>
+            <td colspan="7" style="background:#f5f3ff; color:#5b21b6; font-size:11px; font-weight:600; padding:6px 14px;">
+              🌱 리드/미정 — 신한카드·신한투자증권·한화손보·DB생명 등
+            </td>
+          </tr>
+          <tr class="tr-shinhan">
+            <td>38</td>
+            <td><strong>신한카드</strong><span class="shinhan-tag">신한</span></td>
+            <td>STT, 어드바이저, Auto QA<br><span style="font-size:11px;color:#7c3aed">⭐ CEO TMM 추진 중 · 5년 패키지</span></td>
+            <td class="scale">20억+</td>
+            <td>26년</td>
+            <td><span class="badge-lead">리드</span></td>
+            <td><span class="badge-lead">중</span></td>
+          </tr>
+          <tr class="tr-shinhan">
+            <td>40</td>
+            <td><strong>신한투자증권</strong><span class="shinhan-tag">신한</span></td>
+            <td>입찰공고 확인 (26.03.30)</td>
+            <td class="scale">27억</td>
+            <td>26년</td>
+            <td><span class="badge-lead">제안착수</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td><strong>한화손해보험</strong></td>
+            <td>STT/콜봇</td>
+            <td class="scale">30억</td>
+            <td>26년 3월</td>
+            <td><span class="badge-lead">제안</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>20</td>
+            <td><strong>DB생명보험</strong></td>
+            <td>IPCC (Outsourcing)</td>
+            <td class="scale">5억</td>
+            <td>26년 11월</td>
+            <td><span class="badge-lead">리드</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>41</td>
+            <td><strong>미래신용정보</strong></td>
+            <td>—</td>
+            <td class="scale">15억</td>
+            <td>26년</td>
+            <td><span class="badge-lead">리드</span></td>
+            <td>—</td>
+          </tr>
+
+          <!-- 가능성 하 -->
+          <tr>
+            <td style="color:#9ca3af; font-size:11px">▲가능성 하</td>
+            <td colspan="7" style="background:#f3f4f6; color:#6b7280; font-size:11px; font-weight:600; padding:6px 14px;">
+              📋 가능성 下 — 장기 파이프라인 관리
+            </td>
+          </tr>
+          <tr>
+            <td>36</td>
+            <td><strong>하나은행</strong></td>
+            <td class="scale big">50억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>35</td>
+            <td><strong>현대카드</strong></td>
+            <td>어드바이저/챗봇</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>39</td>
+            <td><strong>한화생명</strong></td>
+            <td>STT</td>
+            <td class="scale">미정</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>27</td>
+            <td><strong>수협은행</strong></td>
+            <td>콜봇/챗봇</td>
+            <td class="scale">15억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>28</td>
+            <td><strong>신협중앙회</strong></td>
+            <td>콜봇</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>30</td>
+            <td><strong>BNK캐피탈</strong></td>
+            <td>콜봇</td>
+            <td class="scale">10억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>31</td>
+            <td><strong>BNK신용정보</strong></td>
+            <td>IPCC</td>
+            <td class="scale">10억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td><strong>롯데홈쇼핑</strong> <span class="ind ind-유통">유통</span></td>
+            <td>어드바이저/IPCC/콜봇/챗봇</td>
+            <td class="scale">30억</td>
+            <td>26년</td>
+            <td><span class="badge-low">제안</span></td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- HIGH PRIORITY TAB -->
+  <div id="tab-high" class="sector-block">
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="section-title" style="font-size:14px;">💰 금융 규모별 TOP 10</div>
+        <div style="margin-top:8px;">
+          <div class="bar-row">
+            <div class="bar-label">SC제일은행(ITO)</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:100%; background:#d97706;"><span>90억</span></div></div>
+            <div class="bar-val" style="color:#d97706;">90억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">OK저축은행</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:89%; background:#2563eb;"><span>80억</span></div></div>
+            <div class="bar-val" style="color:#2563eb;">80억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label" style="color:#0046ad; font-weight:700;">신한은행</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:89%; background:#0046ad;"><span>80억</span></div></div>
+            <div class="bar-val" style="color:#0046ad;">80억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">한국투자증권</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:87%; background:#2563eb;"><span>78억</span></div></div>
+            <div class="bar-val" style="color:#2563eb;">78억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">SC제일은행(IPCC)</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:78%; background:#d97706;"><span>70억</span></div></div>
+            <div class="bar-val" style="color:#d97706;">70억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">우리은행</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:78%; background:#2563eb;"><span>70억</span></div></div>
+            <div class="bar-val" style="color:#2563eb;">70억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">SC제일은행(회선)</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:64%; background:#d97706;"><span>58억</span></div></div>
+            <div class="bar-val" style="color:#d97706;">58억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">하나은행</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:56%; background:#9ca3af;"><span>50억</span></div></div>
+            <div class="bar-val" style="color:#9ca3af;">50억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">새마을금고</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:44%; background:#059669;"><span>40억</span></div></div>
+            <div class="bar-val" style="color:#059669;">40억</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">우리금융캐피탈</div>
+            <div class="bar-wrap"><div class="bar-fill" style="width:44%; background:#2563eb;"><span>40억</span></div></div>
+            <div class="bar-val" style="color:#2563eb;">40억</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="section-title" style="font-size:14px;">⏰ 사업 시기별 집중 관리</div>
+        <div style="margin-top:8px;">
+          <div style="margin-bottom:16px;">
+            <div style="font-size:12px; font-weight:700; color:#059669; margin-bottom:6px;">✅ 26년 1월 (마감)</div>
+            <div style="font-size:12px; padding:6px 10px; background:#ecfdf5; border-radius:6px; line-height:1.9;">
+              IBK투자증권 · SC제일은행(회선) · 농협은행
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <div style="font-size:12px; font-weight:700; color:#d97706; margin-bottom:6px;">🔥 26년 2~3월 (집중 대응)</div>
+            <div style="font-size:12px; padding:6px 10px; background:#fffbeb; border-radius:6px; line-height:1.9;">
+              SC제일은행(ITO·IPCC) · <strong style="color:#0046ad">신한은행</strong> · 한화손해보험 · 우리은행 · 우리FIS · 신세계라이브쇼핑
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <div style="font-size:12px; font-weight:700; color:#2563eb; margin-bottom:6px;">📌 26년 4월 (후속 대응)</div>
+            <div style="font-size:12px; padding:6px 10px; background:#eff6ff; border-radius:6px; line-height:1.9;">
+              한국투자증권 · 농협손해보험
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:#7c3aed; margin-bottom:6px;">🌱 26년 하반기 / 미정</div>
+            <div style="font-size:12px; padding:6px 10px; background:#f5f3ff; border-radius:6px; line-height:1.9;">
+              <strong style="color:#0046ad">신한카드(TMM)</strong> · <strong style="color:#0046ad">신한투자증권</strong> · 새마을금고(8월) · 우리금융캐피탈 · OK저축은행 · 두나무 + 다수
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-FINANCE TAB -->
+  <div id="tab-nonfinance" class="sector-block">
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>업종</th>
+            <th>고객사</th>
+            <th>제안 솔루션</th>
+            <th>규모</th>
+            <th>사업시기</th>
+            <th>수주가능성</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3</td>
+            <td><span class="ind ind-유통">유통</span></td>
+            <td><strong>로젠택배</strong></td>
+            <td>IPCC/상담App/STT/어드바이저</td>
+            <td class="scale big">41.4억</td>
+            <td>26년 1월</td>
+            <td><span class="badge-win">우선사업자</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><span class="ind ind-공공">공공</span></td>
+            <td><strong>한국전력공사</strong></td>
+            <td>STT, 어드바이저</td>
+            <td class="scale">6억</td>
+            <td>26년 1월</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><span class="ind ind-여행">여행</span></td>
+            <td><strong>하나투어</strong></td>
+            <td>STT/어드바이저/IPCC/콜봇</td>
+            <td class="scale">미정</td>
+            <td>26년 2월</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><span class="ind ind-여행">여행</span></td>
+            <td><strong>소노웨이브</strong></td>
+            <td>STT/어드바이저/상담App/콜봇</td>
+            <td class="scale">30억</td>
+            <td>26년 2월</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td><span class="ind ind-유통">유통</span></td>
+            <td><strong>신세계라이브쇼핑</strong></td>
+            <td>어드바이저/AutoQA/IPCC</td>
+            <td class="scale">25억</td>
+            <td>26년 3월</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>17</td>
+            <td><span class="ind ind-플랫폼">플랫폼</span></td>
+            <td><strong>놀유니버스</strong></td>
+            <td>STT/어드바이저/IPCC/상담App/챗봇</td>
+            <td class="scale">23억</td>
+            <td>26년 3월</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>21</td>
+            <td><span class="ind ind-보안">보안</span></td>
+            <td><strong>에스원</strong></td>
+            <td>콜봇</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-high">상</span></td>
+          </tr>
+          <tr>
+            <td>23</td>
+            <td><span class="ind ind-유통">유통</span></td>
+            <td><strong>롯데홈쇼핑</strong></td>
+            <td>어드바이저/IPCC/콜봇/챗봇</td>
+            <td class="scale">30억</td>
+            <td>26년</td>
+            <td><span class="badge-low">하</span></td>
+          </tr>
+          <tr>
+            <td>24</td>
+            <td><span class="ind ind-유통">유통</span></td>
+            <td><strong>CJ대한통운</strong></td>
+            <td>STT/어드바이저/콜봇/챗봇</td>
+            <td class="scale">20억</td>
+            <td>26년</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+          <tr>
+            <td>34</td>
+            <td><span class="ind ind-공공">공공</span></td>
+            <td><strong>근로복지공단</strong></td>
+            <td>STT</td>
+            <td class="scale">2억</td>
+            <td>26년</td>
+            <td><span class="badge-mid">중</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  AICC 영업기회 현황 | AI사업2팀 | 타겟리스트 2026.01.26 기준 | 신한카드 TMM 사전미팅 2025.12.03 반영
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.sector-block').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
