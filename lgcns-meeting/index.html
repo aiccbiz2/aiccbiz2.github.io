@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LGCNS × LG유플러스 AI사업협력 저녁식사 | 2026.04.03</title>
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-dark: #5b21b6;
+      --accent: #a78bfa;
+      --success: #0e9f6e;
+      --warning: #c27803;
+      --danger: #dc2626;
+      --surface: #f9fafb;
+      --border: #e5e7eb;
+      --text: #111827;
+      --text-secondary: #6b7280;
+      --badge-bg: #f5f3ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, sans-serif;
+      background: #f3f4f6;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #3b0764 0%, #6d28d9 60%, #7c3aed 100%);
+      color: #fff;
+      padding: 52px 24px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-size: 15px;
+      opacity: 0.85;
+      margin-bottom: 32px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* ── Layout ── */
+    .main { max-width: 900px; margin: 0 auto; padding: 32px 16px 64px; }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid #f5f3ff;
+    }
+    .card-title .icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--badge-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+
+    /* ── Executive Quote ── */
+    .exec-quote {
+      background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+      border-left: 5px solid var(--primary);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #3b0764;
+      line-height: 1.7;
+    }
+
+    /* ── Summary bullets ── */
+    .summary-list { list-style: none; }
+    .summary-list li {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .summary-list li:last-child { border-bottom: none; }
+    .summary-list li::before {
+      content: '▸';
+      color: var(--primary);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Overview Table ── */
+    .info-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .info-table tr { border-bottom: 1px solid var(--border); }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table th {
+      text-align: left;
+      padding: 10px 16px 10px 0;
+      color: var(--text-secondary);
+      font-weight: 600;
+      width: 110px;
+      vertical-align: top;
+    }
+    .info-table td {
+      padding: 10px 0;
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    /* ── Participants ── */
+    .participants { display: flex; flex-wrap: wrap; gap: 10px; }
+    .participant {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* ── Discussion Topics ── */
+    .topic {
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      background: #faf9ff;
+    }
+    .topic:last-child { margin-bottom: 0; }
+    .topic-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .topic-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .topic h3 { font-size: 14px; font-weight: 700; color: var(--text); }
+    .topic-body { font-size: 13.5px; color: #374151; }
+    .topic-body p { margin-bottom: 6px; }
+    .topic-body p:last-child { margin-bottom: 0; }
+    .topic-body ul { padding-left: 18px; margin-top: 6px; }
+    .topic-body li { margin-bottom: 4px; }
+    .quote-inline {
+      font-style: italic;
+      color: var(--text-secondary);
+      border-left: 3px solid #ddd6fe;
+      padding-left: 10px;
+      margin-top: 6px;
+      font-size: 13px;
+    }
+
+    /* ── Risk Cards ── */
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .risk-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .risk-item .risk-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .risk-item .risk-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ── Decision / Action ── */
+    .decision-list { display: flex; flex-direction: column; gap: 10px; }
+    .decision-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13.5px;
+      color: #374151;
+    }
+    .decision-item .di-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    .action-list { display: flex; flex-direction: column; gap: 10px; }
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .action-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .action-content { flex: 1; min-width: 0; }
+    .action-content .title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .action-content .desc { font-size: 13px; color: var(--text-secondary); }
+    .priority {
+      font-size: 11px; font-weight: 700;
+      padding: 3px 8px; border-radius: 10px;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+    .priority.high { background: #fef2f2; color: #b91c1c; }
+    .priority.mid { background: #fffbeb; color: var(--warning); }
+    .priority.low { background: #f0fdf4; color: #166534; }
+
+    /* ── Tags ── */
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin: 2px 2px 0 0;
+    }
+    .tag-purple { background: #f5f3ff; color: #6d28d9; }
+    .tag-blue { background: #eff6ff; color: #1d4ed8; }
+    .tag-green { background: #f0fdf4; color: #166534; }
+    .tag-orange { background: #fff7ed; color: #c2410c; }
+    .tag-red { background: #fef2f2; color: #b91c1c; }
+
+    /* ── Memo items ── */
+    .memo-list { display: flex; flex-direction: column; gap: 12px; }
+    .memo-item {
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13.5px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .memo-item .memo-title {
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      margin-top: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 36px 16px 32px; }
+      .card { padding: 20px 16px; }
+      .risk-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">🍽️ 비공식 저녁식사 · AI 사업협력</div>
+      <h1>LGCNS × LG유플러스<br>AI 사업협력 논의</h1>
+      <div class="hero-sub">LG그룹 AI 경쟁력 강화를 위한 양사 핵심 임원 간담회</div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          2026년 4월 3일 (금) 저녁
+        </div>
+        <div class="meta-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          LGCNS 2명 · LG유플러스 2명
+        </div>
+        <div class="meta-item">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          비공식 · 정보 공유 및 방향성 논의
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- 1. 회의 개요 -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">📋</div>
+        회의 개요
+      </div>
+      <table class="info-table">
+        <tr>
+          <th>일시</th>
+          <td>2026년 4월 3일 (금) 저녁</td>
+        </tr>
+        <tr>
+          <th>형태</th>
+          <td>비공식 저녁식사 · 자유 토의</td>
+        </tr>
+        <tr>
+          <th>LGCNS</th>
+          <td>진요한 상무 · 김경일 단장</td>
+        </tr>
+        <tr>
+          <th>LG유플러스</th>
+          <td>정영훈 상무 · 서남희 상무</td>
+        </tr>
+        <tr>
+          <th>주요 의제</th>
+          <td>
+            <span class="tag tag-purple">AI 시장 경쟁 환경</span>
+            <span class="tag tag-blue">AICC 운영 현황</span>
+            <span class="tag tag-blue">컨택센터 플랫폼</span>
+            <span class="tag tag-orange">삼성SDS 공세 대응</span>
+            <span class="tag tag-green">양사 협력 방안</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 2. 핵심 요약 -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">💡</div>
+        핵심 요약
+      </div>
+      <div class="exec-quote">
+        GPU와 자금이 부족한 LG그룹이 AI 시장에서 삼성SDS·KT의 공세를 버티려면,
+        LGCNS와 LG유플러스가 각자의 강점(B2B 구축 역량 + AICC 운영 경험)을 결합해
+        실질적 협력 체계를 만들어야 한다.
+      </div>
+      <ul class="summary-list">
+        <li>LGCNS와 LG유플러스 양사 핵심 임원이 모여 AI 사업 환경, 경쟁사 동향, 그룹 내 협력 가능성을 폭넓게 논의한 비공식 저녁 자리이다.</li>
+        <li>AI 사업 확대의 최대 병목은 GPU 확보와 대규모 투자 재원 부족이며, SKT·삼성 등 경쟁사 대비 LG그룹의 투자 규모가 구조적으로 열위에 있다는 공통 인식을 확인했다.</li>
+        <li>LG유플러스는 오픈AI 기반 콜봇을 구축하여 금융권에 공급 중이나, 금감원의 국외 민감정보 반출 우려로 고객사 확대에 난항을 겪고 있다.</li>
+        <li>LG유플러스 AI 고객센터는 자체 개발(인소싱) 전략을 취하고 있으며, 챗봇 UX 개편으로 상담사 연결 비율을 30%대에서 8%로 낮추고, '보이스 UX 4대 원칙'을 수립하여 품질을 끌어올리고 있다.</li>
+        <li>컨택센터 플랫폼은 제네시스의 온프레미스 미지원 문제로 브라이트패턴을 대안으로 선택했으며, 어바이어의 공격적 가격 공세에도 대응 중이다.</li>
+        <li>삼성SDS가 LGCNS를 1년 이상 벤치마킹한 뒤, 네트워크 사업·데이터센터 등 신규 영역까지 진출하고 있어 직접적 경쟁 압박이 커지고 있다.</li>
+        <li>양사 모두 "협력을 못 할 이유가 없다"는 데 공감하며, 통신비 매출 연동 투자 모델 등 구체적 협력 구조를 후속 논의하기로 했다.</li>
+      </ul>
+    </div>
+
+    <!-- 3. 주요 논의 내용 -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">🗣️</div>
+        주요 논의 내용
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">1</div>
+          <h3>AI 시장 경쟁 환경과 LG그룹의 구조적 과제</h3>
+        </div>
+        <div class="topic-body">
+          <p>진요한 상무는 B2B AI 사업에서 기존 밸류체인(온프레미스 기반)의 가치가 생각보다 중요하다는 가설을 제시했다. LG 계열사에서 에이전트 코파일럿을 사용하고 있으나 연간 매출이 10억 미만 수준이며, LG유플러스에 클로드 기반 서비스를 제공한 사례도 언급되었다.</p>
+          <p>GPU 확보에 200억 이상이 필요한 상황에서 LG그룹은 SKT(조 단위 투자) 대비 구조적 열위에 있다는 공통 인식을 확인했다. SKT의 앤스로픽 투자·홍보 선점, SK하이닉스 HBM 성장 배경도 비교 사례로 언급되었다.</p>
+          <div class="quote-inline">"고객사들이 '사면 되는 거 아닌가', 'GPU가 중요하다', '돈이 중요하다'는 관점이 있지만, 막상 들이대면 쉽지 않다."</div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">2</div>
+          <h3>오픈AI 기반 금융권 AI 서비스와 규제 장벽</h3>
+        </div>
+        <div class="topic-body">
+          <p>정영훈 상무는 LG유플러스가 오픈AI와 협업하여 콜봇 등 AI 서비스를 구축하고, 금감원으로부터 '문제없다'는 확인을 받아 금융권에 제안했으나 실제 고객사가 "문제없는 건 맞는데 싫다"는 반응을 보인다고 설명했다.</p>
+          <p>비식별화 처리·자체 통신망 내 처리 등 기술적 안전장치를 마련했음에도, 금융권 고객사들은 국외 데이터 반출 자체를 원천 거부하는 상황이다. 삼성과 대안을 논의했으나 삼성 측이 비즈니스를 잘 모르는 부분이 있어 협의가 어려웠다고 밝혔다.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">3</div>
+          <h3>LG유플러스 AI 고객센터(AICC) 운영 현황</h3>
+        </div>
+        <div class="topic-body">
+          <p>LG유플러스는 AI 고객센터를 자체 개발(인소싱) 전략으로 운영하고 있다. 사장이 직접 "인소싱으로 나가서 뭘 하겠느냐, 고객센터에서 만들어서 쓰는 것이 맞다"는 방침을 제시했으며, 약 5천 명 규모의 상담 센터를 자회사 소속으로 운영 중이다.</p>
+          <p>서남희 상무는 챗봇 UI를 직관적으로 개편한 결과 상담사 연결 비율이 30%대에서 8%로 급감한 성과를 공유했다. 이후 '보이스 UX 4대 원칙'을 미국 논문 기반으로 수립하여 상담 인력의 어휘·말투까지 표준화하고 LLM 기반 상담 전환을 준비하고 있다.</p>
+          <div class="quote-inline">진요한 상무: "실제 LG유플러스 로밍 서비스에 전화했을 때 AI인지 사람인지 헷갈렸다. 오히려 사람이 AI처럼 일관된 프로세스와 거버넌스로 응대하도록 훈련한 것이다."</div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">4</div>
+          <h3>컨택센터 플랫폼 전략 (제네시스·브라이트패턴·어바이어)</h3>
+        </div>
+        <div class="topic-body">
+          <p>제네시스는 SaaS 방향으로만 밀고 있어 온프레미스를 전혀 지원하지 않는다. 공공기관 등 한국 시장에서 온프레미스가 필수적이어서 방향성 차이가 문제이다. 제네시스가 과거 LGCNS에 인수를 제안한 적도 있었다.</p>
+          <p>LGCNS는 브라이트패턴을 대안으로 선택했다. 브라이트패턴은 제네시스의 코어 개발자들이 나와 만든 회사로, 동일 아키텍처 기반이면서 온프레미스도 지원한다. 어바이어는 미국 본사 마이클 사장과 직접 협의하여 가격을 비슷한 수준으로 맞춘 상태이다.</p>
+          <p>마이크로소프트 Fabric 관련 장애 사례도 공유되었다. 금융권에 Fabric 템플릿대로 구축 오픈 후 장애가 발생했고, 해당 고객사뿐 아니라 전체 리전에 영향을 미쳤다.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">5</div>
+          <h3>삼성SDS의 시장 공세와 경쟁 대응</h3>
+        </div>
+        <div class="topic-body">
+          <p>LGCNS 측은 삼성SDS가 1년 이상 LGCNS를 벤치마킹하여 사업 영역과 구조를 분석했다고 밝혔다. 최근 삼성SDS는 기존에 하지 않던 네트워크 사업, 데이터센터 사업 등 신규 영역까지 확장하고 있다.</p>
+          <p>삼성SDS는 매출의 약 90%가 삼성 그룹사 물량으로 이익이 확보된 상태여서, 외부 수주 시 저가 전략(특정 입찰에서 LGCNS보다 200억 낮은 가격)을 사용할 수 있다. LGCNS는 그룹사 물량이 감소 추세여서 가격 경쟁에서 구조적으로 불리하다는 인식을 공유했다.</p>
+          <div class="quote-inline">김경일 단장: 제안 PT 시 "학습 인프라 리소스가 부족한데 어떻게 할 거냐"는 질문에 삼성SDS가 명확한 답변을 못 한 사례 공유</div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">6</div>
+          <h3>팔란티어 도입 동향과 금융권 경쟁</h3>
+        </div>
+        <div class="topic-body">
+          <p>KT가 팔란티어와 사실상 독점적 파트너 계약을 추진하며 금융권에 적극 침투하고 있다. 팔란티어의 사업 모델은 PoC 중심으로, PoC에서 돈을 받고 진행하며 본 계약으로 이어지지 않으면 FA 형태로 전환된다.</p>
+          <p>LG유플러스도 초기에 팔란티어를 검토했으나, 엔지니어 10명 이상을 3개월간 투입(10억 원) + 20명을 6개월간 유학 비용까지 합치면 LG 그룹 차원에서 감당하기 어려운 규모라 판단하여 보류했다.</p>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">7</div>
+          <h3>엔터프라이즈 AI 도구 내부 도입과 갈등</h3>
+        </div>
+        <div class="topic-body">
+          <p>LGCNS 측은 클로드(Claude)를 전사 도입하여 사용하고 있다고 언급했으며, LG유플러스 측은 보안 이유로 자체 환경에서만 운영하고 있다고 했다.</p>
+          <p>김경일 단장은 클로드 등 외부 AI 도구를 차단하면 직원들이 크게 반발한다고 말했다. "AI를 빼는 것은 핸드폰을 빼는 것과 같다"는 비유로, AI 도구 없이 업무를 하라는 것이 현실적으로 불가능하다는 인식이 확산되어 있다.</p>
+          <div class="quote-inline">진요한 상무: "폴더(Folder) AI를 전사가 다 쓰면 끝"이라면서도, 회사의 보안 정책과 AI 역량 격차(gap) 사이에서 타협점을 찾지 못하고 있다고 표현했다.</div>
+        </div>
+      </div>
+
+      <div class="topic">
+        <div class="topic-header">
+          <div class="topic-num">8</div>
+          <h3>LGCNS-LG유플러스 간 협력 방안</h3>
+        </div>
+        <div class="topic-body">
+          <p>양사 모두 "협력을 못 할 이유가 없다"는 데 공감했다. 정영훈 상무는 LG유플러스의 통신비 매출 연동 투자 모델을 설명했다. 고객사(신한카드 등)의 통신비 지출을 담보로 IT 투자를 제공하고, 초과분은 즉시 정산하는 구조이다.</p>
+          <p>LGCNS 측의 페인 포인트는 협력업체들이 대부분 영세하여 문제 발생 시 LGCNS가 직접 대응해야 하는 부담이 있다는 점이다.</p>
+          <p>진요한 상무는 과거 LG전자에 엑사원과 함께 들어갔던 경험을 언급하며, 이제는 현실적으로 협력이 필요한 상황이라고 했다. LGCNS가 LG전자 에이전트 구축을 영업·운영하고, LG유플러스가 통신 기반 AICC를 제공하는 역할 분담도 논의되었다.</p>
+          <p>해외 사업에서도 협력 가능성을 논의했다. 코히어(Cohere)가 아람코 등 중동 기업의 모델 파트너인 점, 브라이트패턴의 아랍 고객 연결, 사우디·말레이시아 시장 탐색 등이 언급되었다.</p>
+          <div class="quote-inline">김경일 단장: "LG를 믿어달라, 같이 나갈 수밖에 없다."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 결정사항 -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">✅</div>
+        결정사항
+      </div>
+      <div class="decision-list">
+        <div class="decision-item">
+          <div class="di-icon">⚪</div>
+          명확히 합의된 공식 결정사항은 없음. 비공식 저녁식사 자리로서 정보 공유와 방향성 논의가 중심이었다.
+        </div>
+        <div class="decision-item">
+          <div class="di-icon">🤝</div>
+          LGCNS와 LG유플러스 간 AI 사업 협력을 구체화하기 위한 후속 논의를 진행하기로 방향을 잡았다.
+        </div>
+        <div class="decision-item">
+          <div class="di-icon">🖥️</div>
+          컨택센터 플랫폼은 브라이트패턴 중심으로 가되, 어바이어 가격 대응은 미국 본사와 조율하여 비슷한 수준으로 맞춘 상태이다.
+        </div>
+        <div class="decision-item">
+          <div class="di-icon">🔬</div>
+          KB(금융권) 콜봇 관련하여 ECS 바이 테스트를 진행 중이며, 코마테스트로 확대할 계획이다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Next Action -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">🚀</div>
+        Next Action
+      </div>
+      <div class="action-list">
+        <div class="action-item">
+          <div class="action-icon" style="background:#f5f3ff">🗓️</div>
+          <div class="action-content">
+            <div class="title">양사 실무진 후속 미팅 일정 조율</div>
+            <div class="desc">LGCNS-LG유플러스 간 AI 사업 협력 구체안 마련을 위한 실무 미팅 일정 협의</div>
+          </div>
+          <span class="priority mid">후속 진행</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 리스크 -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">⚠️</div>
+        리스크 &amp; 고려사항
+      </div>
+      <div class="risk-grid">
+        <div class="risk-item">
+          <div class="risk-title">🔴 GPU·투자 재원 구조적 열위</div>
+          <div class="risk-desc">SKT는 조 단위 투자, 삼성SDS는 그룹사 물량 90% 기반 이익 구조. LG그룹은 GPU 확보·대규모 AI 투자 재원이 구조적으로 부족하다.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-title">🟠 삼성SDS의 저가 공세</div>
+          <div class="risk-desc">1년 이상 LGCNS 벤치마킹 후 동일 영역 진출. 내부 이익으로 보전하는 저가 전략(200억 차이)을 사용하며 LGCNS는 구조적 불리.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-title">🟡 국외 데이터 반출 규제</div>
+          <div class="risk-desc">오픈AI 기반 서비스가 기술적으로 안전해도 금융권이 국외 반출 자체를 거부. 금감원 공식 입장과 고객 반응 간 괴리가 사업 확대의 병목이다.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-title">🟠 KT 팔란티어 독점 파트너십</div>
+          <div class="risk-desc">KT가 팔란티어와 독점 계약 추진으로 금융권 AI 시장 선점 중. LG 양사 모두 비용 문제로 팔란티어 도입을 보류한 상태이다.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-title">🟡 컨택센터 플랫폼 전환 리스크</div>
+          <div class="risk-desc">브라이트패턴은 아직 매출 규모가 작은 스타트업 수준. MS Fabric 장애 사례에서 보듯 새 플랫폼 도입 시 예기치 못한 장애 발생 가능성이 있다.</div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-title">🟡 LG그룹 내 협력 체계 미비</div>
+          <div class="risk-desc">LG전자 등 그룹사의 'GPT 공짜 사용' 태도 등 각자도생 경향이 강하다. LGCNS·LG유플러스 간 해외 방향성(북미 vs 중동) 차이도 존재한다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 추가 메모 -->
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">📝</div>
+        추가 메모
+      </div>
+      <div class="memo-list">
+        <div class="memo-item">
+          <div class="memo-title">코히어(Cohere) 협업</div>
+          LGCNS는 코히어와 협업 중이며, 코히어는 아람코 등 중동 기업에 AI 모델을 제공하는 파트너이다. 진요한 상무는 코히어 관계자로부터 한국 시장의 '다이나믹함'에 대한 평가를 들었다고 공유했다.
+        </div>
+        <div class="memo-item">
+          <div class="memo-title">보이스 UX 4대 원칙</div>
+          LG유플러스 AI 고객센터가 수립한 음성 상담 UX 원칙. 미국 학술 논문을 기반으로, 음성 상담 시 고객이 쉽게 알아들을 수 있는 말하기 방식을 체계화한 것이다. 구체적 4대 원칙 내용은 내부 자료 기준.
+        </div>
+        <div class="memo-item">
+          <div class="memo-title">통신비 연동 투자 모델</div>
+          LG유플러스가 활용하는 B2B 영업 모델. 고객사의 통신비 지출을 담보로 IT 투자를 제공하는 구조. 예: '통신비 얼마를 개런티하면 SI 투자를 해주고, 초과분은 즉시 정산' 방식.
+        </div>
+        <div class="memo-item">
+          <div class="memo-title">LG유플러스 AI 고객센터 자회사 구조</div>
+          고객센터 상담 인력(약 5천 명)은 자회사 소속. 자회사 인력이 AI 도구(어드바이저 등)를 직접 사용하며 품질을 개선하는 구조로, 던져주기 방식이 아닌 실사용 기반 개선이 특징이다.
+        </div>
+        <div class="memo-item">
+          <div class="memo-title">통신3사 시장 점유율</div>
+          SKT 약 45%, KT 약 23%, LG유플러스 약 22%, 알뜰폰 약 10% 수준. 이 비율이 오랜 기간 거의 변동 없다는 점이 논의되었다.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    LGCNS × LG유플러스 AI사업협력 저녁식사 · 2026.04.03 &nbsp;|&nbsp;
+    <a href="https://www.notion.so/20260403_LGCNS_LG-_AI-337b592202868176ae61e422dc2465a4" style="color:#7c3aed" target="_blank">노션 원본</a> &nbsp;|&nbsp;
+    AI사업2팀 내부 자료
+  </footer>
+
+</body>
+</html>
