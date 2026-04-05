@@ -250,7 +250,9 @@ body {
 
     function fmtDate(s) {
         var d = new Date(s);
-        return (d.getMonth() + 1) + '\uC6D4 ' + d.getDate() + '\uC77C';
+        var mm = ('0' + (d.getMonth() + 1)).slice(-2);
+        var dd = ('0' + d.getDate()).slice(-2);
+        return d.getFullYear() + '.' + mm + '.' + dd;
     }
 
     function renderHome() {
