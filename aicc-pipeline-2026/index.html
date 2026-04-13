@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICC 구축형 일회성 매출 파이프라인</title>
+<style>
+  :root {
+    --bg: #fff;
+    --surface: #f5f5f7;
+    --border: #e5e5ea;
+    --text: #1d1d1f;
+    --text2: #6e6e73;
+    --text3: #86868b;
+    --accent: #0071e3;
+    --green: #34c759;
+    --orange: #ff9500;
+    --red: #ff3b30;
+    --yellow: #ffcc00;
+    --purple: #af52de;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .hero { padding: 80px 0 48px; text-align: center; }
+  .hero h1 { font-size: 48px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  .hero .subtitle { font-size: 21px; color: var(--text2); margin-top: 12px; font-weight: 400; }
+  .hero .meta { font-size: 14px; color: var(--text3); margin-top: 20px; }
+  section { padding: 56px 0; border-top: 1px solid var(--border); }
+  section h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  section .section-desc { font-size: 17px; color: var(--text2); margin-bottom: 32px; }
+  h3 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin: 40px 0 16px; }
+  h4 { font-size: 17px; font-weight: 600; margin: 24px 0 8px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .kpi { background: var(--surface); border-radius: var(--radius); padding: 24px; text-align: center; }
+  .kpi .label { font-size: 13px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .kpi .value { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; }
+  .kpi .unit { font-size: 17px; font-weight: 400; color: var(--text2); }
+  .kpi .note { font-size: 13px; color: var(--text3); margin-top: 4px; }
+  .kpi.accent .value { color: var(--accent); }
+  .kpi.green .value { color: var(--green); }
+  .kpi.red .value { color: var(--red); }
+  .kpi.orange .value { color: var(--orange); }
+  .funnel { display: flex; flex-direction: column; gap: 2px; max-width: 640px; margin: 0 auto; }
+  .funnel-step { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; border-radius: var(--radius-sm); color: #fff; font-weight: 500; }
+  .funnel-step .f-value { font-size: 28px; font-weight: 700; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0; border-radius: var(--radius); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th { background: var(--surface); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text3); padding: 12px 14px; text-align: left; white-space: nowrap; position: sticky; top: 0; }
+  tbody td { padding: 12px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: #fafafa; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .total-row td { font-weight: 700; background: var(--surface); }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .tag-green { background: #d1f5d3; color: #1a7a2e; }
+  .tag-blue { background: #d1e8ff; color: #0055b3; }
+  .tag-orange { background: #fff0d1; color: #995c00; }
+  .tag-red { background: #ffd1d1; color: #b30000; }
+  .tag-gray { background: #e8e8ed; color: #636366; }
+  .tag-purple { background: #f0d1ff; color: #7a00b3; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border-radius: var(--radius); padding: 24px; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .card-header h4 { margin: 0; font-size: 19px; font-weight: 700; }
+  .card-header .card-amount { font-size: 24px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .card dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 12px; font-size: 14px; }
+  .card dt { color: var(--text3); font-weight: 500; }
+  .card dd { color: var(--text); }
+  .progress-wrap { max-width: 640px; margin: 24px auto; }
+  .progress-bar { height: 28px; background: var(--surface); border-radius: 14px; overflow: hidden; display: flex; }
+  .progress-bar .seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; min-width: 24px; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); margin-top: 8px; }
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+  .tl-month { background: var(--surface); border-radius: var(--radius); padding: 20px; }
+  .tl-month .tl-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .tl-month .tl-summary { font-size: 13px; color: var(--text3); margin-bottom: 12px; }
+  .tl-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid var(--border); font-size: 13px; }
+  .tl-item .tl-name { font-weight: 500; }
+  .tl-item .tl-amt { color: var(--text2); font-variant-numeric: tabular-nums; }
+  .qa-item { margin-bottom: 20px; padding: 24px; background: var(--surface); border-radius: var(--radius); }
+  .qa-item .q { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .qa-item ul { list-style: none; padding: 0; }
+  .qa-item li { font-size: 14px; color: var(--text2); padding: 3px 0 3px 16px; position: relative; }
+  .qa-item li::before { content: '→'; position: absolute; left: 0; color: var(--text3); }
+  .qa-item li strong { color: var(--text); }
+  .callout { background: var(--surface); border-left: 4px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 20px 24px; margin: 24px 0; font-size: 15px; color: var(--text2); }
+  .callout strong { color: var(--text); }
+  .scenario-highlight { background: #f0f7ff; }
+  @media (max-width: 768px) { .hero h1 { font-size: 32px; } section h2 { font-size: 24px; } .kpi-row { grid-template-columns: repeat(2, 1fr); } .card-grid { grid-template-columns: 1fr; } .timeline { grid-template-columns: repeat(2, 1fr); } .kpi .value { font-size: 28px; } }
+  @media (max-width: 480px) { .timeline { grid-template-columns: 1fr; } .kpi-row { grid-template-columns: 1fr; } }
+  @media print { .container { max-width: 100%; } section { page-break-inside: avoid; } .card { break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<div class="container">
+<div class="hero">
+  <h1>AICC 파이프라인 보고</h1>
+  <div class="subtitle">2026년 구축형 일회성 매출 현황</div>
+  <div class="meta">AI사업2팀 &middot; 2026.04.13 기준 &middot; 기저 제외</div>
+</div>
+</div>
+
+<!-- ════════════ 1. 전체 구도 ════════════ -->
+<div class="container">
+<section>
+  <h2>전체 구도</h2>
+  <p class="section-desc">목표 238억 중 수주 확정 52.7억 확보. 파이프라인 포함 시 목표 초과 달성 구조.</p>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">일회성 매출 목표</div>
+      <div class="value">238<span class="unit">억</span></div>
+    </div>
+    <div class="kpi green">
+      <div class="label">수주 확정</div>
+      <div class="value">52.7<span class="unit">억</span></div>
+      <div class="note">6건 확보 (22.1%)</div>
+    </div>
+    <div class="kpi accent">
+      <div class="label">파이프라인 Impact</div>
+      <div class="value">241.7<span class="unit">억</span></div>
+      <div class="note">Possibility 가중</div>
+    </div>
+    <div class="kpi green">
+      <div class="label">목표 대비</div>
+      <div class="value">+3.7<span class="unit">억</span></div>
+      <div class="note">목표 초과 달성 구조</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-bar">
+      <div class="seg" style="width:22.1%; background:var(--green);">52.7</div>
+      <div class="seg" style="width:74.7%; background:var(--accent);">178</div>
+      <div class="seg" style="width:4.7%; background:var(--orange);">11</div>
+    </div>
+    <div class="progress-labels">
+      <span>수주확정 52.7억</span>
+      <span>Must-Win 177.7억</span>
+      <span>Stretch 11.3억</span>
+      <span style="text-align:right;">목표 238억</span>
+    </div>
+  </div>
+
+  <!-- 수주확정 -->
+  <h3>수주 확정 (52.7억)</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>고객명</th><th>업종</th><th class="num">수주규모</th><th>솔루션</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td><strong>KDB산업은행</strong></td><td>금융</td><td class="num"><strong>20.0억</strong></td><td>-</td><td>기 확보</td></tr>
+      <tr><td>IBK투자증권</td><td>금융</td><td class="num">10.7억</td><td>IPCC, 상담App, STT</td><td>수주완료</td></tr>
+      <tr><td>농협은행(KT연동)</td><td>금융</td><td class="num">9.0억</td><td>SBC</td><td>통신사 구간 구축</td></tr>
+      <tr><td>한국전력공사</td><td>공공</td><td class="num">3.0억</td><td>STT, 어드바이저</td><td>착수보고 완료(3/10)</td></tr>
+      <tr><td><strong>교육 사업 외</strong></td><td>교육 외</td><td class="num"><strong>5.0억</strong></td><td>-</td><td>기 확보</td></tr>
+      <tr><td><strong>SBI저축은행</strong></td><td>금융</td><td class="num"><strong>5.0억</strong></td><td>어드바이저, 콜봇, 챗봇</td><td>기 확보 (1차 IPCC·STT 수주 연계)</td></tr>
+      <tr class="total-row"><td>합계</td><td></td><td class="num">52.7억</td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- 실주 -->
+  <h3>실주 2건 <span style="font-weight:400; color:var(--text3);">(110억 → Impact 0)</span></h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>고객명</th><th class="num">수주규모</th><th>사유</th></tr></thead>
+    <tbody>
+      <tr><td>한국투자증권</td><td class="num">60.0억</td><td>STT PoC 경쟁사 대비 열위 (화자분리 미보유)</td></tr>
+      <tr><td>우리은행</td><td class="num">50.0억</td><td>셀바스 STT 대비 자사 경쟁력 부족</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <strong>교훈:</strong> STT 단독 제안 건은 PoC 성능이 결정적. 복합솔루션(어드바이저+STT) 중심 전환 필요.
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 2. 퍼널 ════════════ -->
+<div class="container">
+<section>
+  <h2>파이프라인 퍼널</h2>
+  <p class="section-desc">전체 풀에서 Possibility 가중까지 3단계</p>
+
+  <div class="funnel">
+    <div class="funnel-step" style="background:#86868b;">
+      <div>
+        <div style="font-size:14px; opacity:.8;">① 전체 영업기회 (실주 제외)</div>
+        <div style="font-size:13px; opacity:.7;">42건 (SBI 기확보 전환)</div>
+      </div>
+      <div class="f-value">845.7억</div>
+    </div>
+    <div class="funnel-step" style="background:#636366;">
+      <div>
+        <div style="font-size:14px; opacity:.8;">② 26년 발주건 (최대 매출)</div>
+        <div style="font-size:13px; opacity:.7;">33건 + 수주확정 52.7억</div>
+      </div>
+      <div class="f-value">712.7억</div>
+    </div>
+    <div class="funnel-step" style="background:var(--accent);">
+      <div>
+        <div style="font-size:14px; opacity:.8;">③ Possibility 가중 Impact</div>
+        <div style="font-size:13px; opacity:.7;">수주확정 52.7 + Must-Win 177.7 + Stretch 11.3</div>
+      </div>
+      <div class="f-value">241.7억</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 3. Must-Win ════════════ -->
+<div class="container">
+<section>
+  <h2>Must-Win</h2>
+  <p class="section-desc">Possibility 50% 이상, 상반기 발주 — 10건 293억 (Impact 177.7억)</p>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Must-Win 건수</div>
+      <div class="value">10<span class="unit">건</span></div>
+    </div>
+    <div class="kpi accent">
+      <div class="label">수주규모 합계</div>
+      <div class="value">293<span class="unit">억</span></div>
+      <div class="note">전부 수주 시 목표 대폭 초과</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Poss 가중 Impact</div>
+      <div class="value">177.7<span class="unit">억</span></div>
+    </div>
+    <div class="kpi green">
+      <div class="label">확정 포함 누적</div>
+      <div class="value">230.4<span class="unit">억</span></div>
+      <div class="note">달성률 96.8%</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>No</th><th>고객명</th><th>업종</th><th>월</th><th>석수</th><th class="num">수주규모</th><th class="num">Poss</th><th class="num">Impact</th><th>확정도</th><th>핵심 솔루션</th><th>협력사</th><th>담당자</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>11</td><td><strong>우리금융캐피탈</strong></td><td>금융</td><td>3월</td><td>550</td><td class="num">45.0억</td><td class="num"><span class="tag tag-green">80%</span></td><td class="num"><strong>36.0억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>STT, sLLM, 챗봇, 어드바이저</td><td>-</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>20</td><td><strong>신한은행</strong></td><td>금융</td><td>5월</td><td>1,500</td><td class="num">56.0억</td><td class="num"><span class="tag tag-blue">60%</span></td><td class="num"><strong>33.6억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>상담App, 어드바이저, KMS</td><td>부뜰</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>12</td><td><strong>우리은행</strong></td><td>금융</td><td>4월</td><td>200</td><td class="num">50.0억</td><td class="num"><span class="tag tag-orange">50%</span></td><td class="num"><strong>25.0억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>TTS, 콜봇, 챗봇</td><td>-</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>16</td><td><strong>신한투자증권</strong></td><td>금융</td><td>4월</td><td>150</td><td class="num">27.0억</td><td class="num"><span class="tag tag-green">80%</span></td><td class="num"><strong>21.6억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>STT, TTS, 어드바이저</td><td>인티큐브</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>24</td><td><strong>신한카드</strong></td><td>금융</td><td>6월</td><td>600</td><td class="num">25.0억</td><td class="num"><span class="tag tag-blue">60%</span></td><td class="num"><strong>15.0억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>STT, 어드바이저, AutoQA</td><td>-</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>19</td><td><strong>농협손해보험</strong></td><td>금융</td><td>5월</td><td>200</td><td class="num">25.0억</td><td class="num"><span class="tag tag-orange">50%</span></td><td class="num"><strong>12.5억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>STT, NLP/TA, 어드바이저, AutoQA</td><td>와이즈넛</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>18</td><td><strong>NH투자증권</strong></td><td>금융</td><td>5월</td><td>200</td><td class="num">20.0억</td><td class="num"><span class="tag tag-orange">50%</span></td><td class="num"><strong>10.0억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>STT, 어드바이저, 콜봇</td><td>-</td><td>-</td></tr>
+      <tr><td>26</td><td><strong>미래에셋증권</strong></td><td>금융</td><td>6월</td><td>500</td><td class="num">20.0억</td><td class="num"><span class="tag tag-orange">50%</span></td><td class="num"><strong>10.0억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>STT, 어드바이저, 콜봇</td><td>-</td><td>-</td></tr>
+      <tr><td>33</td><td><strong>우리투자증권</strong></td><td>금융</td><td>6월</td><td>50</td><td class="num">20.0억</td><td class="num"><span class="tag tag-orange">50%</span></td><td class="num"><strong>10.0억</strong></td><td><span class="tag tag-green">상80%</span></td><td>어드바이저, 콜봇</td><td>-</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>15</td><td><strong>에스원</strong></td><td>보안</td><td>4월</td><td>300</td><td class="num">5.0억</td><td class="num"><span class="tag tag-green">80%</span></td><td class="num"><strong>4.0억</strong></td><td><span class="tag tag-orange">중50%</span></td><td>TTS, 콜봇, 어드바이저</td><td>한솔인티큐브</td><td>이진용, 김민식, 최종우</td></tr>
+      <tr class="total-row"><td></td><td>합계 (10건)</td><td></td><td></td><td></td><td class="num">293.0억</td><td></td><td class="num">177.7억</td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- Must-Win Detail Cards -->
+  <h3>개별 상세</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header"><h4>우리금융캐피탈</h4><div class="card-amount">45억 → 36억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-green">Poss 80%</span><span class="tag tag-gray">3월 발주</span><span class="tag tag-gray">550석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] STT, sLLM &middot; [O] 어드바이저, 챗봇, AI-OCR, KMS</dd>
+        <dt>진행현황</dt><dd>3/24 RFP공고, <strong>4/9 제안서 제출, 4/16 발표, 4/20 결과발표</strong>. 10월 1차 오픈 목표. Insourcing STT·sLLM 제안 영역 논의 중</dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>신한은행</h4><div class="card-amount">56억 → 33.6억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-blue">Poss 60%</span><span class="tag tag-gray">5월 발주</span><span class="tag tag-gray">1,500석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] 어드바이저 &middot; [O] 상담App, KMS</dd>
+        <dt>진행현황</dt><dd><strong>PoC 진행 방안 논의 예정(4월중)</strong>. 사업 범위 축소·예산 삭감으로 어드바이저 → 생성형AI 플랫폼 Agent 방향 검토 중</dd>
+        <dt>협력사</dt><dd>브리지텍(콜) / 부뜰(AI·SI)</dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>우리은행</h4><div class="card-amount">50억 → 25억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-orange">Poss 50%</span><span class="tag tag-gray">4월 발주</span><span class="tag tag-gray">200석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] TTS(600) &middot; [O] AI콜봇, 챗봇</dd>
+        <dt>진행현황</dt><dd>50억 수준(자사 기준). <strong>LG CNS 협업범위 및 견적 논의 중</strong></dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>신한투자증권</h4><div class="card-amount">27억 → 21.6억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-green">Poss 80%</span><span class="tag tag-gray">4월 발주</span><span class="tag tag-gray">150석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] STT, TTS, 어드바이저</dd>
+        <dt>진행현황</dt><dd><strong>제안서 작성 중(w/ 인티큐브)</strong>. 입찰참가의향서 제출 예정</dd>
+        <dt>협력사</dt><dd>인티큐브(AI·SI)</dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>신한카드</h4><div class="card-amount">25억 → 15억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-blue">Poss 60%</span><span class="tag tag-gray">6월 발주</span><span class="tag tag-gray">600석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] STT, 어드바이저, Auto QA</dd>
+        <dt>진행현황</dt><dd><strong>4/29 임원레벨 설명회 진행</strong>. 5~6월 RFP 예상</dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>농협손해보험</h4><div class="card-amount">25억 → 12.5억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-orange">Poss 50%</span><span class="tag tag-gray">5월 발주</span><span class="tag tag-gray">200석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] STT, 어드바이저, AutoQA &middot; [O] NLP/TA</dd>
+        <dt>진행현황</dt><dd>재견적 제출. <strong>5월 중~말 RFP 공고 예상</strong>. 시연 완료. 경쟁사: KT</dd>
+        <dt>협력사</dt><dd>와이즈넛(AI·SI)</dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>NH투자증권</h4><div class="card-amount">20억 → 10억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-orange">Poss 50%</span><span class="tag tag-gray">5월 발주</span><span class="tag tag-gray">200석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] STT, 어드바이저 &middot; [O] 콜봇</dd>
+        <dt>진행현황</dt><dd>3/25 설명회 진행. <strong>콜봇(4월) → 어드바이저(5월) 순차 사업</strong>. PoC 요청 받음</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>미래에셋증권</h4><div class="card-amount">20억 → 10억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-orange">Poss 50%</span><span class="tag tag-gray">6월 발주</span><span class="tag tag-gray">500석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] STT, 어드바이저 &middot; [O] 콜봇</dd>
+        <dt>진행현황</dt><dd><strong>STT PoC 4월 중순 예상</strong>. 음원 사투리 다수. IPCC SKB 전환 완료</dd>
+        <dt>주의</dt><dd style="color:var(--red);">STT 단독 PoC → 실주 리스크 모니터링</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>우리투자증권</h4><div class="card-amount">20억 → 10억</div></div>
+      <div class="card-meta"><span class="tag tag-blue">금융</span><span class="tag tag-orange">Poss 50%</span><span class="tag tag-gray">6월 발주</span><span class="tag tag-green">확정도 상80%</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] 어드바이저 &middot; [O] 콜봇</dd>
+        <dt>진행현황</dt><dd>예가 제출. <strong>1차(IPCC, STT) 수주 완료</strong> → 2차 연계 유리</dd>
+        <dt>담당자</dt><dd>박은경, 김준희, 배홍주</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="card-header"><h4>에스원</h4><div class="card-amount">5억 → 4억</div></div>
+      <div class="card-meta"><span class="tag tag-purple">보안</span><span class="tag tag-green">Poss 80%</span><span class="tag tag-gray">4월 발주</span><span class="tag tag-gray">300석</span></div>
+      <dl>
+        <dt>솔루션</dt><dd>[I] TTS &middot; [O] 콜봇, 어드바이저</dd>
+        <dt>진행현황</dt><dd><strong>RFP 공고, 4/14 제안마감, 5/4 시작</strong>. 1차 IPCC 수주 완료</dd>
+        <dt>협력사</dt><dd>한솔인티큐브(AI·SI)</dd>
+        <dt>담당자</dt><dd>이진용, 김민식, 최종우</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 4. Stretch ════════════ -->
+<div class="container">
+<section>
+  <h2>Stretch</h2>
+  <p class="section-desc">Possibility 50% 미만, 상반기 발주 — 8건 198억 (Impact 11.3억). 추가 업사이드.</p>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>No</th><th>고객명</th><th>업종</th><th>월</th><th>석수</th><th class="num">수주규모</th><th class="num">Poss</th><th class="num">Impact</th><th>확정도</th><th>핵심 솔루션</th><th>진행현황</th><th>담당자</th></tr></thead>
+    <tbody>
+      <tr><td>23</td><td>OK저축은행</td><td>금융</td><td>5월</td><td>250</td><td class="num">80.0억</td><td class="num"><span class="tag tag-red">10%</span></td><td class="num">8.0억</td><td><span class="tag tag-orange">중50%</span></td><td>어드바이저, 콜봇</td><td>-</td><td>이광수, 한승엽, 김은희</td></tr>
+      <tr><td>13</td><td>놀유니버스</td><td>플랫폼</td><td>4월</td><td>550</td><td class="num">30.0억</td><td class="num"><span class="tag tag-red">10%</span></td><td class="num">3.0억</td><td><span class="tag tag-red">하10%</span></td><td>IPCC, STT, 어드바이저, 챗봇</td><td>가견적 제출, RFP 4월중~말</td><td>최종우, 이진용, 김민식</td></tr>
+      <tr><td>14</td><td>신세계라이브쇼핑</td><td>유통</td><td>4월</td><td>300</td><td class="num">20.0억</td><td class="num"><span class="tag tag-gray">0%</span></td><td class="num">0.0억</td><td><span class="tag tag-orange">중50%</span></td><td>IPCC, 어드바이저</td><td>RFP 4/10, 제안마감 4/24</td><td>이진용, 김민식, 최종우</td></tr>
+      <tr><td>25</td><td>소노웨이브</td><td>여행</td><td>6월</td><td>80</td><td class="num">20.0억</td><td class="num"><span class="tag tag-gray">0%</span></td><td class="num">0.0억</td><td><span class="tag tag-orange">중50%</span></td><td>STT, 어드바이저, 콜봇</td><td>RFP 공고 예정</td><td>이광수, 한승엽, 김은희</td></tr>
+      <tr><td>29</td><td>현대카드</td><td>금융</td><td>6월</td><td>560</td><td class="num">20.0억</td><td class="num"><span class="tag tag-gray">0%</span></td><td class="num">0.0억</td><td><span class="tag tag-red">하10%</span></td><td>어드바이저, 챗봇</td><td>PoC 요청/협의중</td><td>이진용, 김민식, 최종우</td></tr>
+      <tr><td>22</td><td>수협은행</td><td>금융</td><td>5월</td><td>100</td><td class="num">15.0억</td><td class="num"><span class="tag tag-gray">0%</span></td><td class="num">0.0억</td><td><span class="tag tag-red">하10%</span></td><td>콜봇, 챗봇</td><td>1차 KT 수주('25)</td><td>박은경, 김준희, 배홍주</td></tr>
+      <tr><td>30</td><td>한진택배</td><td>유통</td><td>6월</td><td>80</td><td class="num">10.0억</td><td class="num"><span class="tag tag-gray">0%</span></td><td class="num">0.0억</td><td>-</td><td>IPCC, 콜봇</td><td>PBX 전면 교체 검토</td><td>-</td></tr>
+      <tr><td>10</td><td>이그니스</td><td>유통</td><td>3월</td><td>10</td><td class="num">3.0억</td><td class="num"><span class="tag tag-red">10%</span></td><td class="num">0.3억</td><td><span class="tag tag-orange">중50%</span></td><td>IPCC, 상담App</td><td>견적서 제출, 시연</td><td>이진용, 김민식, 최종우</td></tr>
+      <tr class="total-row"><td></td><td>합계 (8건)</td><td></td><td></td><td></td><td class="num">198.0억</td><td></td><td class="num">11.3억</td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    수주 확정 52.7억 + Must-Win Impact 177.7억 = <strong>230.4억 (목표의 96.8%)</strong>.
+    Stretch 1건만 추가 수주해도 <strong>목표 238억 달성 확정</strong>.
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 5. 하반기 ════════════ -->
+<div class="container">
+<section>
+  <h2>하반기 및 미정</h2>
+  <p class="section-desc">7월 이후 발주 21건 332억 — 구축 기간 고려 시 올해 매출 인식 불확실. 27년 매출 전환 대상.</p>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>No</th><th>고객명</th><th>업종</th><th>월</th><th class="num">수주규모</th><th>확정도</th><th>진행상태</th><th>핵심 솔루션</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>31</td><td>대신증권</td><td>금융</td><td>7월</td><td class="num">29.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>어드바이저, AutoQA, 콜봇</td><td>계약 8월, 인력투입 10월</td></tr>
+      <tr><td>32</td><td>CJ대한통운</td><td>유통</td><td>7월</td><td class="num">20.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>STT, 어드바이저, 콜봇, 챗봇</td><td>예가 제출</td></tr>
+      <tr><td>34</td><td>신협중앙회</td><td>금융</td><td>8월</td><td class="num">20.0억</td><td><span class="tag tag-red">하10%</span></td><td>제안</td><td>콜봇</td><td>-</td></tr>
+      <tr style="background:#f0f7ff;"><td>36</td><td><strong>두나무</strong></td><td>금융</td><td>9월</td><td class="num">10.0억</td><td><span class="tag tag-green">상80%</span></td><td>제안</td><td>어드바이저, AutoQA</td><td>내부 이슈 연기. 조기발주 가능</td></tr>
+      <tr><td>37</td><td>롯데홈쇼핑</td><td>유통</td><td>10월</td><td class="num">30.0억</td><td><span class="tag tag-red">하10%</span></td><td>리드</td><td>IPCC, 어드바이저, 콜봇, 챗봇</td><td>매출연동 투자액 반영 제외</td></tr>
+      <tr><td>38</td><td>한국전력공사 2차</td><td>공공</td><td>10월</td><td class="num">20.0억</td><td>-</td><td>리드</td><td>어드바이저, AutoQA, 콜봇</td><td>1차(STT) 수주 완료</td></tr>
+      <tr><td>39</td><td>한화손해보험</td><td>금융</td><td>11월</td><td class="num">30.0억</td><td><span class="tag tag-orange">중50%</span></td><td>리드</td><td>STT, 어드바이저, AutoQA, 콜봇</td><td>3/23 미팅 완료</td></tr>
+      <tr><td>45</td><td>하나투어</td><td>여행</td><td>12월</td><td class="num">18.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>IPCC, STT, 어드바이저, 콜봇</td><td>제안PT 3/12</td></tr>
+      <tr><td>44</td><td>BNK신용정보</td><td>금융</td><td>12월</td><td class="num">10.0억</td><td><span class="tag tag-red">하10%</span></td><td>리드</td><td>IPCC</td><td>BNK은행 콜봇 KT 수주</td></tr>
+      <tr style="background:#f0f7ff;"><td>43</td><td><strong>우리카드</strong></td><td>금융</td><td>12월</td><td class="num">5.0억</td><td><span class="tag tag-green">상80%</span></td><td>제안</td><td>상담품질고도화</td><td>기존 사업 수주</td></tr>
+      <tr><td>41</td><td>신한은행(헬프데스크)</td><td>금융</td><td>12월</td><td class="num">20.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>STT, 상담App</td><td>헬프데스크</td></tr>
+      <tr><td>40</td><td>근로복지공단</td><td>공공</td><td>12월</td><td class="num">2.0억</td><td><span class="tag tag-orange">중50%</span></td><td>리드</td><td>STT</td><td>-</td></tr>
+      <tr><td>42</td><td>DB생명보험</td><td>금융</td><td>12월</td><td class="num">5.0억</td><td><span class="tag tag-red">하10%</span></td><td>리드</td><td>IPCC</td><td>-</td></tr>
+      <tr><td>46</td><td>토스</td><td>유통</td><td>미정</td><td class="num">10.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>-</td><td>AI콜봇 투자건</td></tr>
+      <tr><td>47</td><td>키움증권</td><td>금융</td><td>미정</td><td class="num">10.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>어드바이저</td><td>요약/분류 관심</td></tr>
+      <tr style="background:#f0f7ff;"><td>48</td><td><strong>메가스터디교육</strong></td><td>교육</td><td>미정</td><td class="num">10.0억</td><td><span class="tag tag-green">상80%</span></td><td>제안</td><td>IPCC, STT, NLP/TA</td><td>200→580석 확장</td></tr>
+      <tr><td>49</td><td>BNK캐피탈</td><td>금융</td><td>미정</td><td class="num">10.0억</td><td><span class="tag tag-red">하10%</span></td><td>제안</td><td>콜봇</td><td>BNK은행 콜봇 KT 수주</td></tr>
+      <tr><td>50</td><td>하나은행</td><td>금융</td><td>미정</td><td class="num">50.0억</td><td><span class="tag tag-red">하10%</span></td><td>제안</td><td>미정</td><td>-</td></tr>
+      <tr><td>51</td><td>한화생명</td><td>금융</td><td>미정</td><td class="num">5.0억</td><td><span class="tag tag-red">하10%</span></td><td>제안</td><td>STT</td><td>-</td></tr>
+      <tr><td>52</td><td>퍼시스</td><td>유통</td><td>미정</td><td class="num">5.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>STT</td><td>-</td></tr>
+      <tr><td>54</td><td>KB국민카드</td><td>금융</td><td>미정</td><td class="num">13.0억</td><td><span class="tag tag-orange">중50%</span></td><td>제안</td><td>STT</td><td>-</td></tr>
+      <tr class="total-row"><td></td><td>합계 (21건)</td><td></td><td></td><td class="num">332.0억</td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <strong>하반기 확정도 상(80%):</strong> 두나무(10억), 우리카드(5억), 메가스터디(10억) = 25억.
+    조기 발주 시 올해 추가 업사이드.
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 6. 월별 타임라인 ════════════ -->
+<div class="container">
+<section>
+  <h2>월별 타임라인</h2>
+  <p class="section-desc">상반기 발주 일정. 4~5월이 수주 집중 구간.</p>
+  <div class="timeline">
+    <div class="tl-month">
+      <div class="tl-title">3월</div>
+      <div class="tl-summary">2건 &middot; 48억 &middot; Impact 36.3억</div>
+      <div class="tl-item"><span class="tl-name">★ 우리금융캐피탈</span><span class="tl-amt">45억 × 80%</span></div>
+      <div class="tl-item"><span class="tl-name">이그니스</span><span class="tl-amt">3억 × 10%</span></div>
+    </div>
+    <div class="tl-month">
+      <div class="tl-title">4월</div>
+      <div class="tl-summary">5건 &middot; 132억 &middot; Impact 53.6억</div>
+      <div class="tl-item"><span class="tl-name">★ 우리은행</span><span class="tl-amt">50억 × 50%</span></div>
+      <div class="tl-item"><span class="tl-name">★ 신한투자증권</span><span class="tl-amt">27억 × 80%</span></div>
+      <div class="tl-item"><span class="tl-name">★ 에스원</span><span class="tl-amt">5억 × 80%</span></div>
+      <div class="tl-item"><span class="tl-name">놀유니버스</span><span class="tl-amt">30억 × 10%</span></div>
+      <div class="tl-item"><span class="tl-name">신세계라이브쇼핑</span><span class="tl-amt">20억 × 0%</span></div>
+    </div>
+    <div class="tl-month">
+      <div class="tl-title">5월</div>
+      <div class="tl-summary">5건 &middot; 196억 &middot; Impact 64.1억</div>
+      <div class="tl-item"><span class="tl-name">★ 신한은행</span><span class="tl-amt">56억 × 60%</span></div>
+      <div class="tl-item"><span class="tl-name">★ 농협손해보험</span><span class="tl-amt">25억 × 50%</span></div>
+      <div class="tl-item"><span class="tl-name">★ NH투자증권</span><span class="tl-amt">20억 × 50%</span></div>
+      <div class="tl-item"><span class="tl-name">OK저축은행</span><span class="tl-amt">80억 × 10%</span></div>
+      <div class="tl-item"><span class="tl-name">수협은행</span><span class="tl-amt">15억 × 0%</span></div>
+    </div>
+    <div class="tl-month">
+      <div class="tl-title">6월</div>
+      <div class="tl-summary">6건 &middot; 115억 &middot; Impact 35억</div>
+      <div class="tl-item"><span class="tl-name">★ 신한카드</span><span class="tl-amt">25억 × 60%</span></div>
+      <div class="tl-item"><span class="tl-name">★ 미래에셋증권</span><span class="tl-amt">20억 × 50%</span></div>
+      <div class="tl-item"><span class="tl-name">★ 우리투자증권</span><span class="tl-amt">20억 × 50%</span></div>
+      <div class="tl-item"><span class="tl-name">소노웨이브</span><span class="tl-amt">20억 × 0%</span></div>
+      <div class="tl-item"><span class="tl-name">현대카드</span><span class="tl-amt">20억 × 0%</span></div>
+      <div class="tl-item"><span class="tl-name">한진택배</span><span class="tl-amt">10억 × 0%</span></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 7. 시나리오 ════════════ -->
+<div class="container">
+<section>
+  <h2>시나리오 분석</h2>
+  <p class="section-desc">목표 238억 기준 달성 전망</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>시나리오</th><th>구성</th><th class="num">금액</th><th class="num">목표 대비</th><th class="num">달성률</th></tr></thead>
+    <tbody>
+      <tr class="scenario-highlight"><td><strong>Base Case</strong></td><td>수주확정 52.7 + Must-Win Poss 가중 177.7</td><td class="num"><strong>230.4억</strong></td><td class="num" style="color:var(--orange);">-7.6억</td><td class="num"><strong>96.8%</strong></td></tr>
+      <tr><td>Best (Must-Win)</td><td>확정 52.7 + Must-Win 전액 293</td><td class="num">345.7억</td><td class="num" style="color:var(--green);">+107.7억</td><td class="num">145.3%</td></tr>
+      <tr style="background:#f0f7ff;"><td><strong>+ Stretch 가중</strong></td><td>+ 상반기 Poss &lt; 50% 11.3</td><td class="num"><strong>241.7억</strong></td><td class="num" style="color:var(--green);"><strong>+3.7억</strong></td><td class="num"><strong>101.6%</strong></td></tr>
+      <tr><td>+ Stretch 전액</td><td>상반기 18건 전부 수주</td><td class="num">543.7억</td><td class="num" style="color:var(--green);">+305.7억</td><td class="num">228.4%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    기 확보 30억 추가로 <strong>Base Case만으로도 96.8% 달성</strong>. Stretch 포함 시 <strong>목표 초과(+3.7억)</strong>.
+    Must-Win 10건 중 가중 평균 수준만 전환하면 목표 달성 가능.
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 8. 리스크 ════════════ -->
+<div class="container">
+<section>
+  <h2>리스크 분석</h2>
+
+  <h3>상위 고객 집중</h3>
+  <p class="section-desc">Must-Win 상위 5건이 Impact의 73.8%</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>고객명</th><th class="num">Impact</th><th class="num">비중</th><th>리스크 요인</th></tr></thead>
+    <tbody>
+      <tr><td>우리금융캐피탈</td><td class="num">36.0억</td><td class="num">20.3%</td><td>RFP 4/9, 4/16 발표. Poss 80%로 가장 유력</td></tr>
+      <tr><td>신한은행</td><td class="num">33.6억</td><td class="num">18.9%</td><td>PoC 4월. 사업 축소 리스크, 어드바이저 유지</td></tr>
+      <tr><td>우리은행</td><td class="num">25.0억</td><td class="num">14.1%</td><td>LG CNS 협업. 경쟁 구도</td></tr>
+      <tr><td>신한투자증권</td><td class="num">21.6억</td><td class="num">12.2%</td><td>인티큐브 협업. 제안서 작성 중</td></tr>
+      <tr><td>신한카드</td><td class="num">15.0억</td><td class="num">8.4%</td><td>4/29 임원 설명회. 5~6월 RFP</td></tr>
+      <tr class="total-row"><td>상위 5건</td><td class="num">131.2억</td><td class="num">73.8%</td><td></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>업종 편중</h3>
+  <div class="callout">Must-Win 10건 중 <strong>금융 9건 (Impact 173.7억, 97.8%)</strong>. 금융권 AICC 투자 집중 구조적 요인 (AI 가이드라인, STT·어드바이저 교체 사이클). 하반기 공공·유통으로 보완.</div>
+
+  <h3>STT 경쟁력</h3>
+  <div class="callout">실주 2건 모두 STT PoC 열위 원인. 현 Must-Win 중: <strong>미래에셋증권(20억, Poss 50%)</strong> — PoC 4월 진행 중 모니터링. 나머지는 어드바이저/복합솔루션 중심 리스크 낮음.</div>
+</section>
+</div>
+
+<!-- ════════════ 9. Q&A ════════════ -->
+<div class="container">
+<section>
+  <h2>예상 Q&A</h2>
+  <p class="section-desc">부사장님 관점 예상 질문 및 대비 답변</p>
+
+  <div class="qa-item">
+    <div class="q">Q1. "확실한 건이 얼마나 되느냐?"</div>
+    <ul>
+      <li>수주 확정: <strong>52.7억</strong> (22.1%) — KDB 20억, IBK 10.7억, 농협 9억, 한전 3억, 교육/SBI 10억</li>
+      <li>Poss 50% 이상 Must-Win 10건 Impact: <strong>177.7억</strong></li>
+      <li>합산 <strong>230.4억 (96.8%)</strong> — Base Case만으로 거의 달성</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q2. "Must-Win 10건을 다 따면?"</div>
+    <ul>
+      <li>수주규모 합계: <strong>293억</strong>. 확정 52.7억 포함 <strong>345.7억으로 목표 대폭 초과</strong></li>
+      <li>"전부 따야 한다"가 아니라 <strong>"가중 평균만 맞추면"</strong> 230억 달성 구조</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q3. "상위 5건에 집중. 하나 빠지면?"</div>
+    <ul>
+      <li>상위 5건 = Impact 73.8%. 우리금융캐피탈(36억)·신한은행(33.6억) 2건이 39%</li>
+      <li>대비: 우리금융캐피탈 Poss 80%로 가장 확실. <strong>1건 실주 시에도 수주확정 52.7억이 버퍼</strong></li>
+      <li>추가: Stretch 풀 198억에서 OK저축은행(80억) 등으로 커버</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q4. "금융 업종 편중 아닌가?"</div>
+    <ul>
+      <li>Must-Win 금융 9건 (97.8%). 구조적 요인: 금융당국 AI 가이드라인, STT·어드바이저 교체 사이클</li>
+      <li>하반기: 공공(한전 2차, 근로복지공단) + 유통(롯데홈쇼핑) 분산</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q5. "실주 2건에서 배운 것은?"</div>
+    <ul>
+      <li>한국투자증권(60억): STT 화자분리 열위. 우리은행(50억): 셀바스 대비 경쟁력 부족</li>
+      <li><strong>교훈:</strong> STT 단독 PoC 결정적. 미래에셋증권(20억) 모니터링 중</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q6. "1H 매출 73억에서 일회성이 16억이면?"</div>
+    <ul>
+      <li>수주 → 구축(3~6개월) → 검수 → 매출인식. 1H 매출은 작년 수주건 중심</li>
+      <li><strong>"6월까지 수주 확보"해야 "연내 매출 인식"</strong>. 4~5월이 집중 구간</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q7. "Possibility가 정말 맞나?"</div>
+    <ul>
+      <li>경쟁 구도·고객 관계·PoC 결과 종합 설정. 실주 가능성 이미 0% 반영</li>
+      <li>보수적 Base Case만으로 <strong>230.4억 (96.8%)</strong>. 안전판: Stretch 198억 + 하반기 332억</li>
+    </ul>
+  </div>
+
+  <div class="qa-item">
+    <div class="q">Q8. "추가 확보 30억의 구성은?"</div>
+    <ul>
+      <li><strong>KDB산업은행 20억:</strong> 기 확보</li>
+      <li><strong>교육 사업 외 5억 + SBI저축은행 5억:</strong> 기 확보 (SBI는 1차 IPCC·STT 수주 연계)</li>
+      <li>합계 30억 추가로 수주확정이 22.7억 → <strong>52.7억으로 2.3배 확대</strong></li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<!-- ════════════ 10. 핵심 메시지 ════════════ -->
+<div class="container">
+<section style="text-align:center; padding:80px 0;">
+  <h2 style="font-size:28px; font-weight:600; color:var(--text2); margin-bottom:32px;">핵심 메시지</h2>
+  <div style="max-width:640px; margin:0 auto; text-align:left;">
+    <p style="font-size:21px; font-weight:600; line-height:1.6; letter-spacing:-0.01em;">
+      2026년 AICC 일회성 매출 목표 238억 중 52.7억 수주 완료.
+    </p>
+    <p style="font-size:21px; font-weight:400; line-height:1.6; color:var(--text2); margin-top:16px;">
+      잔여 185억 달성을 위해 상반기 발주 파이프라인 491억을 확보하였으며,
+      Possibility를 보수적으로 적용한 결과:
+    </p>
+    <div style="margin:24px 0; padding:24px; background:var(--surface); border-radius:var(--radius);">
+      <div style="font-size:17px; color:var(--text2);">Base Case (수주확정 + Must-Win 가중)</div>
+      <div style="font-size:40px; font-weight:700; color:var(--accent);">230.4<span style="font-size:21px; font-weight:400;">억</span> <span style="font-size:17px; color:var(--text3); font-weight:400;">달성률 96.8%</span></div>
+      <div style="font-size:17px; color:var(--text2); margin-top:8px;">Stretch 포함</div>
+      <div style="font-size:40px; font-weight:700; color:var(--green);">241.7<span style="font-size:21px; font-weight:400;">억</span> <span style="font-size:17px; color:var(--green); font-weight:400;">목표 초과 +3.7억</span></div>
+    </div>
+    <p style="font-size:17px; color:var(--text2); line-height:1.6;">
+      4~6월 Must-Win 10건(수주규모 293억)의 수주 전환이 핵심.
+      수주확정 52.7억이 버퍼로 확보되어 있어 목표 달성 구조가 안정적입니다.
+    </p>
+  </div>
+</section>
+</div>
+
+<footer style="text-align:center; padding:40px 0; color:var(--text3); font-size:13px; border-top:1px solid var(--border);">
+  AI사업2팀 &middot; 2026.04.13
+</footer>
+
+</body>
+</html>
