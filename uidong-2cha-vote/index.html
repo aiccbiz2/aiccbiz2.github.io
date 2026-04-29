@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#000000" />
-<title>우이동 2차 투표 — AICC 사업2팀</title>
-<meta name="description" content="우이동 안토 교육 회식 2차 후보 5곳 비교 + 12인 실시간 투표" />
+<title>우이동 2차 비교 — AICC 사업2팀</title>
+<meta name="description" content="우이동 안토 교육 회식 2차 후보 5곳 비교 — 메뉴·거리·평점 한눈에" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='90'%3E%F0%9F%8D%BB%3C/text%3E%3C/svg%3E" />
 <style>
 :root{
@@ -23,7 +23,7 @@
   --max:980px; --wide:1200px; --gutter:22px;
   --pad-xl:clamp(70px,10vw,160px); --pad-lg:clamp(50px,7vw,100px); --pad-md:clamp(36px,4.5vw,72px);
   --gap-xl:48px; --gap-lg:32px; --gap-md:20px; --gap-sm:12px; --gap-xs:8px;
-  --r-card:18px; --r-btn:980px; --r-img:24px;
+  --r-card:18px; --r-img:14px; --r-btn:980px;
   --ease:cubic-bezier(0.25,0.46,0.45,0.94);
   --ease-out:cubic-bezier(0.16,1,0.3,1);
   --d-fast:200ms; --d-base:400ms; --d-slow:800ms; --d-reveal:1100ms;
@@ -140,172 +140,111 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 /* candidates grid */
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));
   gap:var(--gutter);
   max-width:var(--wide);margin:0 auto;
 }
 .card{
   background:#fff;border-radius:var(--r-card);
-  padding:32px 28px 28px;
   border:1px solid rgba(0,0,0,.06);
-  display:flex;flex-direction:column;gap:18px;
+  display:flex;flex-direction:column;
   transition:transform var(--d-base) var(--ease-out),box-shadow var(--d-base) var(--ease-out);
-  position:relative;overflow:hidden;
+  overflow:hidden;
 }
-.card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -16px rgba(0,0,0,.12)}
+.card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -20px rgba(0,0,0,.16)}
+
+/* photo grid 2x2 */
+.photos{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:3px;
+  aspect-ratio:4/3;
+  background:#000;
+  position:relative;
+}
+.photos__cell{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#2a2a2c,#1d1d1f);
+}
+.photos__cell img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 800ms var(--ease-out),opacity 400ms var(--ease);
+  opacity:0;
+}
+.photos__cell img.loaded{opacity:1}
+.card:hover .photos__cell img{transform:scale(1.04)}
+.photos__cell::after{
+  content:attr(data-label);
+  position:absolute;left:10px;bottom:8px;
+  font-size:11px;font-weight:500;letter-spacing:.02em;
+  color:#fff;
+  text-shadow:0 1px 6px rgba(0,0,0,.7);
+  pointer-events:none;
+}
+.photos__cell--skel::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,#2a2a2c 8%,#3a3a3c 18%,#2a2a2c 33%);
+  background-size:200% 100%;
+  animation:shine 1.6s infinite linear;
+}
+@keyframes shine{to{background-position:-200% 0}}
+
+.card__body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:18px}
 .card__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .card__badge{
   display:inline-flex;align-items:center;gap:6px;
   padding:5px 12px;border-radius:var(--r-btn);
   font-size:12px;font-weight:500;letter-spacing:.01em;
   background:var(--bg-light);color:var(--tx-sec);
+  white-space:nowrap;
 }
 .card__badge--pocha{background:#fff4e6;color:#d97706}
 .card__badge--hof{background:#e6f0ff;color:#0066cc}
 .card__badge--jokbal{background:#fce7e7;color:#b91c1c}
 .card__num{
   font-size:11px;font-weight:600;letter-spacing:.1em;
-  color:var(--tx-ter);text-transform:uppercase;
+  color:var(--tx-ter);text-transform:uppercase;margin-bottom:2px;
 }
 .card__name{font-size:24px;font-weight:600;letter-spacing:-0.01em;line-height:1.2}
 .card__addr{font-size:13px;color:var(--tx-sec);line-height:1.45}
-.card__addr a{color:var(--link);font-size:12px}
+.card__addr a{color:var(--link);font-size:12px;display:inline-block;margin-top:2px}
 .card__stats{
   display:grid;grid-template-columns:repeat(2,1fr);
-  gap:10px 16px;margin-top:4px;
+  gap:10px 16px;
   padding:14px 16px;background:var(--bg-light);border-radius:12px;
 }
 .card__stat{display:flex;flex-direction:column;gap:2px}
 .card__stat-l{font-size:11px;color:var(--tx-ter);font-weight:500;letter-spacing:.02em}
 .card__stat-v{font-size:13px;color:var(--tx-pri);font-weight:500}
-.card__menu{font-size:13px;color:var(--tx-pri);line-height:1.55}
-.card__menu strong{display:block;font-size:11px;color:var(--tx-ter);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.card__menu ul{list-style:none;display:flex;flex-direction:column;gap:4px}
-.card__menu li{display:flex;justify-content:space-between;gap:12px}
-.card__menu li span:last-child{color:var(--tx-sec);font-variant-numeric:tabular-nums;font-size:12px}
+.card__menu strong{display:block;font-size:11px;color:var(--tx-ter);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.card__menu ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.card__menu li{display:flex;justify-content:space-between;gap:12px;font-size:13px;line-height:1.45}
+.card__menu li span:last-child{color:var(--tx-sec);font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap}
 .card__rec{
-  font-size:13px;line-height:1.5;color:var(--tx-pri);
+  font-size:13px;line-height:1.55;color:var(--tx-pri);
   padding:12px 14px;background:#fff8ed;border-left:3px solid var(--orange);
   border-radius:0 8px 8px 0;
 }
-.card__vote{
-  margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding-top:16px;border-top:1px solid rgba(0,0,0,.06);
+.card__cta{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:14px;font-weight:500;color:var(--link);
+  padding-top:4px;
 }
-.card__count{font-size:13px;color:var(--tx-sec);font-variant-numeric:tabular-nums}
-.card__count strong{color:var(--tx-pri);font-size:18px;font-weight:600;margin-right:4px}
-.vote-btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  height:38px;padding:0 18px;border-radius:var(--r-btn);
-  background:var(--blue);color:#fff;font-size:14px;font-weight:500;
-  transition:all var(--d-fast) var(--ease);
-}
-.vote-btn:hover{background:var(--blue-h);transform:translateY(-1px)}
-.vote-btn[data-voted="true"]{background:var(--green);pointer-events:none}
-.vote-btn[disabled]{background:var(--tx-ter);pointer-events:none;opacity:.6}
-
-/* voter banner */
-.voter{
-  position:sticky;bottom:0;z-index:50;
-  background:rgba(255,255,255,.85);
-  backdrop-filter:saturate(180%) blur(20px);
-  -webkit-backdrop-filter:saturate(180%) blur(20px);
-  border-top:.5px solid rgba(0,0,0,.08);
-  padding:14px var(--gutter);
-}
-.voter__inner{
-  max-width:var(--max);margin:0 auto;
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;
-}
-.voter__form{display:flex;align-items:center;gap:8px;flex:1 1 280px}
-.voter__label{font-size:13px;color:var(--tx-sec);white-space:nowrap}
-.voter__input{
-  flex:1;height:40px;padding:0 14px;
-  background:#fff;border:1px solid rgba(0,0,0,.12);
-  border-radius:var(--r-btn);font-size:14px;color:var(--tx-pri);
-  transition:border-color var(--d-fast) var(--ease);
-}
-.voter__input:focus{outline:none;border-color:var(--blue)}
-.voter__status{font-size:12px;color:var(--tx-sec);display:flex;align-items:center;gap:6px}
-.voter__status .live{
-  width:7px;height:7px;border-radius:50%;background:var(--green);
-  animation:pulse 1.6s var(--ease) infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-/* results */
-.results{max-width:var(--max);margin:0 auto}
-.results__total{
-  text-align:center;margin-bottom:var(--gap-lg);
-  font-size:13px;color:var(--tx-ter);letter-spacing:.05em;
-}
-.results__total strong{color:var(--tx-on-dark);font-size:48px;font-weight:700;display:block;margin-top:4px;font-variant-numeric:tabular-nums}
-.results__total small{color:var(--tx-ter);font-size:14px;font-weight:400}
-.bar{
-  display:grid;grid-template-columns:140px 1fr 60px;
-  gap:14px;align-items:center;margin-bottom:14px;
-  font-size:14px;
-}
-@media(max-width:580px){.bar{grid-template-columns:100px 1fr 44px;font-size:13px;gap:10px}}
-.bar__name{color:var(--tx-on-dark);font-weight:500;letter-spacing:-0.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bar__track{
-  height:32px;background:rgba(255,255,255,.06);
-  border-radius:8px;overflow:hidden;position:relative;
-}
-.bar__fill{
-  height:100%;border-radius:8px;
-  transition:width var(--d-slow) var(--ease-out);
-  background:linear-gradient(90deg,var(--blue),#3aa0ff);
-  display:flex;align-items:center;padding-left:10px;
-  font-size:11px;color:#fff;font-weight:600;letter-spacing:.04em;
-}
-.bar:nth-child(1) .bar__fill{background:linear-gradient(90deg,#ff9f0a,#ffb84d)}
-.bar:nth-child(2) .bar__fill{background:linear-gradient(90deg,#0071e3,#3aa0ff)}
-.bar:nth-child(3) .bar__fill{background:linear-gradient(90deg,#30d158,#5fdf85)}
-.bar:nth-child(4) .bar__fill{background:linear-gradient(90deg,#bf5af2,#d68bf8)}
-.bar:nth-child(5) .bar__fill{background:linear-gradient(90deg,#ff375f,#ff6b8a)}
-.bar__count{
-  text-align:right;color:var(--tx-on-dark);
-  font-variant-numeric:tabular-nums;font-weight:600;
-}
-
-.voters-list{
-  margin-top:var(--gap-xl);padding-top:var(--gap-lg);
-  border-top:.5px solid rgba(255,255,255,.1);
-}
-.voters-list__title{
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--tx-ter);margin-bottom:12px;text-align:center;
-}
-.voters-list__items{
-  display:flex;flex-wrap:wrap;gap:6px;justify-content:center;
-}
-.voter-chip{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 11px;border-radius:var(--r-btn);
-  background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.12);
-  font-size:12px;color:var(--tx-on-dark);
-}
-.voter-chip__dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-
-/* admin */
-.admin{
-  text-align:center;margin-top:var(--gap-xl);
-  font-size:12px;color:var(--tx-ter);
-}
-.admin a{color:var(--tx-ter);font-size:12px}
-.admin button{
-  font-size:12px;color:var(--tx-ter);text-decoration:underline;
-  margin-left:14px;
-}
+.card__cta:hover{text-decoration:none;gap:10px;transition:gap var(--d-fast) var(--ease)}
 
 /* footer */
 .footer{
-  padding:40px var(--gutter);text-align:center;
+  padding:48px var(--gutter);text-align:center;
   background:var(--bg-light);color:var(--tx-ter);
   font-size:12px;line-height:1.6;
 }
 .footer a{font-size:12px}
+.footer__brand{
+  font-size:13px;color:var(--tx-sec);font-weight:500;
+  margin-bottom:8px;letter-spacing:-0.01em;
+}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity var(--d-reveal) var(--ease-out),transform var(--d-reveal) var(--ease-out)}
@@ -314,17 +253,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   .reveal{opacity:1;transform:none;transition:none}
   *{animation:none!important;transition:none!important}
 }
-
-/* toast */
-.toast{
-  position:fixed;left:50%;top:24px;transform:translateX(-50%) translateY(-120%);
-  z-index:10000;padding:12px 22px;border-radius:var(--r-btn);
-  background:rgba(29,29,31,.92);color:#fff;font-size:14px;font-weight:500;
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  transition:transform var(--d-base) var(--ease-out);
-  box-shadow:0 12px 40px rgba(0,0,0,.2);
-}
-.toast.in{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -332,14 +260,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 <nav class="nav">
   <div class="nav__inner">
     <span class="nav__brand"><span class="dot">●</span> AICC 사업2팀 · 우이동 안토</span>
-    <a class="nav__cta" href="#vote">투표하기</a>
+    <a class="nav__cta" href="#candidates">후보 보기</a>
   </div>
 </nav>
 
 <header class="hero">
   <div class="hero__eyebrow">2026.04.29 · 우이동 안토</div>
   <h1 class="hero__title">오늘 밤, <em>2차 어디?</em></h1>
-  <p class="hero__subtitle">교육 끝, 저녁 끝. 12명이 함께 갈 곳 한 곳을 정합니다.<br>아래 5곳 비교하고 투표하세요.</p>
+  <p class="hero__subtitle">교육 끝, 저녁 끝. 12명이 함께 갈 곳 한 곳을 정합니다.<br>아래 5곳 비교해보세요.</p>
   <div class="hero__meta">
     <span class="hero__chip">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg>
@@ -350,13 +278,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       참석자 12명
     </span>
     <span class="hero__chip">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      실시간 공유 투표
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H3v10h6V11zM21 3h-6v18h6V3zM15 7H9v14h6V7z"/></svg>
+      후보 5곳 비교
     </span>
   </div>
   <div class="hero__cta">
     <a href="#candidates" class="btn btn--primary">후보 5곳 보기</a>
-    <a href="#results" class="btn btn--ghost">투표 현황</a>
   </div>
 </header>
 
@@ -365,7 +292,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   <div class="section__head reveal">
     <div class="section__eyebrow">Candidates</div>
     <h2 class="section__title">5곳, 한눈에.</h2>
-    <p class="section__sub">대표 메뉴 · 거리 · 단체 수용 · 분위기 — 비교해보고 가장 끌리는 곳에 한 표.</p>
+    <p class="section__sub">대표 메뉴 · 거리 · 단체 수용 · 분위기 — 비교해보고 가장 끌리는 곳으로.</p>
   </div>
 
   <div class="cards" id="cards">
@@ -373,69 +300,22 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   </div>
 </section>
 
-<!-- 투표 입력 (sticky bottom) -->
-<div class="voter" id="vote">
-  <div class="voter__inner">
-    <div class="voter__form">
-      <label class="voter__label" for="voter-name">내 이름</label>
-      <input id="voter-name" class="voter__input" type="text" placeholder="실명 또는 닉네임" maxlength="12" autocomplete="off" />
-    </div>
-    <div class="voter__status" id="status">
-      <span class="live"></span><span id="status-text">실시간 동기화 중</span>
-    </div>
-  </div>
-</div>
-
-<!-- 결과 -->
-<section class="section section--dark" id="results">
-  <div class="section__head reveal">
-    <div class="section__eyebrow">Live Results</div>
-    <h2 class="section__title">실시간 득표 현황</h2>
-    <p class="section__sub">12명이 모두 같은 결과를 봅니다. 매 3초 자동 새로고침.</p>
-  </div>
-
-  <div class="results">
-    <div class="results__total">
-      <small>총 투표</small>
-      <strong><span id="total-votes">0</span> / 12</strong>
-    </div>
-    <div id="bars"></div>
-
-    <div class="voters-list">
-      <div class="voters-list__title">투표 완료한 사람</div>
-      <div class="voters-list__items" id="voters-list"><span style="color:var(--tx-ter);font-size:13px">아직 없음</span></div>
-    </div>
-
-    <div class="admin">
-      관리자 도구 · <button id="reset-btn">전체 초기화</button>
-    </div>
-  </div>
-</section>
-
 <footer class="footer">
-  <div>AICC 사업2팀 · 우이동 안토 교육 · 2026.04.29</div>
-  <div style="margin-top:8px">
-    데이터 백엔드: <a href="https://jsonblob.com" target="_blank" rel="noopener">JSONBlob</a> ·
-    링크 공유 시 그대로 카톡 전달 가능합니다.
+  <div class="footer__brand">AICC 사업2팀 · 우이동 안토 교육</div>
+  <div>2026.04.29 · 회식 2차 비교 가이드</div>
+  <div style="margin-top:10px;font-size:11px;color:var(--tx-ter)">
+    이미지: Unsplash · 정보: 네이버 지도 · 다이닝코드 · 식신 종합
   </div>
 </footer>
 
-<div class="toast" id="toast"></div>
-
 <script>
-const BLOB_ID = "019dd832-b8bf-7538-ba29-db8a3a51dee5";
-const BLOB_URL = "https://jsonblob.com/api/jsonBlob/" + BLOB_ID;
-const POLL_MS = 3000;
-
 const RESTAURANTS = [
   {
     id: 1, name: "방학동포차마을", category: "포차", badge: "card__badge--pocha",
     naver: "https://naver.me/x1VsppKv",
     addr: "서울 도봉구 방학로17길 6 (방학동 564)",
     distance: "차량 13~15분 (약 4.5km)",
-    distance_note: "도보 비권장",
     rating: "4.1 / 5.0",
-    rating_note: "다이닝코드",
     hours: "16:00 ~ 02:00 (금·토 ~03:00)",
     parking: "무료 4대 (협소)",
     capacity: "12인 가능 · 대형 포차 + 룸",
@@ -444,34 +324,40 @@ const RESTAURANTS = [
       ["철판삼합", "29,000"],
       ["닭도리탕", "22,000~"]
     ],
-    vibe: "야장 감성 대형 포차, 시끌벅적",
-    rec: "12인 회식 2차로 가장 안정적. 새벽까지 영업, 룸·대형 테이블 보유. 차량 이동 필요 (4.5km)."
+    rec: "12인 회식 2차로 가장 안정적. 새벽까지 영업, 룸·대형 테이블 보유. 차량 이동 필요 (4.5km).",
+    photos: [
+      ["1592861956120-e524fc739696", "야장 포차"],
+      ["1604908176997-125f25cc6f3d", "삼겹살"],
+      ["1626804475297-41608ea09aeb", "한식 그릴"],
+      ["1572448862527-d3c904757de6", "야식상"]
+    ]
   },
   {
     id: 2, name: "그때그집", category: "맥주/호프", badge: "card__badge--hof",
     naver: "https://naver.me/x4GRH3IQ",
     addr: "서울 강북구 우이동 일대 (네이버 ID 1472077611)",
     distance: "도보 5~15분 추정",
-    distance_note: "주소 미공개로 추정값",
     rating: "확인 필요",
-    rating_note: "네이버 차단으로 조회 불가",
     hours: "확인 필요",
-    parking: "확인 필요 (주변 노상)",
+    parking: "주변 노상 (확인 필요)",
     capacity: "확인 필요 · 사전 예약 권장",
     menu: [
       ["메뉴 정보", "확인 필요"]
     ],
-    vibe: "동네 호프 포차st (추정)",
-    rec: "정보 부족 — 매장 직접 전화 필요. 가장 가까울 가능성은 있음."
+    rec: "정보 부족 — 매장 직접 전화 필요. 우이동 안토에서 가장 가까울 가능성.",
+    photos: [
+      ["1577471488278-16eec37ffcc2", "동네 호프"],
+      ["1535007813616-79dc02ba4021", "생맥주"],
+      ["1559526324-c1f275fbfa32", "건배"],
+      ["1607013251379-e6eecfffe234", "안주"]
+    ]
   },
   {
     id: 3, name: "역전할머니맥주 솔밭공원역점", category: "맥주/호프", badge: "card__badge--hof",
     naver: "https://naver.me/FY3iUhMV",
     addr: "서울 도봉구 삼양로 590 1층",
     distance: "도보 10~15분 / 차량 5분",
-    distance_note: "약 0.8~1.0 km",
     rating: "확인 필요",
-    rating_note: "프랜차이즈 평균 4.0+",
     hours: "17:00 ~ 02:00 (표준)",
     parking: "도로변, 자체주차 X",
     capacity: "12인 가능 · 단체석 결합",
@@ -480,273 +366,114 @@ const RESTAURANTS = [
       ["먹태", "13,000"],
       ["통돈까스김치나베", "13,000"]
     ],
-    vibe: "복고풍 노가리 호프, 떠들썩한 친목",
-    rec: "거리·예측 가능성 모두 무난. 전화 예약 필수 (02-990-2023). 1차 후 가벼운 마무리에 최적."
+    rec: "거리·예측 가능성 무난. 전화 예약 필수 (02-990-2023). 1차 후 가벼운 마무리에 최적.",
+    photos: [
+      ["1518176258769-f227c798150e", "할맥 1L"],
+      ["1505075106905-fb052892c116", "맥주잔"],
+      ["1532347922424-c652d9b7208e", "안주"],
+      ["1612528443702-f6741f70a049", "맥주 타워"]
+    ]
   },
   {
     id: 4, name: "맥주맛을 아는남자", category: "맥주/호프", badge: "card__badge--hof",
     naver: "https://naver.me/5XJtuLrR",
     addr: "서울 강북구 우이동 일대 (네이버 ID 1094843162)",
     distance: "도보 5~15분 추정",
-    distance_note: "주소 미공개",
     rating: "확인 필요",
-    rating_note: "네이버 차단",
     hours: "확인 필요",
     parking: "확인 필요",
-    capacity: "확인 필요",
+    capacity: "확인 필요 (사전 전화 필수)",
     menu: [
       ["메뉴 정보", "확인 필요"]
     ],
-    vibe: "맥주 다양성 콘셉트 동네 호프 (추정)",
-    rec: "정보 부족 — 다양한 맥주를 강조한 콘셉트로 보이나 검증 필요. 지도 앱 직접 확인 필수."
+    rec: "정보 부족 — 다양한 맥주를 강조한 콘셉트로 보이나 검증 필요. 지도 앱 직접 확인 필수.",
+    photos: [
+      ["1526887520775-4b14b8aed897", "다양한 맥주"],
+      ["1600788907416-456578634209", "캔 라인업"],
+      ["1608270586620-248524c67de9", "건배"],
+      ["1546964124-0cce460f38ef", "안주 플레이트"]
+    ]
   },
   {
     id: 5, name: "우이동소문난족발", category: "족발/보쌈", badge: "card__badge--jokbal",
     naver: "https://naver.me/FQVBrW5Q",
     addr: "서울 강북구 우이동 일대",
     distance: "차량 5분 내외 추정",
-    distance_note: "동일 권역",
     rating: "확인 필요",
-    rating_note: "네이버 차단",
     hours: "확인 필요",
-    parking: "확인 필요 (주변 노상)",
+    parking: "주변 노상 (확인 필요)",
     capacity: "확인 필요 · 전화 권장",
     menu: [
       ["족발 (중)", "30,000~"],
       ["보쌈", "30,000~"],
       ["모듬", "40,000~"]
     ],
-    vibe: "동네 노포형 족발/보쌈",
-    rec: "안주가 든든해야 한다면. 12인 단체석은 사전 전화 확인 필수. 메뉴 가격은 우이동 시세 추정."
+    rec: "안주가 든든해야 한다면. 12인 단체석은 사전 전화 확인 필수. 메뉴 가격은 우이동 시세 추정.",
+    photos: [
+      ["1559925393-8be0ec4767c8", "족발"],
+      ["1568376794508-ae52c6ab3929", "반찬"],
+      ["1583224964978-2257b960c3d3", "한식 상차림"],
+      ["1635363638580-c2809d049eee", "모듬 안주"]
+    ]
   }
 ];
 
-// === Render cards ===
+function photoURL(id, w = 480) {
+  return `https://images.unsplash.com/photo-${id}?w=${w}&h=${Math.round(w*0.75)}&fit=crop&q=72&auto=format`;
+}
+
 function renderCards() {
   const wrap = document.getElementById("cards");
   wrap.innerHTML = RESTAURANTS.map(r => `
     <article class="card reveal" data-id="${r.id}">
-      <div class="card__top">
-        <div>
-          <div class="card__num">No.${r.id}</div>
-          <h3 class="card__name">${r.name}</h3>
+      <div class="photos">
+        ${r.photos.map(([pid, label]) => `
+          <div class="photos__cell photos__cell--skel" data-label="${label}">
+            <img loading="lazy" decoding="async" src="${photoURL(pid)}" alt="${label}" onload="this.classList.add('loaded');this.parentElement.classList.remove('photos__cell--skel')" onerror="this.parentElement.style.background='linear-gradient(135deg,#3a3a3c,#1d1d1f)';this.remove()" />
+          </div>
+        `).join("")}
+      </div>
+      <div class="card__body">
+        <div class="card__top">
+          <div>
+            <div class="card__num">No.${r.id}</div>
+            <h3 class="card__name">${r.name}</h3>
+          </div>
+          <span class="card__badge ${r.badge}">${r.category}</span>
         </div>
-        <span class="card__badge ${r.badge}">${r.category}</span>
-      </div>
-      <div class="card__addr">
-        ${r.addr}<br>
-        <a href="${r.naver}" target="_blank" rel="noopener">네이버 지도 열기 →</a>
-      </div>
-      <div class="card__stats">
-        <div class="card__stat"><span class="card__stat-l">📍 거리</span><span class="card__stat-v">${r.distance}</span></div>
-        <div class="card__stat"><span class="card__stat-l">⭐️ 평점</span><span class="card__stat-v">${r.rating}</span></div>
-        <div class="card__stat"><span class="card__stat-l">🕒 영업</span><span class="card__stat-v">${r.hours}</span></div>
-        <div class="card__stat"><span class="card__stat-l">🅿️ 주차</span><span class="card__stat-v">${r.parking}</span></div>
-        <div class="card__stat" style="grid-column:1/-1"><span class="card__stat-l">👥 12인 수용</span><span class="card__stat-v">${r.capacity}</span></div>
-      </div>
-      <div class="card__menu">
-        <strong>대표 메뉴</strong>
-        <ul>
-          ${r.menu.map(m => `<li><span>${m[0]}</span><span>${m[1]}원</span></li>`).join("")}
-        </ul>
-      </div>
-      <div class="card__rec">💡 ${r.rec}</div>
-      <div class="card__vote">
-        <div class="card__count"><strong data-count="${r.id}">0</strong>표</div>
-        <button class="vote-btn" data-vote="${r.id}">이 곳에 투표</button>
+        <div class="card__addr">
+          ${r.addr}<br>
+          <a href="${r.naver}" target="_blank" rel="noopener">네이버 지도 열기 →</a>
+        </div>
+        <div class="card__stats">
+          <div class="card__stat"><span class="card__stat-l">📍 거리</span><span class="card__stat-v">${r.distance}</span></div>
+          <div class="card__stat"><span class="card__stat-l">⭐️ 평점</span><span class="card__stat-v">${r.rating}</span></div>
+          <div class="card__stat"><span class="card__stat-l">🕒 영업</span><span class="card__stat-v">${r.hours}</span></div>
+          <div class="card__stat"><span class="card__stat-l">🅿️ 주차</span><span class="card__stat-v">${r.parking}</span></div>
+          <div class="card__stat" style="grid-column:1/-1"><span class="card__stat-l">👥 12인 수용</span><span class="card__stat-v">${r.capacity}</span></div>
+        </div>
+        <div class="card__menu">
+          <strong>대표 메뉴</strong>
+          <ul>
+            ${r.menu.map(m => `<li><span>${m[0]}</span><span>${m[1]}${m[1].includes('필요')?'':'원'}</span></li>`).join("")}
+          </ul>
+        </div>
+        <div class="card__rec">💡 ${r.rec}</div>
       </div>
     </article>
   `).join("");
-}
 
-// === State ===
-let state = { votes: {}, voters: [] }; // votes: {voterName: restaurantId}
-let myName = localStorage.getItem("uidong_voter_name") || "";
-let polling = null;
-
-// === Network ===
-async function fetchState() {
-  try {
-    const r = await fetch(BLOB_URL, { cache: "no-store" });
-    if (!r.ok) throw new Error("fetch failed " + r.status);
-    const data = await r.json();
-    state = { votes: data.votes || {}, voters: data.voters || [] };
-    return true;
-  } catch (e) {
-    console.error(e);
-    setStatus("연결 오류 - 재시도 중", true);
-    return false;
-  }
-}
-async function pushState() {
-  const r = await fetch(BLOB_URL, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify(state)
-  });
-  return r.ok;
-}
-
-// === UI updates ===
-function setStatus(text, error = false) {
-  const t = document.getElementById("status-text");
-  t.textContent = text;
-  t.style.color = error ? "var(--red)" : "";
-}
-function render() {
-  const counts = {};
-  RESTAURANTS.forEach(r => counts[r.id] = 0);
-  Object.values(state.votes).forEach(id => { counts[id] = (counts[id] || 0) + 1; });
-
-  const total = Object.keys(state.votes).length;
-  document.getElementById("total-votes").textContent = total;
-
-  // card counts + voted state
-  document.querySelectorAll("[data-count]").forEach(el => {
-    el.textContent = counts[el.dataset.count] || 0;
-  });
-  const myVote = myName ? state.votes[myName] : null;
-  document.querySelectorAll(".vote-btn").forEach(btn => {
-    const id = +btn.dataset.vote;
-    if (myVote === id) {
-      btn.dataset.voted = "true";
-      btn.textContent = "✓ 내 표";
-    } else if (myVote) {
-      btn.dataset.voted = "false";
-      btn.textContent = "변경하기";
-      btn.disabled = false;
-    } else {
-      btn.dataset.voted = "false";
-      btn.textContent = "이 곳에 투표";
-      btn.disabled = !myName;
-    }
-  });
-
-  // bars (sorted by count desc)
-  const sorted = [...RESTAURANTS].sort((a,b) => (counts[b.id]||0) - (counts[a.id]||0));
-  const max = Math.max(1, ...Object.values(counts));
-  document.getElementById("bars").innerHTML = sorted.map(r => {
-    const c = counts[r.id] || 0;
-    const pct = total ? Math.round((c / Math.max(1,total)) * 100) : 0;
-    const w = (c / max) * 100;
-    return `<div class="bar">
-      <div class="bar__name">${r.name.length > 16 ? r.name.slice(0,15)+"…" : r.name}</div>
-      <div class="bar__track"><div class="bar__fill" style="width:${w}%">${c>0?pct+"%":""}</div></div>
-      <div class="bar__count">${c}</div>
-    </div>`;
-  }).join("");
-
-  // voters list
-  const list = document.getElementById("voters-list");
-  if (state.voters.length === 0) {
-    list.innerHTML = '<span style="color:var(--tx-ter);font-size:13px">아직 없음</span>';
-  } else {
-    list.innerHTML = state.voters.map(n =>
-      `<span class="voter-chip"><span class="voter-chip__dot"></span>${escapeHtml(n)}</span>`
-    ).join("");
-  }
-}
-function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-
-// === Voting ===
-async function vote(restaurantId) {
-  const nameInput = document.getElementById("voter-name");
-  const name = (myName || nameInput.value).trim();
-  if (!name) {
-    showToast("이름을 먼저 입력해주세요");
-    nameInput.focus();
-    return;
-  }
-  if (name.length > 12) { showToast("이름은 12자 이내"); return; }
-  myName = name;
-  localStorage.setItem("uidong_voter_name", name);
-  nameInput.value = name;
-
-  // optimistic update
-  const prevVote = state.votes[name];
-  state.votes[name] = restaurantId;
-  if (!state.voters.includes(name)) state.voters.push(name);
-  render();
-  setStatus("저장 중…");
-
-  // read-merge-write to reduce race
-  const ok = await fetchState();
-  if (ok) {
-    state.votes[name] = restaurantId;
-    if (!state.voters.includes(name)) state.voters.push(name);
-  }
-  const success = await pushState();
-  if (success) {
-    setStatus("실시간 동기화 중");
-    showToast(prevVote ? "투표 변경 완료" : "투표 완료 🍻");
-  } else {
-    setStatus("저장 실패", true);
-    showToast("네트워크 오류 - 다시 시도");
-  }
-  await fetchState();
-  render();
-}
-
-async function resetAll() {
-  if (!confirm("정말 전체 투표를 초기화할까요?\n(모든 사람 표가 삭제됩니다)")) return;
-  state = { votes: {}, voters: [] };
-  await pushState();
-  await fetchState();
-  render();
-  showToast("초기화 완료");
-}
-
-// === Toast ===
-let toastTimer = null;
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("in");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove("in"), 2400);
-}
-
-// === Polling ===
-async function poll() {
-  await fetchState();
-  render();
-}
-function startPolling() {
-  if (polling) clearInterval(polling);
-  polling = setInterval(poll, POLL_MS);
-}
-
-// === Init ===
-function init() {
-  renderCards();
-  // wire events
-  document.getElementById("voter-name").value = myName;
-  document.getElementById("voter-name").addEventListener("input", e => {
-    myName = e.target.value.trim();
-    if (myName) localStorage.setItem("uidong_voter_name", myName);
-    render();
-  });
-  document.querySelectorAll(".vote-btn").forEach(btn => {
-    btn.addEventListener("click", () => vote(+btn.dataset.vote));
-  });
-  document.getElementById("reset-btn").addEventListener("click", resetAll);
-
-  // reveal on scroll
+  // reveal cards
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-  // also reveal cards when added
-  document.querySelectorAll(".card").forEach((c,i) => {
-    c.style.transitionDelay = (i * 80) + "ms";
-    io.observe(c);
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".card, .reveal").forEach((el, i) => {
+    el.style.transitionDelay = (i * 60) + "ms";
+    io.observe(el);
   });
-
-  // initial fetch + polling
-  poll().then(startPolling);
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", renderCards);
 </script>
 </body>
 </html>
