@@ -427,6 +427,39 @@
     font-weight: 500;
   }
 
+  /* Book figure */
+  .book-figure {
+    margin: 56px auto 8px;
+    max-width: 260px;
+    text-align: center;
+  }
+  .book-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,0.55),
+      0 18px 36px -18px rgba(0,0,0,0.40);
+  }
+  .book-figure figcaption {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    color: var(--text-on-dark-2);
+  }
+  .section--white .book-figure figcaption,
+  .section--light .book-figure figcaption {
+    color: var(--text-secondary);
+  }
+  .book-figure--inline {
+    float: right;
+    max-width: 140px;
+    margin: 6px 0 24px 32px;
+  }
+  .book-figure--inline figcaption { display: none; }
+
   /* Responsive */
   @media (max-width: 900px) {
     .keys { grid-template-columns: 1fr; }
@@ -555,6 +588,10 @@
         <div class="body">
           <p>교감신경계가 만성적으로 켜진다. 혈관 내벽이 손상된다. 염증이 생기고 LDL 콜레스테롤이 침착되어 혈관이 좁아진다. 그러다 떨어진 혈전 하나가 어느 순간 수직으로 서서 혈관을 가로막는다. 급성 심근경색.</p>
         </div>
+        <figure class="book-figure reveal">
+          <img src="assets/zebras-book-cover.png" alt="Why Zebras Don’t Get Ulcers — Robert M. Sapolsky, 3rd Edition">
+          <figcaption>Robert M. Sapolsky, <i>Why Zebras Don’t Get Ulcers</i> (3rd ed.)<br>강연자가 “최근 3년 읽은 책 중 으뜸”으로 꼽은 원서.</figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -831,6 +868,9 @@
     <h3 class="title reveal">더 깊이 들어가려면.</h3>
 
     <div class="body reveal" style="margin-top:32px;">
+      <figure class="book-figure book-figure--inline">
+        <img src="assets/zebras-book-cover.png" alt="Why Zebras Don’t Get Ulcers cover">
+      </figure>
       <p><strong>책</strong>  ·  Robert Sapolsky, <i>Why Zebras Don’t Get Ulcers</i> (한국 번역본: 『스트레스』). 강연자가 “최근 3년 읽은 책 중 으뜸”으로 추천. 영어 원서를 권함.</p>
       <p><strong>인물</strong>  ·  Robert Sapolsky · Andrew Huberman · Paul Conti · Charlie Munger · Jim Collins · Eliud Kipchoge</p>
       <p><strong>개념</strong>  ·  Type A Personality · BDNF · SSRI · Social Regulation of Neural Response to Threat (Coan, Schaefer, Davidson, 2006) · Agency + Gratitude</p>
