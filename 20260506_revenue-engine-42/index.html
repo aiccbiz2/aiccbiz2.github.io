@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Revenue Engine — 42가지 심리 트리거</title>
+<meta name="description" content="김경호 『매출의 설계자들』 42가지 심리 트리거 딥 리서치 책자 — Spotify 스타일">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  /* ============== Reset & Base ============== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-base: #000000;
+    --bg-elevated: #121212;
+    --bg-card: #181818;
+    --bg-card-hover: #282828;
+    --bg-highlight: #1f1f1f;
+    --text-base: #ffffff;
+    --text-subdued: #b3b3b3;
+    --text-muted: #6a6a6a;
+    --green: #1db954;
+    --green-bright: #1ed760;
+    --border: #2a2a2a;
+
+    --grad-1: linear-gradient(180deg, #1e3264 0%, #121212 60%);
+    --grad-2: linear-gradient(180deg, #148a08 0%, #121212 60%);
+    --grad-3: linear-gradient(180deg, #e8115b 0%, #121212 60%);
+    --grad-4: linear-gradient(180deg, #af2896 0%, #121212 60%);
+    --grad-5: linear-gradient(180deg, #ba5d07 0%, #121212 60%);
+    --grad-6: linear-gradient(180deg, #056952 0%, #121212 60%);
+    --grad-7: linear-gradient(180deg, #8d67ab 0%, #121212 60%);
+    --grad-home: linear-gradient(180deg, #c81818 0%, #121212 60%);
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-base);
+    color: var(--text-base);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { background: none; border: none; cursor: pointer; color: inherit; font-family: inherit; }
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 6px; border: 3px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.5); border: 3px solid transparent; background-clip: padding-box; }
+
+  /* ============== Layout ============== */
+  .app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr 90px;
+    grid-template-areas:
+      "sidebar main"
+      "player player";
+    height: 100vh;
+    gap: 8px;
+    padding: 8px;
+  }
+  .sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+  }
+  .main {
+    grid-area: main;
+    background: var(--bg-elevated);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .player {
+    grid-area: player;
+    background: var(--bg-base);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-top: 1px solid #181818;
+  }
+
+  /* ============== Sidebar ============== */
+  .nav-block, .library-block {
+    background: var(--bg-elevated);
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+  .nav-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: var(--text-subdued);
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .nav-link:hover, .nav-link.active { color: var(--text-base); }
+  .nav-link svg { width: 24px; height: 24px; flex-shrink: 0; }
+
+  .library-block { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 16px;
+  }
+  .library-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-subdued);
+    letter-spacing: 0.04em;
+  }
+  .library-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+    padding: 0 4px;
+  }
+  .library-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .library-item:hover { background: var(--bg-highlight); }
+  .library-item.active { background: var(--bg-card-hover); }
+  .library-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 18px;
+    color: rgba(255,255,255,0.95);
+  }
+  .ch-1 { background: linear-gradient(135deg, #1e3264, #2a4a8a); }
+  .ch-2 { background: linear-gradient(135deg, #148a08, #2bbf1a); }
+  .ch-3 { background: linear-gradient(135deg, #e8115b, #ff4081); }
+  .ch-4 { background: linear-gradient(135deg, #af2896, #d04bb8); }
+  .ch-5 { background: linear-gradient(135deg, #ba5d07, #e87a14); }
+  .ch-6 { background: linear-gradient(135deg, #056952, #088f73); }
+  .ch-7 { background: linear-gradient(135deg, #8d67ab, #b48bce); }
+  .ch-home { background: linear-gradient(135deg, #c81818, #ff5050); }
+  .ch-matrix { background: linear-gradient(135deg, #404040, #707070); }
+  .ch-refs { background: linear-gradient(135deg, #505050, #808080); }
+
+  .library-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    min-width: 0;
+  }
+  .library-title {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .library-sub {
+    font-size: 12px;
+    color: var(--text-subdued);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ============== Main ============== */
+  .topbar {
+    position: sticky;
+    top: 0;
+    height: 64px;
+    background: rgba(18,18,18,0);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    z-index: 10;
+    transition: background 0.2s;
+  }
+  .topbar.scrolled { background: rgba(18,18,18,0.85); backdrop-filter: blur(8px); }
+  .nav-arrows { display: flex; gap: 8px; }
+  .nav-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s;
+  }
+  .nav-arrow:hover { transform: scale(1.05); }
+  .topbar-title {
+    font-size: 24px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .topbar.scrolled .topbar-title { opacity: 1; }
+
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 32px;
+    position: relative;
+  }
+
+  /* ============== Hero (album/chapter header) ============== */
+  .hero {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    padding: 0 32px 24px;
+    min-height: 340px;
+    position: relative;
+  }
+  .hero-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 340px;
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    width: 100%;
+    padding-top: 80px;
+  }
+  .hero-cover {
+    width: 232px;
+    height: 232px;
+    border-radius: 4px;
+    box-shadow: 0 4px 60px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 24px;
+    font-weight: 900;
+  }
+  .hero-cover .num {
+    font-size: 22px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+  .hero-cover .name {
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .hero-cover.book {
+    background: linear-gradient(180deg, #c81818 0%, #4a0808 100%);
+  }
+  .hero-cover.book .name { font-size: 30px; }
+
+  .hero-meta { flex: 1; padding-bottom: 8px; }
+  .hero-type {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-size: clamp(40px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--text-subdued);
+    margin-bottom: 8px;
+  }
+  .hero-byline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+  .hero-byline strong { font-weight: 700; }
+  .hero-byline .dot { color: var(--text-subdued); }
+
+  /* ============== Action Bar ============== */
+  .action-bar {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, var(--bg-elevated) 100%);
+  }
+  .play-button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, background 0.15s;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  }
+  .play-button:hover {
+    background: var(--green-bright);
+    transform: scale(1.06);
+  }
+  .play-button svg { width: 24px; height: 24px; fill: #000; }
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    color: var(--text-subdued);
+    transition: color 0.15s, transform 0.15s;
+  }
+  .icon-btn:hover { color: var(--text-base); transform: scale(1.05); }
+  .icon-btn svg { width: 32px; height: 32px; }
+
+  /* ============== Content Sections ============== */
+  .content-section { padding: 0 32px; }
+
+  /* Track list (chapter view) */
+  .tracklist { width: 100%; border-collapse: collapse; }
+  .tracklist thead {
+    position: sticky;
+    top: 64px;
+    background: var(--bg-elevated);
+    z-index: 5;
+  }
+  .tracklist th {
+    text-align: left;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-subdued);
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .tracklist th.center { text-align: center; }
+  .tracklist th.right { text-align: right; }
+  .tracklist td {
+    padding: 8px 16px;
+    font-size: 14px;
+    vertical-align: middle;
+    border-radius: 4px;
+  }
+  .track-row { cursor: pointer; transition: background 0.15s; }
+  .track-row:hover { background: rgba(255,255,255,0.08); }
+  .track-row:hover .track-num { display: none; }
+  .track-row:hover .track-play { display: flex; }
+  .track-num {
+    color: var(--text-subdued);
+    font-size: 16px;
+    width: 32px;
+    text-align: center;
+    display: inline-block;
+  }
+  .track-play {
+    width: 16px;
+    height: 16px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .track-play svg { width: 16px; height: 16px; fill: #fff; }
+  .track-title {
+    color: var(--text-base);
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .track-tag {
+    color: var(--text-subdued);
+    font-size: 13px;
+  }
+  .track-row.playing .track-title { color: var(--green); }
+  .track-row.playing .track-num { color: var(--green); }
+
+  /* Card grid (home view) */
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 24px 0 16px;
+    letter-spacing: -0.01em;
+  }
+  .section-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 32px 0 16px;
+  }
+  .section-title-row h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .section-title-row .more {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-subdued);
+    letter-spacing: 0.06em;
+  }
+  .section-title-row .more:hover { text-decoration: underline; color: var(--text-base); }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+    padding-bottom: 16px;
+  }
+  .card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    transition: background 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .card:hover { background: var(--bg-card-hover); }
+  .card:hover .card-play { opacity: 1; transform: translateY(0); }
+  .card-cover {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-cover .num {
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.9;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .card-cover .name {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .card-play {
+    position: absolute;
+    bottom: 90px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s, background 0.15s;
+  }
+  .card-play:hover { background: var(--green-bright); transform: scale(1.06); }
+  .card-play svg { width: 20px; height: 20px; fill: #000; }
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .card-desc {
+    font-size: 14px;
+    color: var(--text-subdued);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Track detail (full chapter content) */
+  .track-detail {
+    padding: 0 32px 32px;
+    max-width: 880px;
+  }
+  .track-detail h1, .track-detail h2, .track-detail h3 { letter-spacing: -0.01em; }
+  .track-detail h1 { font-size: 32px; font-weight: 900; margin: 32px 0 16px; }
+  .track-detail h2 { font-size: 24px; font-weight: 800; margin: 32px 0 12px; }
+  .track-detail h3 { font-size: 18px; font-weight: 700; margin: 24px 0 12px; }
+  .track-detail p { margin: 0 0 16px; color: rgba(255,255,255,0.92); font-size: 16px; line-height: 1.7; }
+  .track-detail ul, .track-detail ol { margin: 0 0 16px; padding-left: 24px; color: rgba(255,255,255,0.92); }
+  .track-detail li { margin-bottom: 4px; line-height: 1.7; }
+  .track-detail strong { color: #fff; font-weight: 700; }
+  .track-detail em { color: var(--green-bright); font-style: normal; font-weight: 500; }
+  .track-detail blockquote {
+    border-left: 4px solid var(--green);
+    padding: 8px 16px;
+    margin: 16px 0;
+    color: var(--text-subdued);
+    background: rgba(29,185,84,0.06);
+    border-radius: 0 4px 4px 0;
+  }
+  .track-detail blockquote p { margin-bottom: 8px; color: var(--text-subdued); }
+  .track-detail code {
+    background: rgba(29,185,84,0.16);
+    color: var(--green-bright);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+  .track-detail hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .track-detail table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .track-detail th, .track-detail td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  .track-detail th {
+    color: var(--text-subdued);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .track-detail tr:hover { background: rgba(255,255,255,0.03); }
+
+  .track-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0 24px;
+    color: var(--text-subdued);
+    font-size: 14px;
+  }
+  .track-meta-bar .tag {
+    background: rgba(29,185,84,0.16);
+    color: var(--green-bright);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .nav-prev-next {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 16px;
+    margin: 48px 0 16px;
+  }
+  .nav-card {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    transition: background 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .nav-card:hover { background: var(--bg-card-hover); }
+  .nav-card .label {
+    font-size: 11px;
+    color: var(--text-subdued);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .nav-card .name {
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-card.next .label, .nav-card.next .name { text-align: right; }
+  .nav-card.disabled { opacity: 0.4; pointer-events: none; }
+
+  /* Search */
+  .search-wrap { padding: 24px 32px; }
+  .search-input {
+    width: 100%;
+    max-width: 360px;
+    background: #2a2a2a;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 16px 12px 40px;
+    font-size: 14px;
+    color: #fff;
+    font-family: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23b3b3b3'%3E%3Cpath d='M10 4a6 6 0 1 0 4.5 9.96l4.27 4.27 1.41-1.41-4.27-4.27A6 6 0 0 0 10 4Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 12px center;
+    background-size: 20px;
+  }
+  .search-input:focus { outline: 2px solid #fff; }
+  .search-results { margin-top: 24px; }
+  .search-result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .search-result:hover { background: var(--bg-highlight); }
+  .search-result .thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+  }
+  .search-result .meta { flex: 1; min-width: 0; }
+  .search-result .title { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .search-result .sub { font-size: 12px; color: var(--text-subdued); }
+  .empty-state { color: var(--text-subdued); font-size: 14px; padding: 24px 0; }
+
+  /* ============== Player Bar ============== */
+  .player-now {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 30%;
+    min-width: 0;
+  }
+  .player-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+  }
+  .player-meta { min-width: 0; }
+  .player-title {
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .player-sub {
+    font-size: 11px;
+    color: var(--text-subdued);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .player-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .player-buttons { display: flex; align-items: center; gap: 16px; }
+  .player-buttons button { color: var(--text-subdued); transition: color 0.15s; }
+  .player-buttons button:hover { color: var(--text-base); }
+  .player-buttons .play-circ {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+  }
+  .player-buttons .play-circ:hover { transform: scale(1.06); color: #000; }
+  .player-buttons svg { width: 20px; height: 20px; }
+  .player-bar {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-subdued);
+    font-size: 11px;
+  }
+  .player-progress {
+    flex: 1;
+    height: 4px;
+    background: #4d4d4d;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .player-progress-fill {
+    height: 100%;
+    width: 35%;
+    background: #fff;
+    border-radius: 2px;
+  }
+  .player-extras {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    color: var(--text-subdued);
+  }
+  .player-extras svg { width: 18px; height: 18px; }
+
+  /* ============== Loading ============== */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    color: var(--text-subdued);
+    font-size: 14px;
+  }
+
+  /* ============== Responsive ============== */
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; grid-template-areas: "main" "player"; }
+    .sidebar { display: none; }
+    .hero-cover { width: 160px; height: 160px; }
+    .hero-cover .name { font-size: 24px; }
+    .hero { min-height: 240px; }
+    .hero-bg { height: 240px; }
+    .hero-content { padding-top: 40px; }
+    .hero-title { font-size: 36px; }
+    .player-extras, .player-bar { display: none; }
+    .player-now { width: auto; flex: 1; }
+    .player-controls { flex: initial; }
+  }
+  @media (max-width: 600px) {
+    body { overflow: auto; }
+    .app { height: auto; padding: 0; gap: 0; }
+    .main { border-radius: 0; }
+    .player { display: none; }
+    .scroll-area { overflow: visible; }
+    .topbar { display: none; }
+    .hero { padding: 24px 16px; flex-direction: column; align-items: flex-start; }
+    .hero-content { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 24px; }
+    .hero-cover { width: 140px; height: 140px; }
+    .action-bar { padding: 16px; }
+    .content-section { padding: 0 16px; }
+    .track-detail { padding: 0 16px 32px; }
+    .card-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .card { padding: 12px; }
+    .card-cover .name { font-size: 18px; }
+    .tracklist th:nth-child(3), .tracklist td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ========== Sidebar ========== -->
+  <aside class="sidebar">
+    <div class="nav-block">
+      <ul>
+        <li>
+          <a class="nav-link" data-route="home">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-4v-6H10v6H6v-9H3l9-8z"/></svg>
+            홈
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" data-route="search">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4a6 6 0 1 0 4.5 9.96l4.27 4.27 1.41-1.41-4.27-4.27A6 6 0 0 0 10 4Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/></svg>
+            검색
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="library-block">
+      <div class="library-header">
+        <h3>당신의 라이브러리</h3>
+      </div>
+      <ul class="library-list" id="library-list">
+        <!-- Filled by JS -->
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ========== Main ========== -->
+  <main class="main">
+    <header class="topbar" id="topbar">
+      <div class="nav-arrows">
+        <button class="nav-arrow" onclick="history.back()" title="뒤로">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="#fff"><path d="M14.41 7.41L13 6l-6 6 6 6 1.41-1.41L9.83 12z"/></svg>
+        </button>
+        <button class="nav-arrow" onclick="history.forward()" title="앞으로">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="#fff"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+      </div>
+      <div class="topbar-title" id="topbar-title"></div>
+    </header>
+
+    <div class="scroll-area" id="scroll-area">
+      <div id="page-content">
+        <div class="loading">콘텐츠를 불러오는 중…</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== Player Bar (decorative) ========== -->
+  <footer class="player">
+    <div class="player-now">
+      <div class="player-thumb ch-home">RE</div>
+      <div class="player-meta">
+        <div class="player-title">매출의 설계자들</div>
+        <div class="player-sub">42가지 심리 트리거 · 김경호</div>
+      </div>
+    </div>
+    <div class="player-controls">
+      <div class="player-buttons">
+        <button title="셔플"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg></button>
+        <button title="이전"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+        <button class="play-circ" title="재생">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button title="다음"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6h2v12h-2z"/></svg></button>
+        <button title="반복"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
+      </div>
+      <div class="player-bar">
+        <span>0:00</span>
+        <div class="player-progress"><div class="player-progress-fill"></div></div>
+        <span>∞</span>
+      </div>
+    </div>
+    <div class="player-extras">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+      <div class="player-progress" style="width:80px"><div class="player-progress-fill" style="width:60%"></div></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ========== Data Parsing ========== */
+let DATA = null;
+
+const CHAPTER_GRADIENTS = {
+  1: 'var(--grad-1)',
+  2: 'var(--grad-2)',
+  3: 'var(--grad-3)',
+  4: 'var(--grad-4)',
+  5: 'var(--grad-5)',
+  6: 'var(--grad-6)',
+  7: 'var(--grad-7)',
+};
+const CHAPTER_CLASS = (n) => `ch-${n}`;
+
+async function loadContent() {
+  const res = await fetch('content.md');
+  const text = await res.text();
+  DATA = parseContent(text);
+  initLibrary();
+  routeFromHash();
+}
+
+function parseContent(md) {
+  // Split by H1 (chapters) but first preserve intro/outro/appendix
+  const lines = md.split('\n');
+  const data = {
+    title: '매출의 설계자들',
+    subtitle: '42가지 심리 트리거 (확장판)',
+    intro: { title: '머리말 — 우리는 왜 \'설계당하는가\'', content: '' },
+    chapters: [],
+    outro: { title: '맺음말 — 마케팅은 도박이 아니다', content: '' },
+    appendixA: { title: '부록 A. 트리거 매트릭스', content: '' },
+    appendixB: { title: '부록 B. 핵심 참고 문헌', content: '' },
+    tracks: [],
+  };
+
+  let mode = 'pre';
+  let currentChapter = null;
+  let currentTrack = null;
+  let buffer = [];
+
+  const flush = () => {
+    const content = buffer.join('\n').trim();
+    if (mode === 'intro') data.intro.content = content;
+    else if (mode === 'outro') data.outro.content = content;
+    else if (mode === 'appA') data.appendixA.content = content;
+    else if (mode === 'appB') data.appendixB.content = content;
+    else if (mode === 'chapter-intro' && currentChapter) currentChapter.intro = content;
+    else if (mode === 'track' && currentTrack) currentTrack.content = content;
+    buffer = [];
+  };
+
+  for (const line of lines) {
+    // Match chapter heading: # 1장. 프레임 — 진실보다 인식을 설계하라
+    const chMatch = line.match(/^# (\d+)장\. (.+?) — (.+)$/);
+    // Match outro: # 맺음말 — ...
+    const outroMatch = line.match(/^# 맺음말 — (.+)$/);
+    // Match appendix A: # 부록 A. 트리거 매트릭스 ...
+    const appAMatch = line.match(/^# 부록 A\. (.+)$/);
+    // Match appendix B
+    const appBMatch = line.match(/^# 부록 B\. (.+)$/);
+    // Match intro: ## 머리말 — ...
+    const introMatch = line.match(/^## 머리말 — (.+)$/);
+    // Match track: ## 01. 제목 — `#태그`
+    const trackMatch = line.match(/^## (\d{2})\. (.+?) — `(#[^`]+)`/);
+    // Match book title: # 매출의 설계자들 ...
+    const bookTitleMatch = line.match(/^# 매출의 설계자들/);
+
+    if (bookTitleMatch) {
+      // skip — already set as default
+      continue;
+    } else if (introMatch) {
+      flush();
+      mode = 'intro';
+      data.intro.title = '머리말 — ' + introMatch[1];
+    } else if (chMatch) {
+      flush();
+      currentChapter = {
+        num: parseInt(chMatch[1], 10),
+        title: chMatch[2],
+        subtitle: chMatch[3],
+        intro: '',
+        trackIds: [],
+      };
+      data.chapters.push(currentChapter);
+      mode = 'chapter-intro';
+    } else if (trackMatch) {
+      flush();
+      currentTrack = {
+        num: trackMatch[1],
+        title: trackMatch[2],
+        hashtag: trackMatch[3],
+        chapterNum: currentChapter ? currentChapter.num : null,
+        content: '',
+      };
+      data.tracks.push(currentTrack);
+      if (currentChapter) currentChapter.trackIds.push(currentTrack.num);
+      mode = 'track';
+    } else if (outroMatch) {
+      flush();
+      mode = 'outro';
+      data.outro.title = '맺음말 — ' + outroMatch[1];
+    } else if (appAMatch) {
+      flush();
+      mode = 'appA';
+      data.appendixA.title = '부록 A. ' + appAMatch[1];
+    } else if (appBMatch) {
+      flush();
+      mode = 'appB';
+      data.appendixB.title = '부록 B. ' + appBMatch[1];
+    } else {
+      buffer.push(line);
+    }
+  }
+  flush();
+
+  return data;
+}
+
+/* ========== Routing ========== */
+function routeFromHash() {
+  const hash = location.hash.slice(1) || 'home';
+  const [route, ...rest] = hash.split('/');
+  const arg = rest.join('/');
+
+  document.querySelectorAll('.nav-link').forEach(el => {
+    el.classList.toggle('active', el.dataset.route === route);
+  });
+  document.querySelectorAll('.library-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.hash === hash);
+  });
+
+  document.getElementById('scroll-area').scrollTop = 0;
+
+  switch (route) {
+    case 'home': renderHome(); break;
+    case 'chapter': renderChapter(parseInt(arg, 10)); break;
+    case 'track': renderTrack(arg); break;
+    case 'intro': renderIntro(); break;
+    case 'outro': renderOutro(); break;
+    case 'matrix': renderAppendix('A'); break;
+    case 'refs': renderAppendix('B'); break;
+    case 'search': renderSearch(); break;
+    default: renderHome();
+  }
+}
+
+window.addEventListener('hashchange', routeFromHash);
+
+/* ========== Library Sidebar ========== */
+function initLibrary() {
+  const list = document.getElementById('library-list');
+  const items = [
+    { hash: 'intro', cls: 'ch-home', title: '머리말', sub: '책 · 들어가는 글' },
+    ...DATA.chapters.map(ch => ({
+      hash: `chapter/${ch.num}`,
+      cls: CHAPTER_CLASS(ch.num),
+      title: `${ch.num}장. ${ch.title}`,
+      sub: `${ch.trackIds.length}개 트리거 · ${ch.subtitle.slice(0, 24)}${ch.subtitle.length > 24 ? '…' : ''}`,
+      thumb: `${ch.num}`,
+    })),
+    { hash: 'outro', cls: 'ch-home', title: '맺음말', sub: '책 · 마치며' },
+    { hash: 'matrix', cls: 'ch-matrix', title: '트리거 매트릭스', sub: '부록 A' },
+    { hash: 'refs', cls: 'ch-refs', title: '참고 문헌', sub: '부록 B' },
+  ];
+  list.innerHTML = items.map(it => `
+    <li class="library-item" data-hash="${it.hash}" onclick="location.hash='${it.hash}'">
+      <div class="library-thumb ${it.cls}">${it.thumb || (it.title[0] || '·')}</div>
+      <div class="library-meta">
+        <div class="library-title">${it.title}</div>
+        <div class="library-sub">${it.sub}</div>
+      </div>
+    </li>
+  `).join('');
+
+  // Top nav
+  document.querySelectorAll('.nav-link').forEach(el => {
+    el.addEventListener('click', () => {
+      location.hash = el.dataset.route;
+    });
+  });
+}
+
+/* ========== Renderers ========== */
+function renderHome() {
+  document.getElementById('topbar-title').textContent = '매출의 설계자들';
+  const html = `
+    <section class="hero">
+      <div class="hero-bg" style="background: var(--grad-home);"></div>
+      <div class="hero-content">
+        <div class="hero-cover book">
+          <div class="num">THE REVENUE ENGINE</div>
+          <div class="name">매출의<br>설계자들</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-type">PLAYLIST · ALBUM</div>
+          <h1 class="hero-title">42가지<br>심리 트리거</h1>
+          <div class="hero-sub">행동경제학으로 읽는 매출 설계의 모든 것</div>
+          <div class="hero-byline">
+            <strong>김경호</strong>
+            <span class="dot">·</span>
+            <span>흐름출판</span>
+            <span class="dot">·</span>
+            <span>7개 챕터 · 42개 트랙</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="action-bar">
+      <button class="play-button" onclick="location.hash='chapter/1'" title="처음부터 재생">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="icon-btn" title="좋아요">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+    </div>
+
+    <div class="content-section">
+      <div class="section-title-row">
+        <h2>챕터별로 듣기</h2>
+      </div>
+      <div class="card-grid">
+        ${DATA.chapters.map(ch => `
+          <div class="card" onclick="location.hash='chapter/${ch.num}'">
+            <div class="card-cover" style="background: ${CHAPTER_GRADIENTS[ch.num]};">
+              <div class="num">CHAPTER ${ch.num}</div>
+              <div class="name">${ch.title}</div>
+              <button class="card-play">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+            <div class="card-title">${ch.num}장. ${ch.title}</div>
+            <div class="card-desc">${ch.subtitle}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section-title-row">
+        <h2>대표 트리거 9선</h2>
+      </div>
+      <div class="card-grid">
+        ${[2,4,5,12,17,19,29,33,42].map(idx => {
+          const t = DATA.tracks[idx-1];
+          if (!t) return '';
+          return `
+          <div class="card" onclick="location.hash='track/${t.num}'">
+            <div class="card-cover" style="background: ${CHAPTER_GRADIENTS[t.chapterNum]};">
+              <div class="num">${t.hashtag}</div>
+              <div class="name">${t.title.length > 14 ? t.title.slice(0,14)+'…' : t.title}</div>
+              <button class="card-play">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+            <div class="card-title">${t.num}. ${t.title}</div>
+            <div class="card-desc">${t.hashtag} · ${t.chapterNum}장</div>
+          </div>
+          `;
+        }).join('')}
+      </div>
+
+      <div class="section-title-row">
+        <h2>책 안내</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card" onclick="location.hash='intro'">
+          <div class="card-cover ch-home">
+            <div class="num">INTRO</div>
+            <div class="name">머리말</div>
+            <button class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="card-title">머리말</div>
+          <div class="card-desc">우리는 왜 '설계당하는가'</div>
+        </div>
+        <div class="card" onclick="location.hash='outro'">
+          <div class="card-cover ch-home">
+            <div class="num">OUTRO</div>
+            <div class="name">맺음말</div>
+            <button class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="card-title">맺음말</div>
+          <div class="card-desc">마케팅은 도박이 아니다</div>
+        </div>
+        <div class="card" onclick="location.hash='matrix'">
+          <div class="card-cover ch-matrix">
+            <div class="num">APPENDIX A</div>
+            <div class="name">매트릭스</div>
+            <button class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="card-title">트리거 매트릭스</div>
+          <div class="card-desc">42개 한눈에 보기</div>
+        </div>
+        <div class="card" onclick="location.hash='refs'">
+          <div class="card-cover ch-refs">
+            <div class="num">APPENDIX B</div>
+            <div class="name">참고문헌</div>
+            <button class="card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="card-title">핵심 참고 문헌</div>
+          <div class="card-desc">학술 논문 50여 편</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+}
+
+function renderChapter(num) {
+  const ch = DATA.chapters.find(c => c.num === num);
+  if (!ch) return renderHome();
+  const tracks = DATA.tracks.filter(t => t.chapterNum === num);
+  document.getElementById('topbar-title').textContent = `${ch.num}장. ${ch.title}`;
+
+  // Get intro paragraph (first non-blockquote line of chapter intro)
+  const introBQ = (ch.intro || '').match(/^> (.+)/m);
+  const introText = introBQ ? introBQ[1] : '';
+
+  const html = `
+    <section class="hero">
+      <div class="hero-bg" style="background: ${CHAPTER_GRADIENTS[num]};"></div>
+      <div class="hero-content">
+        <div class="hero-cover ${CHAPTER_CLASS(num)}">
+          <div class="num">CHAPTER ${num}</div>
+          <div class="name">${ch.title}</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-type">CHAPTER</div>
+          <h1 class="hero-title">${ch.title}</h1>
+          <div class="hero-sub">${ch.subtitle}</div>
+          <div class="hero-byline">
+            <strong>매출의 설계자들</strong>
+            <span class="dot">·</span>
+            <span>${tracks.length}개 트리거</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="action-bar">
+      <button class="play-button" onclick="location.hash='track/${tracks[0]?.num || '01'}'" title="첫 트리거부터">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="icon-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+    </div>
+
+    <div class="content-section">
+      ${introText ? `<p style="color: var(--text-subdued); font-style: italic; margin-bottom: 24px; max-width: 720px;">${introText}</p>` : ''}
+      <table class="tracklist">
+        <thead>
+          <tr>
+            <th class="center" style="width: 40px;">#</th>
+            <th>제목</th>
+            <th>트리거</th>
+            <th class="right" style="width: 120px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tracks.map((t, i) => `
+            <tr class="track-row" onclick="location.hash='track/${t.num}'">
+              <td class="center">
+                <span class="track-num">${i + 1}</span>
+                <span class="track-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+              </td>
+              <td>
+                <div class="track-title">${t.title}</div>
+                <div class="track-tag">${ch.title}</div>
+              </td>
+              <td class="track-tag">${t.hashtag}</td>
+              <td class="right track-tag">읽기</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+}
+
+function renderTrack(num) {
+  const t = DATA.tracks.find(x => x.num === num);
+  if (!t) return renderHome();
+  const ch = DATA.chapters.find(c => c.num === t.chapterNum);
+  document.getElementById('topbar-title').textContent = `${t.num}. ${t.title}`;
+
+  const idx = DATA.tracks.findIndex(x => x.num === num);
+  const prev = DATA.tracks[idx - 1];
+  const next = DATA.tracks[idx + 1];
+
+  const html = `
+    <section class="hero" style="min-height: 280px;">
+      <div class="hero-bg" style="background: ${CHAPTER_GRADIENTS[t.chapterNum]}; height: 280px;"></div>
+      <div class="hero-content" style="padding-top: 60px;">
+        <div class="hero-cover ${CHAPTER_CLASS(t.chapterNum)}" style="width: 200px; height: 200px;">
+          <div class="num">TRACK ${t.num}</div>
+          <div class="name" style="font-size: 28px;">${t.title.length > 16 ? t.title.slice(0,14)+'…' : t.title}</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-type">TRACK · ${t.hashtag}</div>
+          <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 56px);">${t.title}</h1>
+          <div class="hero-byline">
+            <strong>매출의 설계자들</strong>
+            <span class="dot">·</span>
+            <a href="#chapter/${t.chapterNum}" style="text-decoration: underline; color: var(--text-subdued);">${t.chapterNum}장. ${ch?.title || ''}</a>
+            <span class="dot">·</span>
+            <span>김경호</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="action-bar">
+      <button class="play-button" title="재생">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="icon-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+      <div class="track-meta-bar">
+        <span class="tag">${t.hashtag}</span>
+      </div>
+    </div>
+
+    <div class="track-detail">
+      ${marked.parse(t.content || '')}
+      <div class="nav-prev-next">
+        ${prev ? `
+          <div class="nav-card prev" onclick="location.hash='track/${prev.num}'">
+            <div class="label">← 이전 트랙</div>
+            <div class="name">${prev.num}. ${prev.title}</div>
+          </div>
+        ` : '<div class="nav-card disabled"></div>'}
+        ${next ? `
+          <div class="nav-card next" onclick="location.hash='track/${next.num}'">
+            <div class="label">다음 트랙 →</div>
+            <div class="name">${next.num}. ${next.title}</div>
+          </div>
+        ` : '<div class="nav-card disabled"></div>'}
+      </div>
+    </div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+}
+
+function renderIntro() {
+  document.getElementById('topbar-title').textContent = '머리말';
+  const html = `
+    <section class="hero" style="min-height: 280px;">
+      <div class="hero-bg" style="background: var(--grad-home); height: 280px;"></div>
+      <div class="hero-content" style="padding-top: 60px;">
+        <div class="hero-cover ch-home" style="width: 200px; height: 200px;">
+          <div class="num">INTRO</div>
+          <div class="name">머리말</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-type">FOREWORD</div>
+          <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 56px);">${DATA.intro.title.replace('머리말 — ','')}</h1>
+          <div class="hero-byline">
+            <strong>매출의 설계자들</strong>
+            <span class="dot">·</span>
+            <span>김경호</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="action-bar">
+      <button class="play-button" onclick="location.hash='chapter/1'">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+    <div class="track-detail">${marked.parse(DATA.intro.content || '')}</div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+}
+
+function renderOutro() {
+  document.getElementById('topbar-title').textContent = '맺음말';
+  const html = `
+    <section class="hero" style="min-height: 280px;">
+      <div class="hero-bg" style="background: var(--grad-home); height: 280px;"></div>
+      <div class="hero-content" style="padding-top: 60px;">
+        <div class="hero-cover ch-home" style="width: 200px; height: 200px;">
+          <div class="num">OUTRO</div>
+          <div class="name">맺음말</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-type">AFTERWORD</div>
+          <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 56px);">${DATA.outro.title.replace('맺음말 — ','')}</h1>
+          <div class="hero-byline">
+            <strong>매출의 설계자들</strong>
+            <span class="dot">·</span>
+            <span>김경호</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="action-bar"></div>
+    <div class="track-detail">${marked.parse(DATA.outro.content || '')}</div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+}
+
+function renderAppendix(letter) {
+  const data = letter === 'A' ? DATA.appendixA : DATA.appendixB;
+  const cls = letter === 'A' ? 'ch-matrix' : 'ch-refs';
+  const grad = letter === 'A'
+    ? 'linear-gradient(180deg, #707070 0%, #121212 60%)'
+    : 'linear-gradient(180deg, #808080 0%, #121212 60%)';
+  document.getElementById('topbar-title').textContent = data.title;
+
+  const html = `
+    <section class="hero" style="min-height: 240px;">
+      <div class="hero-bg" style="background: ${grad}; height: 240px;"></div>
+      <div class="hero-content" style="padding-top: 40px;">
+        <div class="hero-cover ${cls}" style="width: 180px; height: 180px;">
+          <div class="num">APPENDIX ${letter}</div>
+          <div class="name" style="font-size: 24px;">${letter === 'A' ? '매트릭스' : '참고문헌'}</div>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-type">APPENDIX</div>
+          <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 56px);">${data.title.replace(/^부록 [AB]\. /, '')}</h1>
+        </div>
+      </div>
+    </section>
+    <div class="action-bar"></div>
+    <div class="track-detail">${marked.parse(data.content || '')}</div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+}
+
+function renderSearch() {
+  document.getElementById('topbar-title').textContent = '검색';
+  const html = `
+    <div class="search-wrap">
+      <input id="search-input" class="search-input" placeholder="트리거, 키워드, 학자명으로 검색…" autocomplete="off">
+      <div class="search-results" id="search-results">
+        <div class="empty-state">트리거 이름·해시태그·키워드로 42개 트랙을 검색하세요.</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('page-content').innerHTML = html;
+  const input = document.getElementById('search-input');
+  const results = document.getElementById('search-results');
+  input.focus();
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) {
+      results.innerHTML = '<div class="empty-state">트리거 이름·해시태그·키워드로 42개 트랙을 검색하세요.</div>';
+      return;
+    }
+    const matches = DATA.tracks.filter(t =>
+      t.title.toLowerCase().includes(q) ||
+      t.hashtag.toLowerCase().includes(q) ||
+      (t.content || '').toLowerCase().includes(q)
+    );
+    if (!matches.length) {
+      results.innerHTML = '<div class="empty-state">검색 결과가 없습니다.</div>';
+      return;
+    }
+    results.innerHTML = matches.slice(0, 30).map(t => `
+      <div class="search-result" onclick="location.hash='track/${t.num}'">
+        <div class="thumb ${CHAPTER_CLASS(t.chapterNum)}">${t.num}</div>
+        <div class="meta">
+          <div class="title">${t.title}</div>
+          <div class="sub">${t.chapterNum}장 · ${t.hashtag}</div>
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+/* ========== Topbar Scroll Effect ========== */
+const scrollArea = document.getElementById('scroll-area');
+scrollArea.addEventListener('scroll', () => {
+  const topbar = document.getElementById('topbar');
+  topbar.classList.toggle('scrolled', scrollArea.scrollTop > 200);
+});
+
+/* ========== Init ========== */
+loadContent().catch(err => {
+  console.error(err);
+  document.getElementById('page-content').innerHTML = `
+    <div class="loading">
+      콘텐츠를 불러오지 못했습니다. content.md 파일을 확인하세요.
+    </div>
+  `;
+});
+</script>
+</body>
+</html>
