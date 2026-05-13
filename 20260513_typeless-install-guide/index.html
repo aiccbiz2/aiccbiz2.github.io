@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typeless 설치 가이드 — Windows 팀원용</title>
+<style>
+  :root{
+    --bg:#fbfbfd;
+    --fg:#1d1d1f;
+    --muted:#6e6e73;
+    --line:#d2d2d7;
+    --accent:#0071e3;
+    --accent-soft:#e8f1fc;
+    --warn:#b25000;
+    --warn-soft:#fff4e5;
+    --ok:#1f7a3a;
+    --ok-soft:#e6f4ea;
+    --code-bg:#f5f5f7;
+    --kbd-bg:#fff;
+    --kbd-shadow:0 1px 0 #b4b4b8, 0 2px 0 #d2d2d7;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+      "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:72px 28px 120px}
+  .eyebrow{
+    color:var(--muted);
+    font-size:13px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  h1{
+    font-size:44px;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    margin:0 0 12px;
+    font-weight:700;
+  }
+  .lede{
+    font-size:19px;
+    color:var(--muted);
+    margin:0 0 40px;
+    max-width:62ch;
+  }
+  h2{
+    font-size:26px;
+    letter-spacing:-0.01em;
+    margin:56px 0 12px;
+    font-weight:600;
+    border-top:1px solid var(--line);
+    padding-top:36px;
+  }
+  h3{
+    font-size:18px;
+    margin:28px 0 8px;
+    font-weight:600;
+  }
+  p{margin:0 0 14px}
+  ul,ol{margin:0 0 14px;padding-left:22px}
+  li{margin:6px 0}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code{
+    background:var(--code-bg);
+    padding:2px 6px;
+    border-radius:6px;
+    font-family:"SF Mono", Menlo, Consolas, monospace;
+    font-size:13.5px;
+  }
+  kbd{
+    display:inline-block;
+    background:var(--kbd-bg);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:3px 8px;
+    font-family:-apple-system, system-ui, sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--fg);
+    box-shadow:var(--kbd-shadow);
+    min-width:22px;
+    text-align:center;
+    margin:0 1px;
+    vertical-align:1px;
+  }
+  .kbd-combo{white-space:nowrap}
+  .kbd-combo + .kbd-combo{margin-left:4px}
+  .plus{color:var(--muted);margin:0 4px}
+  .step{
+    display:flex;
+    gap:18px;
+    margin:18px 0;
+    padding:18px 20px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .step-num{
+    flex:0 0 36px;
+    height:36px;
+    background:var(--accent);
+    color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:600;
+    font-size:15px;
+  }
+  .step-body{flex:1;min-width:0}
+  .step-body h3{margin-top:0}
+  .step-body p:last-child{margin-bottom:0}
+  .callout{
+    border-radius:12px;
+    padding:14px 18px;
+    margin:20px 0;
+    border:1px solid;
+    font-size:15px;
+  }
+  .callout-info{
+    background:var(--accent-soft);
+    border-color:#cfe2fb;
+    color:#0a3d80;
+  }
+  .callout-warn{
+    background:var(--warn-soft);
+    border-color:#ffd9a8;
+    color:var(--warn);
+  }
+  .callout-ok{
+    background:var(--ok-soft);
+    border-color:#bce0c6;
+    color:var(--ok);
+  }
+  .callout strong{color:inherit}
+  .hero-shortcut{
+    margin:36px 0 0;
+    padding:28px 24px;
+    background:linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
+    border:1px solid var(--line);
+    border-radius:18px;
+    text-align:center;
+  }
+  .hero-shortcut .label{
+    color:var(--muted);
+    font-size:13px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .hero-shortcut .keys{font-size:18px}
+  .hero-shortcut kbd{font-size:16px;padding:6px 14px}
+  .hero-shortcut .hint{
+    margin-top:14px;
+    color:var(--muted);
+    font-size:14px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0 22px;
+    font-size:15px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{font-weight:600;color:var(--muted);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+  .download-btn{
+    display:inline-block;
+    background:var(--accent);
+    color:#fff;
+    padding:10px 22px;
+    border-radius:980px;
+    font-weight:500;
+    font-size:15px;
+    margin:6px 0;
+  }
+  .download-btn:hover{background:#0077ed;text-decoration:none}
+  footer{
+    margin-top:80px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:13px;
+  }
+  .toc{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 24px;
+    margin:24px 0 8px;
+    font-size:15px;
+  }
+  .toc strong{display:block;margin-bottom:6px;font-size:13px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .toc ol{margin:0;padding-left:20px}
+  @media (max-width:600px){
+    .wrap{padding:48px 20px 80px}
+    h1{font-size:34px}
+    .lede{font-size:17px}
+    h2{font-size:22px}
+    .step{flex-direction:column;gap:10px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">AI사업2팀 · 사내 매뉴얼</div>
+  <h1>Typeless 설치 가이드</h1>
+  <p class="lede">
+    Typeless는 음성을 깔끔한 텍스트로 바꿔주는 AI 받아쓰기 도구입니다.
+    어떤 앱이든 커서가 놓인 자리에 바로 입력되며, 한국어와 영어를 자동으로 구분합니다.
+    이 문서는 Windows 팀원이 따라할 수 있도록 정리한 설치·설정 매뉴얼입니다.
+  </p>
+
+  <div class="hero-shortcut">
+    <div class="label">팀 공통 단축키</div>
+    <div class="keys">
+      <span class="kbd-combo"><kbd>왼쪽 Shift</kbd><span class="plus">＋</span><kbd>Z</kbd></span>
+    </div>
+    <div class="hint">누르고 있는 동안 받아쓰기 → 손을 떼면 자동으로 텍스트가 입력됩니다.</div>
+  </div>
+
+  <div class="toc">
+    <strong>이 문서</strong>
+    <ol>
+      <li>시스템 요구사항</li>
+      <li>다운로드 (어디서 받나)</li>
+      <li>설치</li>
+      <li>최초 실행 · 권한 설정</li>
+      <li>단축키를 <span class="kbd-combo"><kbd>왼쪽 Shift</kbd>＋<kbd>Z</kbd></span> 로 변경</li>
+      <li>실제 사용법</li>
+      <li>자주 묻는 질문 / 문제 해결</li>
+    </ol>
+  </div>
+
+  <h2>1. 시스템 요구사항</h2>
+  <table>
+    <tr><th>항목</th><th>요구사항</th></tr>
+    <tr><td>OS</td><td>Windows 11 (Windows 10은 공식 미지원)</td></tr>
+    <tr><td>RAM</td><td>8GB 이상 권장</td></tr>
+    <tr><td>네트워크</td><td>최초 로그인 및 음성 처리에 인터넷 연결 필요</td></tr>
+    <tr><td>마이크</td><td>내장 또는 USB/블루투스 마이크</td></tr>
+  </table>
+  <div class="callout callout-warn">
+    <strong>Windows 10 사용자:</strong> 공식 지원 대상이 아닙니다. 회사 PC가 Windows 10이면 IT에 Windows 11 업그레이드 요청 후 진행해 주세요.
+  </div>
+
+  <h2>2. 어디서 다운받나</h2>
+  <p>공식 사이트 외 다른 경로(소프트닉, 토렌트 등)에서 받지 <strong>마세요</strong>. 가짜 설치 파일이 돌아다닙니다.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>구글에서 검색</h3>
+      <p>구글에 <code>typeless download</code> 또는 <code>typeless 다운로드</code> 로 검색합니다.</p>
+      <p>또는 주소창에 직접 입력:</p>
+      <p><a class="download-btn" href="https://www.typeless.com/downloads" target="_blank" rel="noopener">www.typeless.com/downloads</a></p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>“Download for Windows” 버튼 클릭</h3>
+      <p>페이지에 macOS / Windows / iOS 다운로드 옵션이 보입니다. <strong>Windows</strong> 쪽 버튼을 누르면 설치 파일(<code>.exe</code> 또는 <code>.msi</code>)이 다운로드 폴더로 받아집니다.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>확인 포인트:</strong> URL이 정확히 <code>typeless.com</code> 인지 확인하세요.
+    <code>typeless.info</code>, <code>typeless.en.softonic.com</code> 같은 비공식 사이트는 피합니다.
+  </div>
+
+  <h2>3. 설치하기</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>설치 파일 실행</h3>
+      <p>다운로드 폴더에서 받은 파일을 더블클릭합니다.</p>
+      <p>Windows에서 <em>"Microsoft Defender SmartScreen에서 PC를 보호했습니다"</em> 경고가 뜨면, 게시자가 신뢰할 수 있는지 확인 후 <strong>추가 정보 → 실행</strong> 을 누릅니다.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>설치 마법사 진행</h3>
+      <p>약관에 동의하고 <strong>다음 → 설치 → 마침</strong> 을 차례로 눌러주세요. 2분 안에 끝납니다.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>Typeless 실행</h3>
+      <p>설치 후 자동 실행되거나, 시작 메뉴에서 <code>Typeless</code> 를 검색해 엽니다.</p>
+      <p>트레이(작업 표시줄 우측 하단)에 Typeless 아이콘이 나타나면 정상입니다.</p>
+    </div>
+  </div>
+
+  <h2>4. 최초 실행 · 권한 설정</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>계정 만들기 / 로그인</h3>
+      <p>개인 지메일 계정으로 가입합니다. 무료 플랜으로 시작 가능하며, 팀 라이선스가 필요하면 사업팀장에게 문의해 주세요.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>마이크 권한 허용</h3>
+      <p>처음 실행 시 Windows가 <em>"Typeless가 마이크에 접근하도록 허용하시겠습니까?"</em> 를 물어봅니다. <strong>예 / 허용</strong>을 선택합니다.</p>
+      <p>나중에 변경하려면: <code>설정 → 개인 정보 및 보안 → 마이크 → Typeless 켜기</code></p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>접근성 권한 (입력 기능)</h3>
+      <p>받아쓴 텍스트를 다른 앱 입력창에 자동으로 넣기 위해 권한 허용을 요구할 수 있습니다. 모두 <strong>허용</strong>합니다.</p>
+    </div>
+  </div>
+
+  <h2>
+    5. 단축키를
+    <span class="kbd-combo"><kbd>왼쪽 Shift</kbd>＋<kbd>Z</kbd></span>
+    로 변경
+  </h2>
+  <p>기본값은 <span class="kbd-combo"><kbd>오른쪽 Alt</kbd></span> 인데, 팀에서는 <strong>왼쪽 Shift + Z</strong> 로 통일합니다. (왼손만으로 누를 수 있어 마우스를 놓지 않고 받아쓸 수 있습니다.)</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>설정 열기</h3>
+      <p>트레이의 Typeless 아이콘을 우클릭 → <strong>Settings (설정)</strong> 선택. 또는 앱 화면에서 톱니바퀴 아이콘을 클릭합니다.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3>Shortcut / Hotkey 메뉴 진입</h3>
+      <p>설정 안에서 <code>Shortcut</code>, <code>Hotkey</code>, 또는 <code>Keybinding</code> 항목을 찾습니다.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>모드는 “Push-to-Talk” 로</h3>
+      <p>입력 모드를 <strong>Push-to-Talk (누르고 있는 동안 녹음)</strong> 로 선택합니다. Toggle 모드는 사용하지 않습니다.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h3>단축키 설정</h3>
+      <p>"Set Shortcut" 또는 "Change Hotkey" 버튼을 누른 뒤, 키보드에서 <strong>왼쪽 Shift 키를 누른 채 Z 키</strong>를 함께 눌러주세요.</p>
+      <p>입력란에 <code>Left Shift + Z</code> 또는 <code>LShift + Z</code> 로 표시되면 성공입니다. <strong>Save / Apply</strong> 를 눌러 저장합니다.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <strong>충돌 주의:</strong> 일부 게임이나 한글 입력기에서 <span class="kbd-combo"><kbd>왼쪽 Shift</kbd>＋<kbd>Z</kbd></span> 가 다른 기능에 잡혀있을 수 있습니다.
+    충돌이 의심되면 <span class="kbd-combo"><kbd>왼쪽 Shift</kbd>＋<kbd>왼쪽 Alt</kbd></span> 또는 <span class="kbd-combo"><kbd>오른쪽 Alt</kbd></span> 로 임시 변경 후 사업팀장에게 알려주세요.
+  </div>
+
+  <h2>6. 실제 사용법</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h3>입력하고 싶은 앱에 커서를 둡니다</h3>
+      <p>메일, 슬랙, 노션, 카톡, 메모장, 어떤 앱이든 텍스트 입력창에 커서를 두세요.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h3><span class="kbd-combo"><kbd>왼쪽 Shift</kbd>＋<kbd>Z</kbd></span> 를 누른 채로 말합니다</h3>
+      <p>키를 떼지 말고 자연스럽게 말합니다. 너무 또박또박 끊어 말할 필요 없습니다.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h3>키에서 손을 떼면 텍스트가 자동 입력됩니다</h3>
+      <p>AI가 어, 음 같은 추임새를 제거하고 문장 부호도 자동으로 넣어 입력해 줍니다.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-ok">
+    <strong>꿀팁:</strong> 한국어와 영어를 섞어 말해도 자동 인식됩니다. 회의 메모, 메일 초안, 슬랙 답장 모두 사용 가능.
+  </div>
+
+  <h2>7. 자주 묻는 질문 / 문제 해결</h2>
+
+  <h3>Q. 단축키를 눌러도 반응이 없습니다.</h3>
+  <ul>
+    <li>트레이에 Typeless 아이콘이 떠 있는지 확인 (실행 중이어야 작동)</li>
+    <li>설정에서 <code>Run at startup (시작 시 자동 실행)</code> 켜두면 편함</li>
+    <li>다른 앱(게임, 한글, IME)이 같은 키를 선점하고 있는지 확인</li>
+  </ul>
+
+  <h3>Q. 마이크가 인식되지 않습니다.</h3>
+  <ul>
+    <li>Windows <code>설정 → 시스템 → 소리 → 입력</code> 에서 기본 마이크 확인</li>
+    <li>마이크 사용 권한이 Typeless에 켜져 있는지 확인</li>
+    <li>USB 마이크는 다른 포트에 꽂아 재인식</li>
+  </ul>
+
+  <h3>Q. 받아쓴 결과가 엉뚱한 곳에 입력됩니다.</h3>
+  <ul>
+    <li>말하기 전 커서가 입력하고 싶은 자리에 정확히 놓여 있는지 확인</li>
+    <li>키를 누르는 동안 다른 창이 포커스를 가져가지 않도록 주의</li>
+  </ul>
+
+  <h3>Q. 보안이 걱정됩니다. 음성이 저장되나요?</h3>
+  <p>공식 정책상 <strong>Zero Data Retention (보관하지 않음)</strong> 입니다. 다만 민감한 고객 정보(개인정보, 계약 조건 등)는 텍스트로 직접 입력하는 것을 권장합니다.</p>
+
+  <h3>Q. 회사 PC에 설치해도 되나요?</h3>
+  <p>설치 전 정보보안팀 가이드에 따라 사용 가능 여부를 확인해 주세요. AI사업2팀은 사업팀장 승인 후 사용합니다.</p>
+
+  <footer>
+    <p>작성: AI사업2팀 · 2026-05-13 · 문의: 사업팀장</p>
+    <p>공식 사이트: <a href="https://www.typeless.com" target="_blank" rel="noopener">typeless.com</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
