@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI사업2팀 · 26년 AICC 사업목표달성 전략회의 워크샵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+    --pink-50: #fff5f7;
+    --pink-100: #ffe3ec;
+    --pink-200: #ffc8d8;
+    --pink-300: #ff9fbb;
+    --pink-500: #ec5b88;
+    --green-100: #e6f6e0;
+    --green-300: #a8d8a0;
+    --green-500: #4caf7a;
+    --yellow-100: #fff7d6;
+    --yellow-300: #ffe27a;
+    --sky-100: #e0f1ff;
+    --sky-300: #9ecdff;
+    --ink-900: #2a1f2d;
+    --ink-700: #4d3f53;
+    --ink-500: #76697d;
+    --ink-300: #b3a8b8;
+    --bg: linear-gradient(180deg, #fff8fb 0%, #fff5e8 40%, #f3fbf0 100%);
+    --card: rgba(255,255,255,0.78);
+    --border: rgba(236, 91, 136, 0.18);
+    --shadow: 0 8px 32px rgba(236, 91, 136, 0.08), 0 2px 6px rgba(42, 31, 45, 0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-900);
+    background: var(--bg);
+    background-attachment: fixed;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    overflow-x: hidden;
+  }
+
+  /* 벚꽃 잎 floating */
+  .petal {
+    position: fixed;
+    top: -20px;
+    width: 14px; height: 14px;
+    background: var(--pink-200);
+    border-radius: 0 100% 0 100%;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+    animation: fall linear infinite;
+  }
+  .petal:nth-child(1) { left: 8%;  animation-duration: 14s; animation-delay: -2s; transform: rotate(15deg); }
+  .petal:nth-child(2) { left: 22%; animation-duration: 18s; animation-delay: -5s; transform: rotate(45deg); background: var(--pink-300); }
+  .petal:nth-child(3) { left: 38%; animation-duration: 12s; animation-delay: -8s; transform: rotate(75deg); opacity: 0.4; }
+  .petal:nth-child(4) { left: 55%; animation-duration: 20s; animation-delay: -1s; transform: rotate(20deg); background: var(--pink-100); }
+  .petal:nth-child(5) { left: 70%; animation-duration: 16s; animation-delay: -10s; transform: rotate(60deg); }
+  .petal:nth-child(6) { left: 85%; animation-duration: 13s; animation-delay: -4s; transform: rotate(35deg); background: var(--pink-300); opacity: 0.45; }
+  .petal:nth-child(7) { left: 92%; animation-duration: 19s; animation-delay: -7s; transform: rotate(50deg); }
+
+  @keyframes fall {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.55; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 48px 24px 56px;
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    border-radius: 32px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, var(--pink-200) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, var(--green-300) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.45;
+  }
+  .hero-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--pink-100);
+    color: var(--pink-500);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(120deg, var(--pink-500), #ff8a3d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    color: var(--ink-500);
+    font-size: 16px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+  .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-700);
+    box-shadow: 0 2px 8px rgba(236, 91, 136, 0.06);
+  }
+  .meta-chip strong { color: var(--ink-900); font-weight: 700; }
+  .meta-chip .icon { font-size: 18px; }
+
+  /* SECTION */
+  section { margin-top: 40px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-left: 4px;
+  }
+  .section-head .num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pink-500);
+    letter-spacing: 1px;
+  }
+  .section-head h2 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .section-head .hint {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--ink-500);
+  }
+
+  .card {
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--pink-300), var(--green-300), var(--sky-300));
+    border-radius: 2px;
+  }
+  .t-item {
+    position: relative;
+    padding: 14px 0 14px 16px;
+  }
+  .t-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 22px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--pink-300);
+    box-shadow: 0 0 0 4px rgba(255, 159, 187, 0.18);
+  }
+  .t-item.green::before { border-color: var(--green-300); box-shadow: 0 0 0 4px rgba(168, 216, 160, 0.22); }
+  .t-item.sky::before { border-color: var(--sky-300); box-shadow: 0 0 0 4px rgba(158, 205, 255, 0.22); }
+  .t-item.yellow::before { border-color: var(--yellow-300); box-shadow: 0 0 0 4px rgba(255, 226, 122, 0.28); }
+
+  .t-time {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pink-500);
+    letter-spacing: 0.3px;
+  }
+  .t-item.green .t-time { color: var(--green-500); }
+  .t-item.sky .t-time { color: #4a8bdc; }
+  .t-item.yellow .t-time { color: #c79900; }
+
+  .t-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 4px 0 6px;
+  }
+  .t-desc {
+    font-size: 14px;
+    color: var(--ink-700);
+    line-height: 1.7;
+  }
+  .t-desc ul { margin-top: 6px; padding-left: 18px; }
+  .t-desc li { margin: 2px 0; }
+
+  /* TAXI GRID */
+  .taxi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .taxi-card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .taxi-card:hover { transform: translateY(-2px); }
+  .taxi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--accent, var(--pink-300));
+  }
+  .taxi-card.c1 { --accent: linear-gradient(90deg, #ffb3c8, #ff9fbb); }
+  .taxi-card.c2 { --accent: linear-gradient(90deg, #ffd97a, #ffc046); }
+  .taxi-card.c3 { --accent: linear-gradient(90deg, #a8d8a0, #4caf7a); }
+  .taxi-card.c4 { --accent: linear-gradient(90deg, #9ecdff, #6ba8e6); }
+
+  .taxi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .taxi-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-500);
+    letter-spacing: 1.5px;
+  }
+  .taxi-emoji { font-size: 22px; }
+  .taxi-members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .member {
+    padding: 6px 12px;
+    background: var(--pink-50);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-900);
+  }
+  .member.lead {
+    background: linear-gradient(120deg, var(--pink-200), var(--yellow-300));
+    color: var(--ink-900);
+  }
+  .taxi-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--ink-500);
+  }
+
+  /* PRESENTATION ORDER */
+  .order-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .order-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .order-item .idx {
+    width: 24px; height: 24px;
+    background: var(--pink-100);
+    color: var(--pink-500);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .order-item .name { font-weight: 600; }
+  .order-item .time { margin-left: auto; font-size: 12px; color: var(--ink-500); }
+
+  /* CHECKLIST */
+  .check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .check-col h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .check-col h3 .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--pink-300);
+  }
+  .check-col.team h3 .dot { background: var(--green-300); }
+  .check-list { list-style: none; }
+  .check-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--ink-700);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-bottom: 1px dashed rgba(180, 168, 184, 0.25);
+  }
+  .check-list li:last-child { border-bottom: none; }
+  .check-list li::before {
+    content: '☐';
+    color: var(--pink-300);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .check-col.team .check-list li::before { color: var(--green-500); }
+
+  /* DIRECTIONS */
+  .direction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .dir-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    border: 1px solid var(--border);
+  }
+  .dir-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    background: var(--pink-100);
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .dir-card.subway .dir-icon { background: var(--green-100); }
+  .dir-card.car .dir-icon { background: var(--sky-100); }
+  .dir-card.walk .dir-icon { background: var(--yellow-100); }
+  .dir-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .dir-card p { font-size: 13px; color: var(--ink-700); line-height: 1.6; }
+
+  /* NOTE */
+  .note {
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: linear-gradient(120deg, var(--yellow-100), var(--pink-50));
+    border-left: 4px solid var(--yellow-300);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--ink-700);
+    line-height: 1.7;
+  }
+  .note strong { color: var(--ink-900); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 32px 24px;
+    color: var(--ink-500);
+    font-size: 13px;
+  }
+  footer .heart { color: var(--pink-500); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 28px; }
+    .hero { padding: 36px 20px 40px; border-radius: 22px; }
+    .check-grid { grid-template-columns: 1fr; gap: 16px; }
+    .container { padding: 24px 14px 0; }
+    .card { padding: 22px 18px; border-radius: 18px; }
+    .section-head h2 { font-size: 20px; }
+    .section-head .hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 벚꽃 잎 -->
+<div class="petal"></div><div class="petal"></div><div class="petal"></div>
+<div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <header class="hero">
+    <span class="hero-tag">AI사업2팀 OFF-SITE WORKSHOP</span>
+    <h1>26년 AICC 사업목표달성<br><span class="accent">전략회의 워크샵</span></h1>
+    <p class="hero-sub">한 해의 절반을 돌아보고, 남은 반년의 그림을 함께 그립니다.</p>
+    <div class="hero-meta">
+      <div class="meta-chip"><span class="icon">📅</span><strong>2026.05.15 (금)</strong></div>
+      <div class="meta-chip"><span class="icon">⏰</span>10:00 — 16:00</div>
+      <div class="meta-chip"><span class="icon">📍</span>망원한강공원</div>
+      <div class="meta-chip"><span class="icon">👥</span>팀원 12명 (팀장 포함)</div>
+    </div>
+  </header>
+
+  <!-- 1. 이동 / 택시 조편성 -->
+  <section>
+    <div class="section-head">
+      <span class="num">01 / TRANSPORT</span>
+      <h2>회사 → 망원한강공원 이동</h2>
+      <span class="hint">09:20 회사 로비 집결 · 09:30 출발</span>
+    </div>
+    <div class="card">
+      <p style="font-size:14px; color:var(--ink-700); margin-bottom:18px;">
+        <strong style="color:var(--ink-900);">09:20</strong> 회사 1층 로비 집결 →
+        <strong style="color:var(--ink-900);">09:30</strong> 택시 4대 동시 출발 →
+        <strong style="color:var(--ink-900);">10:00</strong> 망원한강공원 6번 출입구 앞 도착 (이동 약 30분)
+      </p>
+
+      <div class="taxi-grid">
+        <div class="taxi-card c1">
+          <div class="taxi-head">
+            <span class="taxi-num">1조 · TAXI</span>
+            <span class="taxi-emoji">🌸</span>
+          </div>
+          <div class="taxi-members">
+            <span class="member">박정숙</span>
+            <span class="member">손미영</span>
+            <span class="member">김은희</span>
+          </div>
+          <p class="taxi-note">선두차 · 도착 인증 담당</p>
+        </div>
+
+        <div class="taxi-card c2">
+          <div class="taxi-head">
+            <span class="taxi-num">2조 · TAXI</span>
+            <span class="taxi-emoji">🌼</span>
+          </div>
+          <div class="taxi-members">
+            <span class="member">박은경</span>
+            <span class="member">김준희</span>
+            <span class="member">배홍주</span>
+          </div>
+          <p class="taxi-note">간식 / 음료 수령 담당</p>
+        </div>
+
+        <div class="taxi-card c3">
+          <div class="taxi-head">
+            <span class="taxi-num">3조 · TAXI</span>
+            <span class="taxi-emoji">🍃</span>
+          </div>
+          <div class="taxi-members">
+            <span class="member">김민식</span>
+            <span class="member">최종우</span>
+            <span class="member">이진용</span>
+          </div>
+          <p class="taxi-note">자리 세팅 · 돗자리/테이블 운반</p>
+        </div>
+
+        <div class="taxi-card c4">
+          <div class="taxi-head">
+            <span class="taxi-num">4조 · TAXI</span>
+            <span class="taxi-emoji">☀️</span>
+          </div>
+          <div class="taxi-members">
+            <span class="member">양준모</span>
+            <span class="member">한승엽</span>
+            <span class="member">이광수</span>
+          </div>
+          <p class="taxi-note">후미차 · 잔여 자재 / 비상 대응</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>💡 운영 팁</strong><br>
+        · 각 조 첫 번째 인원이 카카오T로 호출 후, 영수증을 사진으로 남겨 단톡방 공유 (사후 정산)<br>
+        · 도착지: <strong>망원한강공원 6번 출입구</strong> (망원역 1번 출구에서 차량 진입이 편함)<br>
+        · 도착 즉시 단톡방에 "○조 도착" 인증 → 누락 조 확인
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 워크샵 일정 -->
+  <section>
+    <div class="section-head">
+      <span class="num">02 / AGENDA</span>
+      <h2>워크샵 일정표</h2>
+      <span class="hint">총 6시간 / 발표 + 토론 + 점심</span>
+    </div>
+    <div class="card">
+      <div class="timeline">
+
+        <div class="t-item">
+          <div class="t-time">09:20 — 09:30</div>
+          <div class="t-title">회사 로비 집결 & 택시 배차</div>
+          <div class="t-desc">조별 인원 확인, 자재 분배, 카카오T 콜 동시 호출.</div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">09:30 — 10:00</div>
+          <div class="t-title">망원한강공원 이동</div>
+          <div class="t-desc">택시 4대 분산 이동. 6번 출입구 도착 후 단톡 인증.</div>
+        </div>
+
+        <div class="t-item yellow">
+          <div class="t-time">10:00 — 10:15</div>
+          <div class="t-title">도착 · 자리 세팅 · Welcome Coffee</div>
+          <div class="t-desc">돗자리·폴딩테이블 세팅, 명패 배치, 커피·간식 오픈.</div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">10:15 — 11:30</div>
+          <div class="t-title">[SESSION 1] 1~5월 Team Review & 개인별 Reflection</div>
+          <div class="t-desc">
+            팀장 오프닝 (10') → 1~5월 핵심 성과/지표 리뷰 (20') → 개인별 Reflection 발표 1인 약 3~4분 (45')
+            <ul>
+              <li>잘된 것 / 아쉬운 것 / 배운 것 (KPT 포맷)</li>
+              <li>26년 하반기 개인 Top 1 우선순위</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="t-item green">
+          <div class="t-time">11:30 — 12:00</div>
+          <div class="t-title">한강 산책 & Free Talk</div>
+          <div class="t-desc">조 섞어서 산책 (자연스러운 1:1 대화 유도).</div>
+        </div>
+
+        <div class="t-item yellow">
+          <div class="t-time">12:00 — 13:00</div>
+          <div class="t-title">점심</div>
+          <div class="t-desc">망원시장 / 망원동 인근 식당 이용 (조별 또는 자율). 13:00 발표 시작 전 자리 복귀.</div>
+        </div>
+
+        <div class="t-item sky">
+          <div class="t-time">13:00 — 16:00</div>
+          <div class="t-title">[SESSION 2] 개인별 Activity 계획 발표</div>
+          <div class="t-desc">
+            1인 발표 12분 + Q&amp;A 3분 = 15분 / 인 × 12명. 아래 3가지 관점을 모두 포함:
+            <ul>
+              <li><strong>① AICC 목표달성 관점</strong> — 담당 어카운트/제품의 26년 수주 시나리오</li>
+              <li><strong>② AICC BPO 제안 관점</strong> — BPO 전환·확장 기회와 본인의 contribution</li>
+              <li><strong>③ AI Agent 도입 관점</strong> — 운영/제안/내부 업무에 적용할 Agent 아이디어</li>
+            </ul>
+            <em style="color:var(--ink-500); font-size:13px;">※ 발표 순서는 아래 [03] 참고. 중간 15:00에 10분 스트레칭 휴식.</em>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-time">16:00 — 16:10</div>
+          <div class="t-title">팀장 클로징</div>
+          <div class="t-desc">3대 액션 합의, 후속 R&amp;R, 다음 마일스톤 공유.</div>
+        </div>
+
+        <div class="t-item green">
+          <div class="t-time">16:10 ~</div>
+          <div class="t-title">자율 해산 (옵션: 망원시장 뒤풀이)</div>
+          <div class="t-desc">현장 자율 정리. 희망자 한정 망원시장 뒤풀이 (별도 안내).</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 발표 순서 -->
+  <section>
+    <div class="section-head">
+      <span class="num">03 / ORDER</span>
+      <h2>오후 세션 발표 순서</h2>
+      <span class="hint">15분 × 12명 / 15:00 10분 휴식</span>
+    </div>
+    <div class="card">
+      <div class="order-list">
+        <div class="order-item"><span class="idx">1</span><span class="name">김민식</span><span class="time">13:00</span></div>
+        <div class="order-item"><span class="idx">2</span><span class="name">최종우</span><span class="time">13:15</span></div>
+        <div class="order-item"><span class="idx">3</span><span class="name">이진용</span><span class="time">13:30</span></div>
+        <div class="order-item"><span class="idx">4</span><span class="name">김준희</span><span class="time">13:45</span></div>
+        <div class="order-item"><span class="idx">5</span><span class="name">박은경</span><span class="time">14:00</span></div>
+        <div class="order-item"><span class="idx">6</span><span class="name">배홍주</span><span class="time">14:15</span></div>
+        <div class="order-item"><span class="idx">7</span><span class="name">이광수</span><span class="time">14:30</span></div>
+        <div class="order-item"><span class="idx">8</span><span class="name">한승엽</span><span class="time">14:45</span></div>
+        <div class="order-item"><span class="idx">9</span><span class="name">김은희</span><span class="time">15:10</span></div>
+        <div class="order-item"><span class="idx">10</span><span class="name">박정숙</span><span class="time">15:25</span></div>
+        <div class="order-item"><span class="idx">11</span><span class="name">손미영</span><span class="time">15:40</span></div>
+        <div class="order-item"><span class="idx">12</span><span class="name">양준모</span><span class="time">15:55</span></div>
+      </div>
+      <div class="note">
+        <strong>📋 발표 가이드</strong> · 슬라이드 5장 이내 권장 · 핵심 1장으로 시작 (한 줄 결론) · 야외 환경 고려해 노트북 화면 + 인쇄본 1부 지참 권장
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 준비물 -->
+  <section>
+    <div class="section-head">
+      <span class="num">04 / CHECKLIST</span>
+      <h2>준비물 체크리스트</h2>
+      <span class="hint">개인 / 팀 분리</span>
+    </div>
+    <div class="card">
+      <div class="check-grid">
+
+        <div class="check-col">
+          <h3><span class="dot"></span>개인 준비물</h3>
+          <ul class="check-list">
+            <li>노트북 + 충전기 (배터리 풀충 권장)</li>
+            <li>발표자료 (USB + 클라우드 백업)</li>
+            <li>인쇄본 1부 (야외 대비 백업)</li>
+            <li>편한 비즈니스 캐주얼 (운동화 권장)</li>
+            <li>가벼운 외투 / 카디건 (강바람 대비)</li>
+            <li>모자 · 선글라스 · 자외선 차단제</li>
+            <li>개인 텀블러 · 손수건</li>
+            <li>명함 (외부인 마주칠 경우 대비)</li>
+            <li>핸드폰 보조배터리</li>
+            <li>알러지 약 / 개인 상비약</li>
+          </ul>
+        </div>
+
+        <div class="check-col team">
+          <h3><span class="dot"></span>팀 공통 자재</h3>
+          <ul class="check-list">
+            <li>대형 돗자리 2~3장 + 폴딩테이블 2개</li>
+            <li>접이식 의자 12개 (대여 권장)</li>
+            <li>웰컴 커피 (드립백 / 텀블러용 보온병)</li>
+            <li>간식 (과일, 베이커리, 견과류 등)</li>
+            <li>생수 / 음료 박스 (12인 × 2병)</li>
+            <li>휴대용 빔/모니터 또는 14인치+ 노트북 (발표 공유용)</li>
+            <li>휴대용 스피커 · 멀티탭 · 연장선</li>
+            <li>큐시트 · 명패 12개 · 마커펜</li>
+            <li>응급키트 · 물티슈 · 휴지 · 종이컵</li>
+            <li>쓰레기 종량제 봉투 (서울 마포구 20L) 2매</li>
+            <li>우산 / 미니 타프 (날씨 대비)</li>
+            <li>벌레퇴치 스프레이</li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="note">
+        <strong>🎒 운반 분담</strong> · 1조: 음료·생수 · 2조: 간식·커피 · 3조: 돗자리·테이블·의자 · 4조: 발표 장비(노트북·스피커·멀티탭)·응급키트
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 오시는 길 -->
+  <section>
+    <div class="section-head">
+      <span class="num">05 / DIRECTIONS</span>
+      <h2>오시는 길 · 망원한강공원</h2>
+      <span class="hint">개별 합류자용</span>
+    </div>
+    <div class="card">
+      <div class="direction-grid">
+
+        <div class="dir-card subway">
+          <div class="dir-icon">🚇</div>
+          <h4>지하철</h4>
+          <p>6호선 <strong>망원역 1번 출구</strong> → 도보 약 10분<br>
+          (월드컵로 → 망원1빗물펌프장 방면)<br>
+          또는 2·6호선 합정역 → 도보 약 15분</p>
+        </div>
+
+        <div class="dir-card walk">
+          <div class="dir-icon">🚌</div>
+          <h4>버스</h4>
+          <p><strong>망원1동주민센터</strong> 정류장 하차<br>
+          간선 760, 지선 5712·6712·7011<br>
+          하차 후 한강 방향 도보 5~8분</p>
+        </div>
+
+        <div class="dir-card car">
+          <div class="dir-icon">🚗</div>
+          <h4>자가용</h4>
+          <p>망원한강공원 <strong>주차장 P1·P2</strong> 이용<br>
+          (강변북로 → 양화대교 북단 → 망원지구 진입)<br>
+          요금: 최초 1시간 1,000원 / 추가 5분당 200원</p>
+        </div>
+
+        <div class="dir-card">
+          <div class="dir-icon">📍</div>
+          <h4>현장 집결지</h4>
+          <p><strong>망원한강공원 6번 출입구</strong> 잔디광장<br>
+          (망원안내센터에서 한강 방향 직진 50m)<br>
+          현장 도착 시 단톡방 공유</p>
+        </div>
+
+      </div>
+      <div class="note">
+        <strong>🌤️ 날씨 대응</strong> · 5월 15일 오전 강수확률 확인 (5/14 저녁 단톡 공지) · <strong>강수확률 60% 이상 시</strong> 인근 망원동 카페·세미나실로 Plan B 전환 (별도 안내)<br>
+        <strong>🚻 편의시설</strong> · 6번 출입구 인근 화장실·매점·편의점 도보 3분 이내
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    AI사업2팀 · 26년 AICC 사업목표달성 전략회의 워크샵 itinerary <span class="heart">✿</span> 2026.05.15 (금)<br>
+    문의 / 변동사항은 팀 단톡방으로
+  </footer>
+
+</div>
+
+</body>
+</html>
