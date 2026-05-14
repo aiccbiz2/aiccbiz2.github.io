@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 상담봇 도입효과 및 목표완결수준(KPI)</title>
+<style>
+  :root {
+    --apple-bg-white: #fbfbfd;
+    --apple-bg-light: #f5f5f7;
+    --apple-bg-dark: #1d1d1f;
+    --apple-bg-black: #000000;
+    --apple-text-primary: #1d1d1f;
+    --apple-text-secondary: #6e6e73;
+    --apple-text-tertiary: #86868b;
+    --apple-text-on-dark: #f5f5f7;
+    --apple-link: #0066cc;
+    --apple-blue: #0071e3;
+    --apple-green: #30d158;
+    --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, "Apple SD Gothic Neo", sans-serif;
+    --apple-hero-size: clamp(40px, 6.5vw, 84px);
+    --apple-headline-size: clamp(30px, 4.5vw, 56px);
+    --apple-title-size: clamp(22px, 3vw, 40px);
+    --apple-subtitle-size: clamp(18px, 2vw, 26px);
+    --apple-body-size: clamp(15px, 1.15vw, 19px);
+    --apple-caption-size: clamp(12px, 1vw, 15px);
+    --apple-lh-tight: 1.07;
+    --apple-lh-snug: 1.18;
+    --apple-lh-body: 1.6;
+    --apple-ls-tight: -0.015em;
+    --apple-max-width: 980px;
+    --apple-gutter: 22px;
+    --apple-section-pad-xl: clamp(80px, 12vw, 180px);
+    --apple-section-pad-lg: clamp(64px, 8vw, 120px);
+    --apple-radius-card: 18px;
+    --apple-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --apple-duration-reveal: 1100ms;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--apple-font);
+    background: var(--apple-bg-white);
+    color: var(--apple-text-primary);
+    line-height: var(--apple-lh-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    height: 48px;
+    background: rgba(251, 251, 253, 0.82);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(16px, 3vw, 40px);
+    font-size: 12px;
+    letter-spacing: -0.01em;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  }
+  .nav a {
+    color: var(--apple-text-secondary);
+    text-decoration: none;
+    transition: color 200ms ease;
+    white-space: nowrap;
+  }
+  .nav a:hover { color: var(--apple-text-primary); }
+  .nav .nav__brand { color: var(--apple-text-primary); font-weight: 600; }
+
+  /* ---------- Section base ---------- */
+  section { padding: var(--apple-section-pad-lg) var(--apple-gutter); }
+  .wrap { max-width: var(--apple-max-width); margin: 0 auto; }
+
+  .sec--dark { background: var(--apple-bg-dark); color: var(--apple-text-on-dark); }
+  .sec--black { background: var(--apple-bg-black); color: var(--apple-text-on-dark); }
+  .sec--light { background: var(--apple-bg-light); }
+  .sec--white { background: var(--apple-bg-white); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    text-align: center;
+    padding: var(--apple-section-pad-xl) var(--apple-gutter);
+  }
+  .hero__eyebrow {
+    font-size: var(--apple-subtitle-size);
+    font-weight: 600;
+    color: #2997ff;
+    letter-spacing: var(--apple-ls-tight);
+    margin-bottom: 14px;
+  }
+  .hero__title {
+    font-size: var(--apple-hero-size);
+    font-weight: 700;
+    line-height: var(--apple-lh-tight);
+    letter-spacing: var(--apple-ls-tight);
+    margin-bottom: 22px;
+  }
+  .hero__subtitle {
+    font-size: var(--apple-subtitle-size);
+    font-weight: 400;
+    color: var(--apple-text-tertiary);
+    max-width: 660px;
+    margin: 0 auto 14px;
+  }
+  .hero__meta {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-tertiary);
+    margin-top: 36px;
+  }
+
+  /* ---------- Headings ---------- */
+  .eyebrow {
+    font-size: var(--apple-body-size);
+    font-weight: 600;
+    color: var(--apple-blue);
+    letter-spacing: var(--apple-ls-tight);
+    margin-bottom: 10px;
+  }
+  .sec--dark .eyebrow, .sec--black .eyebrow { color: #2997ff; }
+  .headline {
+    font-size: var(--apple-headline-size);
+    font-weight: 700;
+    line-height: var(--apple-lh-snug);
+    letter-spacing: var(--apple-ls-tight);
+    margin-bottom: 18px;
+  }
+  .lead {
+    font-size: var(--apple-subtitle-size);
+    font-weight: 400;
+    color: var(--apple-text-secondary);
+    margin-bottom: 48px;
+    max-width: 760px;
+  }
+  .sec--dark .lead, .sec--black .lead { color: var(--apple-text-tertiary); }
+  .subhead {
+    font-size: var(--apple-title-size);
+    font-weight: 600;
+    letter-spacing: var(--apple-ls-tight);
+    line-height: var(--apple-lh-snug);
+    margin: 56px 0 20px;
+  }
+
+  p { font-size: var(--apple-body-size); margin-bottom: 16px; }
+  .muted { color: var(--apple-text-secondary); }
+
+  /* ---------- Tables ---------- */
+  .table-card {
+    background: var(--apple-bg-white);
+    border-radius: var(--apple-radius-card);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+  }
+  .sec--light .table-card { background: #ffffff; }
+  table { width: 100%; border-collapse: collapse; font-size: var(--apple-caption-size); }
+  thead th {
+    background: var(--apple-bg-dark);
+    color: var(--apple-text-on-dark);
+    font-weight: 600;
+    text-align: left;
+    padding: 16px 18px;
+    letter-spacing: -0.01em;
+    font-size: var(--apple-caption-size);
+  }
+  tbody td {
+    padding: 15px 18px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+    color: var(--apple-text-primary);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) { background: rgba(0, 0, 0, 0.02); }
+  /* 다크 섹션에서 헤더가 섹션 배경과 묻히지 않도록 밝은 차콜로 분리 */
+  .sec--dark .table-card thead th,
+  .sec--black .table-card thead th {
+    background: #515154;
+    color: #ffffff;
+  }
+  td strong, th strong { font-weight: 700; }
+  .hl { color: var(--apple-blue); font-weight: 700; }
+  .pos { color: #1a8a3a; font-weight: 700; }
+
+  /* ---------- Definition / KPI cards ---------- */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--apple-gutter);
+  }
+  .card {
+    background: var(--apple-bg-white);
+    border-radius: var(--apple-radius-card);
+    padding: 38px 34px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+  .sec--dark .card, .sec--black .card {
+    background: #2a2a2c;
+    box-shadow: none;
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+  }
+  .card__tag {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--apple-blue);
+    margin-bottom: 12px;
+  }
+  .sec--dark .card__tag { color: #2997ff; }
+  .card__title {
+    font-size: var(--apple-title-size);
+    font-weight: 700;
+    letter-spacing: var(--apple-ls-tight);
+    line-height: var(--apple-lh-snug);
+    margin-bottom: 12px;
+  }
+  .card__body { font-size: var(--apple-body-size); color: var(--apple-text-secondary); }
+  .sec--dark .card__body { color: var(--apple-text-tertiary); }
+  .card__formula {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--apple-bg-light);
+    border-radius: 10px;
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-primary);
+  }
+  .sec--dark .card__formula { background: rgba(255,255,255,0.06); color: var(--apple-text-on-dark); }
+
+  /* ---------- Stat row ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--apple-gutter);
+    margin-bottom: 24px;
+  }
+  .stat {
+    text-align: center;
+    padding: 32px 16px;
+  }
+  .stat__num {
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 700;
+    letter-spacing: var(--apple-ls-tight);
+    line-height: 1;
+    background: linear-gradient(180deg, #2997ff, #0066cc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat__label {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-tertiary);
+    margin-top: 12px;
+  }
+  .sec--dark .stat__label { color: var(--apple-text-tertiary); }
+
+  /* ---------- Insight list ---------- */
+  .insight {
+    display: flex;
+    gap: 20px;
+    padding: 26px 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
+  }
+  .insight:last-child { border-bottom: none; }
+  .insight__no {
+    font-size: var(--apple-title-size);
+    font-weight: 700;
+    color: #2997ff;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 44px;
+  }
+  .insight__text { font-size: var(--apple-body-size); color: var(--apple-text-on-dark); }
+  .insight__text strong { font-weight: 700; }
+
+  /* ---------- Callout ---------- */
+  .callout {
+    border-left: 3px solid var(--apple-blue);
+    padding: 18px 24px;
+    background: rgba(0, 113, 227, 0.05);
+    border-radius: 0 12px 12px 0;
+    margin: 24px 0;
+  }
+  .callout p { margin-bottom: 0; font-size: var(--apple-caption-size); color: var(--apple-text-secondary); }
+  .sec--dark .callout { background: rgba(41, 151, 255, 0.1); border-color: #2997ff; }
+  .sec--dark .callout p { color: var(--apple-text-tertiary); }
+
+  /* ---------- Footnote ---------- */
+  .footnote {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-tertiary);
+    line-height: 1.7;
+  }
+  .footnote strong { color: var(--apple-text-secondary); }
+
+  footer {
+    text-align: center;
+    padding: 60px var(--apple-gutter);
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-tertiary);
+    background: var(--apple-bg-light);
+  }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--apple-duration-reveal) var(--apple-ease-out),
+                transform var(--apple-duration-reveal) var(--apple-ease-out);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 734px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .table-card { overflow-x: auto; }
+    table { min-width: 540px; }
+    .card { padding: 30px 24px; }
+    .nav { gap: 14px; padding: 0 14px; font-size: 11px; }
+  }
+  @media print {
+    .nav { display: none; }
+    .reveal { opacity: 1; transform: none; }
+    section { padding: 40px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav__brand">우리은행 내부보고</span>
+  <a href="#define">완결율 정의</a>
+  <a href="#effect">도입효과</a>
+  <a href="#kpi">목표 KPI</a>
+  <a href="#implication">시사점</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero sec--black">
+  <div class="wrap">
+    <p class="hero__eyebrow reveal">우리은행 내부보고</p>
+    <h1 class="hero__title reveal">AI 상담봇 도입효과<br />그리고 목표완결수준</h1>
+    <p class="hero__subtitle reveal">상담봇 도입을 통해 무엇이, 얼마나 바뀌는가.<br />LG U+ 컨택센터 운영 레퍼런스 기반으로 완결율과 KPI를 정리합니다.</p>
+    <p class="hero__meta reveal">출처 : LG U+ 상담 어드바이저 솔루션 교육 · 고객센터투어 3건 &nbsp;|&nbsp; 작성일 2026.05.14</p>
+  </div>
+</header>
+
+<!-- 1. 완결율 정의 -->
+<section id="define" class="sec--white">
+  <div class="wrap">
+    <p class="eyebrow reveal">01 — 용어 정렬</p>
+    <h2 class="headline reveal">'완결율'을 먼저 정의합니다.</h2>
+    <p class="lead reveal">내부보고 후 지표 혼선과 책임소재 논란을 막기 위해, '완결율'은 두 가지 층위로 구분하여 사용할 것을 제안합니다.</p>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <span class="card__tag">① 채널 진입 단계</span>
+        <h3 class="card__title">봇 완결율<br />Containment Rate</h3>
+        <p class="card__body">상담사 연결 없이 챗봇·콜봇이 자체적으로 종결한 비율. AICC 운영의 1차 관리지표.</p>
+        <div class="card__formula">봇 완결율 = 100% − 상담사 연결률</div>
+      </div>
+      <div class="card reveal">
+        <span class="card__tag">② 상담 종결 후</span>
+        <h3 class="card__title">최초상담 완결율<br />FCR</h3>
+        <p class="card__body">고객이 한 번의 문의로 문제를 완전히 해결하여 재인입하지 않는 비율. 고객센터 운영 철학의 핵심 KPI.</p>
+        <div class="card__formula">FCR = 100% − 재인입율</div>
+      </div>
+    </div>
+
+    <div class="callout reveal">
+      <p>LG U+ 고객센터투어 Q&amp;A — "고객센터 목표가 많은 양 처리냐, 한 번에 완전히 마무리 짓고 재인입을 막는 것이냐"는 질문에 <strong>"한 번 연락해서 완전하게 마무리 짓고 재인입이 안 되게 하는 것이 목적"</strong>이라 답변. ②번(FCR)이 운영 철학의 핵심이나, 실무 관리지표는 <strong>'상담사 연결률'</strong>(①의 역수)을 1차로 운용.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 도입효과 -->
+<section id="effect" class="sec--dark">
+  <div class="wrap">
+    <p class="eyebrow reveal">02 — 도입효과</p>
+    <h2 class="headline reveal">AI 상담봇이 만든 변화.</h2>
+    <p class="lead reveal">LG U+ 컨택센터 실측 레퍼런스 — 17개 센터, 상담인력 4,500명, 일 인입 10만 콜 내외 규모에서 검증된 수치입니다.</p>
+
+    <div class="stats">
+      <div class="stat reveal">
+        <div class="stat__num">90<span style="font-size:0.5em">%+</span></div>
+        <div class="stat__label">챗봇 봇 완결율<br />(연결률 32% → 8~10%)</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat__num">22<span style="font-size:0.5em">%↓</span></div>
+        <div class="stat__label">상담 소요시간(AHT)<br />300초 → 230초</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat__num">80<span style="font-size:0.5em">%</span></div>
+        <div class="stat__label">상담사 연결(이관)<br />콜 수 개선</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat__num">70<span style="font-size:0.5em">%↓</span></div>
+        <div class="stat__label">상담사 연결<br />대기 고객 수</div>
+      </div>
+    </div>
+
+    <h3 class="subhead reveal">2-1. 봇 완결율 — 채널별 실적</h3>
+    <div class="table-card reveal">
+      <table>
+        <thead>
+          <tr><th>채널</th><th>도입 전</th><th>도입 / 고도화 후</th><th>봇 완결율</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>챗봇</strong></td><td>상담사 연결률 32%</td><td>UX 개편 후 연결 요청 8~10%</td><td><span class="hl">약 90~92%</span></td></tr>
+          <tr><td><strong>콜봇</strong></td><td>초기 성능 낮음</td><td>현재 상담사 연결 요청 약 42%</td><td><span class="hl">약 58%</span></td></tr>
+          <tr><td><strong>목표 (LLM 전환 후)</strong></td><td>—</td><td>상담사 연결 수요 최대 40%까지 감축 전망</td><td>채널 전반 상향</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote reveal">ARS 셀프기능 강화만으로도 연 10만 콜 중 약 4천 콜 감축(별도 효과). 룰베이스 → 생성형(LLM) 2단계 전환 시 고객 만족도 50% 이상으로 개선.</p>
+
+    <h3 class="subhead reveal">2-2. 상담 어드바이저 — 상담사 지원 AI 효과</h3>
+    <div class="table-card reveal">
+      <table>
+        <thead>
+          <tr><th>지표</th><th>도입 전</th><th>도입 후</th><th>개선폭</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>상담 소요시간 (AHT)</td><td>약 300초</td><td>약 230초</td><td><span class="pos">약 22% ↓</span></td></tr>
+          <tr><td>상담사 연결(이관) 콜 수</td><td>기준</td><td>—</td><td><span class="pos">약 80% 개선</span></td></tr>
+          <tr><td>상담사 연결 대기 고객 수</td><td>기준</td><td>—</td><td><span class="pos">약 70% ↓</span></td></tr>
+          <tr><td>상담사 연결 대기시간</td><td>24초</td><td>평균 10초 이내</td><td><span class="pos">대폭 단축</span></td></tr>
+          <tr><td>상담코드 추천 정확도</td><td>도입 초기 75%</td><td>99% (단일) / 95% (복수문의)</td><td><span class="pos">+24%p</span></td></tr>
+          <tr><td>실시간 STT 정확도</td><td>—</td><td>CRR 기준 97%</td><td>—</td></tr>
+          <tr><td>QA 평가 범위</td><td>코치 1인당 20명 표본</td><td>전수조사 24개 항목 · 종료 1시간 내 코칭리포트</td><td><span class="pos">표본 → 전수</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 목표 KPI -->
+<section id="kpi" class="sec--light">
+  <div class="wrap">
+    <p class="eyebrow reveal">03 — 목표완결수준</p>
+    <h2 class="headline reveal">우리은행 적용 시 단계별 KPI.</h2>
+    <p class="lead reveal">LG U+ 사례는 통신 도메인 실적입니다. 금융 적용 시에는 보수적 출발이 불가피하므로 — LGU+ CTO 발언상 금융 STT는 90% 초반에서 시작 — 단계별 점진 목표로 설정하는 것이 합리적입니다.</p>
+
+    <h3 class="subhead reveal" style="margin-top:8px;">3-1. 단계별 목표완결수준</h3>
+    <div class="table-card reveal">
+      <table>
+        <thead>
+          <tr><th>KPI</th><th>1단계 (도입~6개월)</th><th>2단계 (~1년)</th><th>3단계 (안정화)</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>챗봇 봇 완결율</strong></td><td>60%</td><td>75%</td><td><span class="hl">85~90%</span></td><td>LGU+ 90~92% 도달</td></tr>
+          <tr><td><strong>콜봇 봇 완결율</strong></td><td>40%</td><td>50%</td><td><span class="hl">58%+</span></td><td>LLM 전환 전제</td></tr>
+          <tr><td><strong>최초상담 완결율 (FCR)</strong></td><td>기준선 측정</td><td>+5%p</td><td><span class="hl">+10%p 이상</span></td><td>재인입율 역지표</td></tr>
+          <tr><td>STT 정확도</td><td>90% 초반</td><td>95%</td><td><span class="hl">97%</span></td><td>금융 도메인 피드백 루프</td></tr>
+          <tr><td>의도분류 정확도</td><td>90%</td><td>93%</td><td><span class="hl">95%</span></td><td>데일리 피드백 루프</td></tr>
+          <tr><td>상담코드 추천 정확도</td><td>75~80%</td><td>90%</td><td><span class="hl">95~99%</span></td><td>AI-in-the-loop 자가학습</td></tr>
+          <tr><td>상담 소요시간 (AHT)</td><td>−10%</td><td>−15%</td><td><span class="hl">−22%</span></td><td>어드바이저 효과</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead reveal">3-2. KPI 달성의 전제 — 데일리 피드백 루프</h3>
+    <p class="muted reveal">LG U+가 강조한 핵심은 <strong>"초기 정확도 수치보다 개선 속도"</strong>입니다. 보고 시에도 KPI는 고정 목표가 아니라, 피드백 루프를 통해 도달하는 궤적으로 제시할 것을 권장합니다.</p>
+    <div class="callout reveal">
+      <p>전일 오답 데이터(의도분류 오류 등) 수집 → 당일 재학습 → 익일 성능 측정. 오분류를 자동 수집·재매핑하는 '셀프 리볼빙' 구조를 통해 고객사 내부에서도 지속적 자동학습이 가능.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 시사점 -->
+<section id="implication" class="sec--black">
+  <div class="wrap">
+    <p class="eyebrow reveal">04 — 시사점</p>
+    <h2 class="headline reveal">우리은행 내부보고 시사점.</h2>
+    <p class="lead reveal">레퍼런스를 보고서로 옮길 때 반드시 짚어야 할 네 가지.</p>
+
+    <div class="insight reveal">
+      <div class="insight__no">01</div>
+      <div class="insight__text"><strong>'완결율'을 ①봇 완결율과 ②FCR로 분리 정의</strong>해야 보고 후 지표 혼선·책임소재 논란을 방지할 수 있습니다.</div>
+    </div>
+    <div class="insight reveal">
+      <div class="insight__no">02</div>
+      <div class="insight__text">도입효과는 <strong>고객 시간 절감 · 회사 비용 효율 · 상담품질 향상</strong>의 3축으로 제시. LG U+도 인력 효율화와 상담품질 제고를 병행 목표로 설정.</div>
+    </div>
+    <div class="insight reveal">
+      <div class="insight__no">03</div>
+      <div class="insight__text">금융권은 통신 대비 보수적 출발이 불가피 → <strong>단계별 목표(1·2·3단계)</strong>로 제시하여 과대약속 리스크를 차단합니다.</div>
+    </div>
+    <div class="insight reveal">
+      <div class="insight__no">04</div>
+      <div class="insight__text">KPI 신뢰성의 근거는 <strong>데일리 피드백 루프 체계</strong>이므로, 보고서에 운영 거버넌스(누가·어떻게 모니터링)까지 포함할 것을 권장합니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 데이터 주의사항 -->
+<section class="sec--white">
+  <div class="wrap">
+    <p class="eyebrow reveal">부록 — 데이터 출처 주의사항</p>
+    <h3 class="subhead reveal" style="margin-top:8px;">수치 인용 시 유의점</h3>
+    <p class="footnote reveal">
+      <strong>· 일 인입콜 규모</strong> — 투어별로 7.5만(메가스터디 회차)~11.5만(하나투어 회차)으로 상이. 동일 LG U+ 센터지만 측정 시점·범위 차이이므로, 보고서엔 "일 10만 콜 내외"로 표기 권장.<br />
+      <strong>· 챗봇 시나리오 수</strong> — 회차별 200개~560개로 상이. 특정 수치 단정 지양.<br />
+      <strong>· 출처</strong> — LG U+ 상담 어드바이저 솔루션 교육자료(2026.02.13), 고객센터투어 녹취 3건(메가스터디 2026.03.19 / 하나투어 2026.01.29 2건).
+    </p>
+  </div>
+</section>
+
+<footer>
+  우리은행 내부보고용 정리 자료 · AI 상담봇 도입효과 및 목표완결수준(KPI) · 2026.05.14
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+  });
+</script>
+
+</body>
+</html>
