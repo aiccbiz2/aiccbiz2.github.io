@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>남윤수 팀장 — 업무 자동화 에이전트 솔루션 검토</title>
+<meta name="description" content="개인 일정·팀 업무 관리 자동화. M365·Copilot Studio 기반 사내 망 솔루션 검토 보고서." />
+<style>
+:root {
+  --bg-white: #fbfbfd;
+  --bg-light: #f5f5f7;
+  --bg-dark: #1d1d1f;
+  --bg-black: #000000;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --text-on-dark: #f5f5f7;
+  --text-on-dark-2: #a1a1a6;
+  --link: #2997ff;
+  --link-hover: #5db5ff;
+  --blue: #0071e3;
+  --blue-hover: #0077ed;
+  --green: #30d158;
+  --gold: #f5d0a9;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Apple SD Gothic Neo", Helvetica, Arial, sans-serif;
+  --hero-size: clamp(44px, 7vw, 88px);
+  --headline-size: clamp(32px, 4.8vw, 56px);
+  --title-size: clamp(24px, 3vw, 40px);
+  --subtitle-size: clamp(19px, 2vw, 28px);
+  --body-size: clamp(15px, 1.2vw, 19px);
+  --caption-size: clamp(12px, 0.95vw, 15px);
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-card: 18px;
+  --radius-img: 28px;
+  --radius-btn: 980px;
+  --max-width: 980px;
+  --wide-width: 1200px;
+  --gutter: 22px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font); font-size: var(--body-size); line-height: 1.5; color: var(--text-primary); background: var(--bg-white); }
+
+/* ───── Navigation ───── */
+.nav {
+  position: sticky; top: 0; z-index: 9999;
+  height: 48px; display: flex; align-items: center; justify-content: center;
+  background: rgba(29, 29, 31, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: var(--text-on-dark);
+  font-size: 13px; letter-spacing: -0.01em;
+}
+.nav__inner { width: 100%; max-width: var(--max-width); padding: 0 var(--gutter); display: flex; justify-content: space-between; align-items: center; }
+.nav__brand { font-weight: 500; }
+.nav__meta { font-size: 12px; color: var(--text-on-dark-2); }
+
+/* ───── Hero ───── */
+.hero {
+  background: var(--bg-black);
+  color: var(--text-on-dark);
+  text-align: center;
+  padding: clamp(90px, 14vw, 180px) var(--gutter) clamp(60px, 8vw, 100px);
+  overflow: hidden;
+  position: relative;
+}
+.hero__eyebrow {
+  font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; font-weight: 500;
+}
+.hero__title {
+  font-size: var(--hero-size);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, #fff 0%, #d1d1d6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero__subtitle {
+  font-size: var(--subtitle-size);
+  font-weight: 400; color: var(--text-on-dark-2);
+  max-width: 720px; margin: 0 auto 40px;
+  line-height: 1.4;
+}
+.hero__meta {
+  display: inline-flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+  padding: 14px 28px; border-radius: var(--radius-btn);
+  background: rgba(255, 255, 255, 0.06);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  font-size: 14px; color: var(--text-on-dark-2);
+}
+.hero__meta strong { color: var(--text-on-dark); font-weight: 500; }
+.hero__quote {
+  margin-top: 60px;
+  font-size: clamp(20px, 2.6vw, 32px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-on-dark);
+  max-width: 800px; margin-left: auto; margin-right: auto;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.hero__quote::before { content: "「"; color: var(--gold); margin-right: 4px; }
+.hero__quote::after { content: "」"; color: var(--gold); margin-left: 4px; }
+
+/* ───── Section base ───── */
+.section { padding: clamp(80px, 11vw, 160px) var(--gutter); }
+.section--dark { background: var(--bg-dark); color: var(--text-on-dark); }
+.section--light { background: var(--bg-light); }
+.section--white { background: var(--bg-white); }
+.section__inner { max-width: var(--max-width); margin: 0 auto; }
+.section__inner--wide { max-width: var(--wide-width); margin: 0 auto; }
+
+.eyebrow {
+  font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--blue); font-weight: 500; margin-bottom: 18px;
+}
+.section--dark .eyebrow { color: var(--gold); }
+.headline {
+  font-size: var(--headline-size);
+  font-weight: 600; line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.lead {
+  font-size: var(--subtitle-size);
+  font-weight: 400; color: var(--text-secondary);
+  line-height: 1.4; max-width: 720px;
+}
+.section--dark .lead { color: var(--text-on-dark-2); }
+
+/* ───── Pain Points Table ───── */
+.pain-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  margin-top: 60px;
+}
+.pain-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-card);
+  padding: 36px 30px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.pain-card__num {
+  font-size: 64px; font-weight: 200;
+  color: var(--text-tertiary); line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 18px;
+}
+.pain-card__title {
+  font-size: 20px; font-weight: 600;
+  margin-bottom: 14px; letter-spacing: -0.01em;
+}
+.pain-card__current {
+  font-size: 14px; color: var(--text-secondary);
+  margin-bottom: 14px; line-height: 1.5;
+}
+.pain-card__problem {
+  font-size: 14px; color: #b94c2a;
+  padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.08);
+  line-height: 1.5;
+}
+
+/* ───── Requirements ───── */
+.req-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px;
+  margin-top: 60px;
+}
+.req-card {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-card);
+  padding: 40px 36px;
+  position: relative; overflow: hidden;
+}
+.req-card__badge {
+  display: inline-block;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: 6px;
+  background: rgba(245, 208, 169, 0.15); color: var(--gold);
+  margin-bottom: 18px;
+}
+.req-card__title {
+  font-size: 22px; font-weight: 600;
+  margin-bottom: 14px; color: var(--text-on-dark);
+  letter-spacing: -0.01em;
+}
+.req-card__desc {
+  font-size: 15px; color: var(--text-on-dark-2); line-height: 1.6;
+}
+
+.constraint-banner {
+  margin-top: 80px;
+  padding: 50px;
+  background: linear-gradient(135deg, rgba(245,208,169,0.08) 0%, rgba(255,255,255,0.04) 100%);
+  border: 0.5px solid rgba(245,208,169,0.3);
+  border-radius: var(--radius-card);
+  text-align: center;
+}
+.constraint-banner__label { font-size: 13px; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; margin-bottom: 14px; }
+.constraint-banner__quote { font-size: clamp(22px, 2.6vw, 30px); font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; color: var(--text-on-dark); }
+
+/* ───── Benchmark Block ───── */
+.benchmark {
+  margin-top: 60px;
+  background: var(--bg-white);
+  border-radius: var(--radius-img);
+  padding: clamp(40px, 6vw, 70px);
+}
+.benchmark__person {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 30px;
+}
+.benchmark__avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, #0071e3, #5856d6);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 600;
+}
+.benchmark__name { font-size: 17px; font-weight: 600; }
+.benchmark__role { font-size: 14px; color: var(--text-secondary); }
+.flow {
+  display: grid; gap: 12px; font-family: "SF Mono", Menlo, monospace;
+  font-size: 14px; background: var(--bg-light);
+  padding: 28px; border-radius: 14px;
+  color: var(--text-primary);
+}
+.flow__step { display: flex; gap: 14px; align-items: baseline; }
+.flow__tag { color: var(--blue); font-weight: 600; min-width: 80px; }
+
+/* ───── Solution Options ───── */
+.options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 60px; }
+.option {
+  background: var(--bg-white);
+  border-radius: var(--radius-card);
+  padding: 40px 32px;
+  display: flex; flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.option--featured {
+  background: linear-gradient(180deg, #1d1d1f 0%, #2a2a2d 100%);
+  color: var(--text-on-dark);
+  transform: scale(1.04);
+  z-index: 2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+.option__rank { font-size: 32px; margin-bottom: 12px; }
+.option__badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 6px;
+  background: var(--green); color: white;
+  margin-bottom: 16px; align-self: flex-start;
+}
+.option__title { font-size: 22px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+.option__subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+.option--featured .option__subtitle { color: var(--text-on-dark-2); }
+.option__pros, .option__cons { font-size: 14px; margin-bottom: 16px; line-height: 1.6; }
+.option__pros strong, .option__cons strong { display: block; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.option__pros strong { color: var(--green); }
+.option__cons strong { color: #ff6b35; }
+.option ul { list-style: none; padding: 0; }
+.option li { padding: 4px 0; }
+.option li::before { content: "•"; margin-right: 8px; }
+
+/* ───── Architecture Diagram ───── */
+.arch {
+  margin-top: 60px;
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  border-radius: var(--radius-img);
+  padding: clamp(40px, 6vw, 70px);
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 14px; line-height: 1.8;
+}
+.arch__layer { padding: 14px 0; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
+.arch__layer:last-child { border: 0; }
+.arch__label { color: var(--gold); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.arch__items { margin-top: 8px; color: var(--text-on-dark-2); }
+.arch__items strong { color: var(--text-on-dark); }
+
+/* ───── Roadmap Timeline ───── */
+.timeline { margin-top: 60px; position: relative; }
+.timeline::before {
+  content: ""; position: absolute; left: 28px; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(180deg, var(--blue), transparent);
+}
+.phase {
+  display: grid; grid-template-columns: 80px 1fr; gap: 28px;
+  padding: 28px 0; align-items: start;
+}
+.phase__num {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--bg-white); color: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 600;
+  border: 2px solid var(--blue);
+  position: relative; z-index: 1;
+}
+.phase__content { padding-top: 8px; }
+.phase__title { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+.phase__duration { font-size: 13px; color: var(--blue); font-weight: 500; margin-bottom: 14px; }
+.phase__desc { font-size: 16px; color: var(--text-secondary); line-height: 1.6; }
+.phase__warn { display: inline-block; margin-top: 12px; padding: 6px 12px; background: rgba(255,107,53,0.1); color: #d35400; border-radius: 6px; font-size: 13px; font-weight: 500; }
+
+/* ───── Scorecard ───── */
+.scorecard {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 60px;
+}
+.score-item {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-card);
+  padding: 36px 32px;
+}
+.score-item__label { font-size: 14px; color: var(--text-on-dark-2); margin-bottom: 14px; }
+.score-item__stars { font-size: 24px; color: var(--gold); margin-bottom: 8px; letter-spacing: 4px; }
+.score-item__note { font-size: 14px; color: var(--text-on-dark-2); line-height: 1.5; }
+
+.decisions {
+  margin-top: 80px; padding-top: 60px;
+  border-top: 0.5px solid rgba(255,255,255,0.1);
+}
+.decisions__title { font-size: 24px; font-weight: 600; margin-bottom: 30px; }
+.decision-list { list-style: none; padding: 0; }
+.decision-list li {
+  padding: 18px 0; border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  font-size: 16px; line-height: 1.5;
+  display: grid; grid-template-columns: 30px 1fr;
+  align-items: baseline; gap: 4px;
+  color: var(--text-on-dark-2);
+}
+.decision-list li::before {
+  content: "?"; color: var(--gold); font-weight: 600;
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.decision-list strong { color: var(--text-on-dark); display: block; margin-bottom: 4px; }
+
+/* ───── CTA ───── */
+.cta {
+  text-align: center; padding: clamp(100px, 14vw, 180px) var(--gutter);
+  background: var(--bg-light);
+}
+.cta__title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600; letter-spacing: -0.02em;
+  line-height: 1.1; margin-bottom: 24px;
+}
+.cta__subtitle {
+  font-size: var(--subtitle-size); color: var(--text-secondary);
+  max-width: 720px; margin: 0 auto 40px; line-height: 1.4;
+}
+.cta__actions { display: inline-flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 200px; height: 50px; padding: 0 28px;
+  border-radius: var(--radius-btn);
+  font-size: 16px; font-weight: 400; letter-spacing: -0.01em;
+  text-decoration: none; cursor: pointer;
+  transition: all 200ms var(--ease);
+  font-family: var(--font);
+}
+.btn--primary { background: var(--blue); color: white; border: none; }
+.btn--primary:hover { background: var(--blue-hover); }
+.btn--outline { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+.btn--outline:hover { background: var(--blue); color: white; }
+
+/* ───── Footer ───── */
+.footer {
+  background: var(--bg-black); color: var(--text-on-dark-2);
+  padding: 50px var(--gutter); text-align: center;
+  font-size: 12px; line-height: 1.6;
+}
+.footer__line { margin: 6px 0; }
+.footer a { color: var(--link); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* ───── Reveal animation ───── */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1100ms var(--ease-out), transform 1100ms var(--ease-out); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal:nth-child(2) { transition-delay: 100ms; }
+.reveal:nth-child(3) { transition-delay: 200ms; }
+.reveal:nth-child(4) { transition-delay: 300ms; }
+
+/* ───── Responsive ───── */
+@media (max-width: 880px) {
+  .pain-grid, .req-grid, .options, .scorecard { grid-template-columns: 1fr; }
+  .option--featured { transform: scale(1); }
+  .timeline::before { left: 18px; }
+  .phase { grid-template-columns: 44px 1fr; gap: 18px; }
+  .phase__num { width: 40px; height: 40px; font-size: 14px; }
+  .nav__meta { display: none; }
+  .hero__meta { font-size: 12px; gap: 14px; padding: 10px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__brand">AICC Business · AI사업2팀</div>
+    <div class="nav__meta">미팅 보고서 · 2026.05.16</div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero__eyebrow">남윤수 팀장 · 업무 자동화 미팅</div>
+  <h1 class="hero__title">사내 망 안에서<br/>완성되는 에이전트.</h1>
+  <p class="hero__subtitle">개인 일정도, 팀원 팔로업도, 활동성 통계도. M365 생태계 안에서 끝낸다.</p>
+  <div class="hero__meta">
+    <span>📅 <strong>2026.05.16 Sat</strong> 18:37</span>
+    <span>⏱ <strong>8분 58초</strong></span>
+    <span>👥 양준모 팀장 · 남윤수 팀장</span>
+  </div>
+  <p class="hero__quote">전달은 하는데 팔로업이 안 되는 경우가 많다.<br/>안 하는 팀원은 여러 번 해도 안 한다. 그 사람들 때문에 이걸 하는 것.</p>
+</header>
+
+<!-- Pain Points -->
+<section class="section section--white">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="eyebrow">Section 01 — As-Is</div>
+      <h2 class="headline">지금 무엇이 불편한가</h2>
+      <p class="lead">남윤수 팀장님의 현재 업무 흐름에서 추출한 세 가지 페인포인트. 각각 다른 영역이지만 모두 "수기 추적의 한계"라는 공통 원인을 갖는다.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-card__num">01</div>
+        <div class="pain-card__title">개인 일정 관리</div>
+        <div class="pain-card__current">OneNote에 텍스트 번호 리스트로 To-Do 수기 작성</div>
+        <div class="pain-card__problem">일정이 밀리면 완료 여부 추적 누락. 매번 본인이 체크해야 하는 부담</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-card__num">02</div>
+        <div class="pain-card__title">팀원 업무 지시</div>
+        <div class="pain-card__current">구두/메시지로 지시 후 수동 팔로업</div>
+        <div class="pain-card__problem">지시 후 완료 체크 누락. 진행 단계가 보이지 않아 주간 회의 전 일괄 확인 어려움</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-card__num">03</div>
+        <div class="pain-card__title">활동성 평가</div>
+        <div class="pain-card__current">마당 캘린더 수동 다운로드 후 통계 산출</div>
+        <div class="pain-card__problem">정량 데이터 가공이 수작업. 활용도 낮음</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Requirements -->
+<section class="section section--dark">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="eyebrow">Section 02 — To-Be</div>
+      <h2 class="headline">요구사항 정의</h2>
+      <p class="lead">기능 요구사항 4가지와, 모든 기술 선택을 결정짓는 단 하나의 제약.</p>
+    </div>
+    <div class="req-grid">
+      <div class="req-card reveal">
+        <span class="req-card__badge">F1 · 개인</span>
+        <h3 class="req-card__title">일정·할 일 통합 노티</h3>
+        <p class="req-card__desc">전체 할 일과 일정·기한을 종합하여 사전 알림. 마감 임박 항목은 우선순위 자동 표시.</p>
+      </div>
+      <div class="req-card reveal">
+        <span class="req-card__badge">F2 · 팀</span>
+        <h3 class="req-card__title">팀원 업무 양방향 트래킹</h3>
+        <p class="req-card__desc">지시한 업무를 팀원에게 자동 할당. 진행 단계(미시작 / 진행 중 / 거의 완료) 가시화. 미완료는 양방향 리마인드.</p>
+      </div>
+      <div class="req-card reveal">
+        <span class="req-card__badge">F3 · 입력</span>
+        <h3 class="req-card__title">음성 입력 채널</h3>
+        <p class="req-card__desc">안드로이드 폰 또는 사내 Windows 노트북에서 음성으로 할 일과 지시를 입력 가능.</p>
+      </div>
+      <div class="req-card reveal">
+        <span class="req-card__badge">F4 · 통계</span>
+        <h3 class="req-card__title">활동성 통계 자동화</h3>
+        <p class="req-card__desc">마당 캘린더 데이터 자동 추출·분석. 팀원별 활동성 리포트 자동 생성.</p>
+      </div>
+    </div>
+
+    <div class="constraint-banner reveal">
+      <div class="constraint-banner__label">⚠ 핵심 제약 조건</div>
+      <p class="constraint-banner__quote">반드시 <em>사내 망</em> 안에서.<br/>M365 · Teams · Copilot · 마당 캘린더 생태계와 자연스럽게 연동되어야 한다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Benchmark -->
+<section class="section section--light">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="eyebrow">Section 03 — Benchmark</div>
+      <h2 class="headline">검증된 운영 패턴, 그대로 이식.</h2>
+      <p class="lead">양준모 팀장님이 외부망에서 이미 운영 중인 위클리 To-Do 자동화. 이 모델 자체는 사내 도구로 1:1 이식 가능하다. DB만 Notion → SharePoint List로 치환하면 끝.</p>
+    </div>
+
+    <div class="benchmark reveal">
+      <div class="benchmark__person">
+        <div class="benchmark__avatar">양</div>
+        <div>
+          <div class="benchmark__name">양준모 팀장 (AI사업2팀)</div>
+          <div class="benchmark__role">현재 Notion + 자체 에이전트로 운영 중</div>
+        </div>
+      </div>
+      <div class="flow">
+        <div class="flow__step"><span class="flow__tag">[입력]</span><span>음성 녹취 → STT → 자동 텍스트화</span></div>
+        <div class="flow__step"><span class="flow__tag">[저장]</span><span>위클리 To-Do DB (Notion) — Status: Not Started / In Progress / Done</span></div>
+        <div class="flow__step"><span class="flow__tag">[발화]</span><span>월요일 08:00 자동 트리거 → Not Started 항목 일괄 페이지 생성</span></div>
+        <div class="flow__step"><span class="flow__tag">[관리]</span><span>컴플라이언스 채널에 누적 → 팀원이 상태 업데이트</span></div>
+        <div class="flow__step"><span class="flow__tag">[체크]</span><span>주간 회의 전 팀장 일괄 확인</span></div>
+        <div class="flow__step"><span class="flow__tag">[이력]</span><span>주차별 페이지로 영구 누적</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution Options -->
+<section class="section section--white">
+  <div class="section__inner section__inner--wide">
+    <div class="reveal" style="text-align:center; max-width:720px; margin:0 auto;">
+      <div class="eyebrow">Section 04 — Solution</div>
+      <h2 class="headline">3가지 옵션, 하나의 권장안.</h2>
+      <p class="lead" style="margin:0 auto;">사내 망 제약·구현 비용·확장성을 기준으로 비교한 결과.</p>
+    </div>
+
+    <div class="options">
+      <div class="option reveal">
+        <div class="option__rank">🥉</div>
+        <h3 class="option__title">Power Apps + Automate</h3>
+        <p class="option__subtitle">Copilot 없이 구성</p>
+        <div class="option__pros">
+          <strong>장점</strong>
+          <ul><li>Copilot 라이선스 이슈 회피</li><li>당장 도입 가능</li></ul>
+        </div>
+        <div class="option__cons">
+          <strong>단점</strong>
+          <ul><li>자연어 인터페이스 부재</li><li>"에이전트" 경험 미흡</li></ul>
+        </div>
+      </div>
+
+      <div class="option option--featured reveal">
+        <span class="option__badge">★ 권장</span>
+        <div class="option__rank">🥇</div>
+        <h3 class="option__title">Copilot Studio + Power Platform</h3>
+        <p class="option__subtitle">M365 라이선스 내 완결</p>
+        <div class="option__pros">
+          <strong>장점</strong>
+          <ul><li>사내 망 안에서 100% 동작</li><li>추가 인프라 0</li><li>Teams 모바일 dictation으로 음성 입력</li><li>Copilot 도입 추세와 부합</li></ul>
+        </div>
+        <div class="option__cons">
+          <strong>리스크</strong>
+          <ul><li>Copilot Studio 라이선스 확인 필요</li><li>마당 API 개방 협의 필요</li></ul>
+        </div>
+      </div>
+
+      <div class="option reveal">
+        <div class="option__rank">🥈</div>
+        <h3 class="option__title">Teams Bot + Azure Functions</h3>
+        <p class="option__subtitle">Bot Framework 풀 커스텀</p>
+        <div class="option__pros">
+          <strong>장점</strong>
+          <ul><li>유연성 최대</li><li>복잡 워크플로 구현 가능</li></ul>
+        </div>
+        <div class="option__cons">
+          <strong>단점</strong>
+          <ul><li>개발 4–6주</li><li>Azure 구독 별도</li><li>유지보수 부담</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch reveal">
+      <div class="arch__layer">
+        <div class="arch__label">Trigger</div>
+        <div class="arch__items">Power Automate 스케줄러 <strong>(매일 08:00)</strong></div>
+      </div>
+      <div class="arch__layer">
+        <div class="arch__label">Agent Brain</div>
+        <div class="arch__items"><strong>Copilot Studio</strong> 선언형 에이전트</div>
+      </div>
+      <div class="arch__layer">
+        <div class="arch__label">Data Sources</div>
+        <div class="arch__items">Outlook Calendar (Graph API) · <strong>SharePoint List</strong> (To-Do) · Microsoft Planner (팀 업무) · 마당 캘린더 (사내 API or RPA)</div>
+      </div>
+      <div class="arch__layer">
+        <div class="arch__label">Channel</div>
+        <div class="arch__items"><strong>Teams 1:1 채팅 / 채널 메시지</strong>로 푸시</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Roadmap -->
+<section class="section section--light">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="eyebrow">Section 05 — Roadmap</div>
+      <h2 class="headline">한 명에서 한 팀으로,<br/>4단계 8주.</h2>
+      <p class="lead">Quick Win부터 시작해 점진적으로 확장. 각 단계는 다음 단계의 검증 자료를 만든다.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="phase reveal">
+        <div class="phase__num">1</div>
+        <div class="phase__content">
+          <div class="phase__title">Quick Win — 본인 1명 PoC</div>
+          <div class="phase__duration">1주 · F1 일부</div>
+          <p class="phase__desc">Copilot에게 "오늘 일정 + 할 일 + 마감 임박" 요약 요청. Graph API로 Outlook만 연동, Teams 1:1로 매일 08:00 자동 푸시. 산출물: 동작 데모 + Copilot 라이선스 가용성 확인 + 마당 API 협의 요청서.</p>
+        </div>
+      </div>
+
+      <div class="phase reveal">
+        <div class="phase__num">2</div>
+        <div class="phase__content">
+          <div class="phase__title">To-Do 저장소 구축</div>
+          <div class="phase__duration">2주 · F1 완성 · F3 일부</div>
+          <p class="phase__desc">SharePoint List 또는 Planner로 To-Do DB 구성. Power Automate로 마감 D-1, D-day 자동 알림. 음성 입력은 Teams 모바일 dictation 활용.</p>
+        </div>
+      </div>
+
+      <div class="phase reveal">
+        <div class="phase__num">3</div>
+        <div class="phase__content">
+          <div class="phase__title">팀원 트래커 확장</div>
+          <div class="phase__duration">3주 · F2 본격 구현</div>
+          <p class="phase__desc">팀원 자동 할당, 양방향 노티, 진행 단계 가시화. 주간 회의 전 일괄 리포트 자동 생성.</p>
+          <span class="phase__warn">⚠ UX 주의: 감시 느낌 최소화 — 팀원 입장 메시지 톤·빈도 설계 필수</span>
+        </div>
+      </div>
+
+      <div class="phase reveal">
+        <div class="phase__num">4</div>
+        <div class="phase__content">
+          <div class="phase__title">활동성 통계 모듈</div>
+          <div class="phase__duration">2주 · F4 (마당 API 협의 후)</div>
+          <p class="phase__desc">마당 캘린더 raw 데이터 정기 추출. Power BI 대시보드로 팀원별 활동성 시각화.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Scorecard + Decisions -->
+<section class="section section--dark">
+  <div class="section__inner">
+    <div class="reveal">
+      <div class="eyebrow">Section 06 — Conclusion</div>
+      <h2 class="headline">왜 지금이고,<br/>왜 이 옵션인가.</h2>
+      <p class="lead">요구사항 명확도부터 도입 적합도까지 — 네 가지 축에서 평가.</p>
+    </div>
+
+    <div class="scorecard">
+      <div class="score-item reveal">
+        <div class="score-item__label">요구사항 명확도</div>
+        <div class="score-item__stars">★★★★★</div>
+        <div class="score-item__note">페인포인트와 To-Be 모두 구체적. 추가 질문 거의 불필요</div>
+      </div>
+      <div class="score-item reveal">
+        <div class="score-item__label">기술적 실현 가능성</div>
+        <div class="score-item__stars">★★★★☆</div>
+        <div class="score-item__note">Copilot Studio + Graph API로 충분히 구현 가능</div>
+      </div>
+      <div class="score-item reveal">
+        <div class="score-item__label">사내 도입 적합도</div>
+        <div class="score-item__stars">★★★★★</div>
+        <div class="score-item__note">M365 생태계 내에서 완결. 추가 인프라·승인 최소</div>
+      </div>
+      <div class="score-item reveal">
+        <div class="score-item__label">차별화 포인트</div>
+        <div class="score-item__stars">★★★★★</div>
+        <div class="score-item__note">양준모 팀장 검증 모델의 1:1 이식 — 시행착오 최소</div>
+      </div>
+    </div>
+
+    <div class="decisions">
+      <h3 class="decisions__title">사전 확인이 필요한 의사결정</h3>
+      <ul class="decision-list">
+        <li><div><strong>Copilot Studio 라이선스 보유 여부</strong>M365 E5 또는 Copilot 별도 구독 확인 필요</div></li>
+        <li><div><strong>마당 캘린더 API 공식 개방 여부</strong>사내 IT팀 협의. 미개방 시 RPA(Power Automate Desktop) 우회</div></li>
+        <li><div><strong>PoC 대상 팀 규모</strong>Phase 3 본격 확장 전 파일럿 팀 N명 선정</div></li>
+        <li><div><strong>데이터 보관 정책</strong>SharePoint List 보관 기간, 감사 로그 요구사항</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2 class="cta__title">다음 미팅에 들고 갈 것.</h2>
+  <p class="cta__subtitle">Phase 1 PoC 시연 영상 · 마당 API 개방 검토 요청서<br/>두 가지가 정렬되면 Phase 2 공동 PoC로 즉시 확장.</p>
+  <div class="cta__actions">
+    <a href="#" class="btn btn--primary">PoC 시연 준비</a>
+    <a href="#" class="btn btn--outline">API 협의 요청 작성</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer__line">AI사업2팀 · 양준모 팀장 작성</div>
+  <div class="footer__line">미팅 일자 2026.05.16 · 보고서 작성 2026.05.16</div>
+  <div class="footer__line">원본 전사문: New Recording 남윤수팀장 자동화.txt</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
