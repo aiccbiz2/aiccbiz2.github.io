@@ -333,6 +333,212 @@ body { font-family: var(--font); font-size: var(--body-size); line-height: 1.55;
   font-size: 14px; display: block; margin-top: 4px;
 }
 
+/* ───── Solution Sub-sections ───── */
+.sub-header { margin-top: 80px; margin-bottom: 28px; }
+.sub-header__num {
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin-bottom: 10px;
+}
+.sub-header__title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600; letter-spacing: -0.015em;
+  line-height: 1.15; color: var(--text-on-dark);
+}
+.sub-header__desc {
+  margin-top: 10px; font-size: 16px;
+  color: var(--text-on-dark-2); line-height: 1.55;
+}
+
+/* Architecture flow diagram */
+.arch-flow {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-card);
+  padding: clamp(28px, 4vw, 44px);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-on-dark);
+  overflow-x: auto;
+  white-space: pre;
+}
+.arch-flow .a-key { color: var(--gold); font-weight: 600; }
+.arch-flow .a-comp { color: #5db5ff; }
+.arch-flow .a-arrow { color: var(--text-tertiary); }
+
+/* Day timeline */
+.day-timeline {
+  display: grid; gap: 18px;
+}
+.day-step {
+  display: grid; grid-template-columns: 110px 1fr; gap: 24px;
+  padding: 22px 24px;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  align-items: start;
+}
+.day-step__time {
+  font-family: var(--mono); font-size: 13px;
+  color: var(--gold); font-weight: 600;
+  padding-top: 2px;
+}
+.day-step__title {
+  font-size: 17px; font-weight: 600;
+  margin-bottom: 6px; letter-spacing: -0.01em;
+  color: var(--text-on-dark);
+}
+.day-step__desc {
+  font-size: 14px; color: var(--text-on-dark-2); line-height: 1.6;
+}
+.day-step__tag {
+  display: inline-block; margin-right: 8px;
+  padding: 2px 10px; border-radius: 5px;
+  background: rgba(0,113,227,0.2); color: #5db5ff;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* Schema table */
+.schema {
+  background: rgba(0,0,0,0.3);
+  border-radius: 14px;
+  padding: 24px 28px;
+  overflow-x: auto;
+}
+.schema__title {
+  font-family: var(--mono); font-size: 13px;
+  color: var(--gold); margin-bottom: 16px;
+  font-weight: 600;
+}
+.schema table {
+  width: 100%; border-collapse: collapse;
+  font-family: var(--mono); font-size: 13px;
+}
+.schema th, .schema td {
+  text-align: left; padding: 10px 12px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  color: var(--text-on-dark-2);
+}
+.schema th {
+  color: var(--text-on-dark); font-weight: 600;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  padding-bottom: 14px;
+}
+.schema td:first-child { color: #5db5ff; font-weight: 500; }
+.schema td:nth-child(2) { color: var(--gold); font-size: 11px; }
+
+/* Teams message mockups */
+.msg-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.msg {
+  background: var(--bg-white);
+  border-radius: 14px;
+  padding: 20px;
+  color: var(--text-primary);
+  font-family: var(--font);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.msg__header {
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 12px; margin-bottom: 12px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.08);
+}
+.msg__avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #6264a7, #464775);
+  color: white; font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.msg__sender { font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.2; }
+.msg__time { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+.msg__body { font-size: 13px; line-height: 1.55; color: var(--text-primary); }
+.msg__body strong { color: var(--blue); }
+.msg__list { list-style: none; padding: 0; margin: 8px 0 0; }
+.msg__list li {
+  padding: 4px 0; padding-left: 18px;
+  position: relative; font-size: 12px;
+  color: var(--text-secondary);
+}
+.msg__list li::before {
+  content: "•"; position: absolute; left: 6px;
+  color: var(--blue);
+}
+.msg__list li.done::before { content: "✓"; color: var(--green); }
+.msg__list li.due { color: #d35400; }
+.msg__list li.due::before { color: var(--warning); content: "⚠"; }
+.msg__title-tag {
+  display: inline-block;
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-secondary); font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Madang Plan A/B */
+.plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.plan {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-card);
+  padding: 36px 32px;
+}
+.plan--a { border-color: rgba(48,209,88,0.3); background: linear-gradient(180deg, rgba(48,209,88,0.06), rgba(255,255,255,0.02)); }
+.plan--b { border-color: rgba(255,159,10,0.3); background: linear-gradient(180deg, rgba(255,159,10,0.06), rgba(255,255,255,0.02)); }
+.plan__label {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 8px;
+}
+.plan--a .plan__label { color: var(--green); }
+.plan--b .plan__label { color: var(--warning); }
+.plan__title {
+  font-size: 20px; font-weight: 600;
+  margin-bottom: 14px; color: var(--text-on-dark);
+  letter-spacing: -0.01em;
+}
+.plan__when {
+  font-size: 13px; color: var(--text-on-dark-2);
+  padding: 8px 14px; background: rgba(0,0,0,0.2);
+  border-radius: 8px; margin-bottom: 18px;
+  font-family: var(--mono);
+}
+.plan__steps { list-style: none; padding: 0; }
+.plan__steps li {
+  font-size: 14px; color: var(--text-on-dark);
+  line-height: 1.6; padding: 8px 0 8px 22px;
+  position: relative;
+}
+.plan__steps li::before {
+  position: absolute; left: 0; top: 8px;
+  font-size: 12px; color: var(--gold);
+}
+.plan--a .plan__steps li::before { content: "→"; }
+.plan--b .plan__steps li::before { content: "↻"; }
+
+/* Cost & Security ledger */
+.ledger {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+}
+.ledger__col {
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+}
+.ledger__head { font-size: 14px; color: var(--gold); font-weight: 600; margin-bottom: 18px; letter-spacing: 0.04em; text-transform: uppercase; }
+.ledger__row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.08);
+}
+.ledger__row:last-child { border-bottom: 0; }
+.ledger__row-label { font-size: 14px; color: var(--text-on-dark-2); }
+.ledger__row-value { font-size: 14px; color: var(--text-on-dark); font-weight: 500; font-family: var(--mono); }
+.ledger__note {
+  margin-top: 16px; padding: 12px 14px;
+  background: rgba(0,0,0,0.2); border-radius: 8px;
+  font-size: 12px; color: var(--text-on-dark-2); line-height: 1.55;
+}
+
 /* ───── Next Actions ───── */
 .actions { display: grid; gap: 16px; margin-top: 50px; }
 .action-item {
@@ -410,9 +616,12 @@ body { font-family: var(--font); font-size: var(--body-size); line-height: 1.55;
 
 /* ───── Responsive ───── */
 @media (max-width: 880px) {
-  .axes, .extras, .stack-grid { grid-template-columns: 1fr; }
+  .axes, .extras, .stack-grid, .msg-group, .plan-grid, .ledger { grid-template-columns: 1fr; }
   .stack-grid { grid-template-columns: repeat(2, 1fr); }
   .layer { grid-template-columns: 1fr; gap: 8px; }
+  .day-step { grid-template-columns: 1fr; gap: 10px; }
+  .day-step__time { color: var(--gold); }
+  .arch-flow { font-size: 11px; padding: 22px 16px; }
   .nav__meta { display: none; }
   .hero__meta { font-size: 12px; gap: 14px; padding: 10px 18px; }
   .quote-block { padding: 32px 28px; }
@@ -575,63 +784,248 @@ body { font-family: var(--font); font-size: var(--body-size); line-height: 1.55;
   </div>
 </section>
 
-<!-- Section 5: 솔루션 방향 -->
-<section class="section section--light">
+<!-- Section 5: 솔루션 방향 (상세) -->
+<section class="section section--dark">
   <div class="section__inner">
     <div class="reveal">
       <div class="eyebrow">05 · 솔루션 방향</div>
       <h2 class="headline">남윤수 팀장님께서<br/>이미 정답을 알고 계셨다.</h2>
-      <p class="lead">미팅 중 직접 던지신 한마디 — <strong style="color: var(--text-primary);">"코파일럿 들어왔잖아."</strong> 이 인식이 솔루션 출발선이다.</p>
+      <p class="lead">미팅 중 직접 던지신 한마디 — <strong style="color: var(--text-on-dark);">"코파일럿 들어왔잖아."</strong> 이 인식을 출발선 삼아, 사내 망 안에서 두 축 요구사항을 어떻게 구현하는지 상세 설계한다.</p>
     </div>
 
-    <div class="solution reveal">
-      <p class="solution__intro">팀장님의 두 축 요구사항을 M365 생태계 안에서 그대로 구현하는 아키텍처:</p>
+    <!-- 5-1 · 전체 아키텍처 -->
+    <div class="sub-header reveal">
+      <div class="sub-header__num">5-1 · Architecture</div>
+      <h3 class="sub-header__title">전체 아키텍처</h3>
+      <p class="sub-header__desc">트리거에서 노티까지 한 흐름. 모든 컴포넌트가 M365 테넌트 안에 존재 — 외부 데이터 반출 0건.</p>
+    </div>
 
-      <div class="solution__layers">
-        <div class="layer">
-          <div class="layer__label">Trigger</div>
-          <div class="layer__content">
-            <strong>Power Automate 스케줄러</strong>
-            <em>매일 정해진 시각 자동 실행 — 사내 망 내부에서 완결</em>
-          </div>
+    <div class="arch-flow reveal"><span class="a-key">[ INPUT ]</span>                                                  <span class="a-key">[ NOTIFY ]</span>
+    음성 ─┐                                                       ├─ Teams 1:1 (본인)
+    텍스트─┼─→ <span class="a-comp">Teams 채팅</span> ─→ <span class="a-comp">Copilot Agent</span> ─→ <span class="a-comp">SharePoint List</span> ─┼─ Teams 멘션 (팀원)
+   캘린더─┘    <span class="a-arrow">(음성→텍스트</span>      <span class="a-arrow">(NLU·할당</span>          <span class="a-arrow">(Tasks DB)</span>      ├─ Outlook 일정 자동등록
+                <span class="a-arrow">dictation)</span>       <span class="a-arrow">·기한 추출)</span>                            └─ 주간 리포트 (회의록)
+                                  │
+                                  ▼
+                          <span class="a-comp">Power Automate</span>
+                          <span class="a-arrow">(스케줄·트리거)</span>
+                                  │
+                ┌─────────────────┼─────────────────┐
+                ▼                 ▼                 ▼
+        <span class="a-comp">Outlook 캘린더</span>     <span class="a-comp">Planner Buckets</span>    <span class="a-comp">마당 캘린더 API</span>
+        <span class="a-arrow">(개인 일정)</span>      <span class="a-arrow">(팀원 할당)</span>       <span class="a-arrow">(사내 일정·활동)</span>
+                                                    │
+                                                    ▼
+                                             <span class="a-comp">Power BI</span>
+                                             <span class="a-arrow">(활동성 통계)</span></div>
+
+    <!-- 5-2 · 하루의 흐름 -->
+    <div class="sub-header reveal">
+      <div class="sub-header__num">5-2 · Day in the Life</div>
+      <h3 class="sub-header__title">팀장의 한 주, 에이전트의 한 주</h3>
+      <p class="sub-header__desc">남윤수 팀장님 워크플로우에 에이전트가 어떻게 끼어드는지 시간 순으로 풀어본 시나리오.</p>
+    </div>
+
+    <div class="day-timeline">
+      <div class="day-step reveal">
+        <div class="day-step__time">일 22:00</div>
+        <div>
+          <div class="day-step__title"><span class="day-step__tag">입력</span>이번 주 To-Do를 음성으로 던진다</div>
+          <div class="day-step__desc">집에서 Teams 모바일 앱을 열고 본인 채팅창에 음성 dictation. "이번 주에 김OO 책임이 우리은행 보고서 초안 화요일까지 만들고, 이OO 책임은 LGU+ 미팅 자료 수요일까지." → Copilot이 자동 파싱해서 SharePoint List에 4건 등록.</div>
         </div>
-        <div class="layer">
-          <div class="layer__label">Brain</div>
-          <div class="layer__content">
-            <strong>Copilot Studio 선언형 에이전트</strong>
-            <em>이미 도입된 M365 코파일럿 라이선스 활용 — 추가 인프라 0</em>
-          </div>
+      </div>
+      <div class="day-step reveal">
+        <div class="day-step__time">월 08:00</div>
+        <div>
+          <div class="day-step__title"><span class="day-step__tag">노티</span>아침 브리핑이 Teams로 도착한다</div>
+          <div class="day-step__desc">Power Automate 트리거 → Copilot이 "오늘 일정 3건 + 마감 임박 To-Do 2건"을 추려 본인에게 푸시. 동시에 각 팀원에게도 "이번 주 본인 할 일 N건" 개별 멘션.</div>
         </div>
-        <div class="layer">
-          <div class="layer__label">Data</div>
-          <div class="layer__content">
-            <strong>Outlook 캘린더 · SharePoint List · Planner · 마당 캘린더</strong>
-            <em>전부 사내망. Graph API로 통합 — 마당은 사내 API 또는 RPA</em>
-          </div>
+      </div>
+      <div class="day-step reveal">
+        <div class="day-step__time">화·수·목</div>
+        <div>
+          <div class="day-step__title"><span class="day-step__tag">트래킹</span>팀원이 상태를 한 번 누르면 끝</div>
+          <div class="day-step__desc">팀원은 Teams 메시지에 첨부된 버튼(시작 / 진행 중 / 거의 완료 / 완료)을 한 번 클릭. SharePoint List 상태가 바뀌고, 팀장은 별도 알림 없이 단지 변동만 본다 — 감시 느낌 최소화.</div>
         </div>
-        <div class="layer">
-          <div class="layer__label">Input</div>
-          <div class="layer__content">
-            <strong>Teams 모바일 dictation · Windows 음성 입력</strong>
-            <em>안드로이드 폰 + 사내 노트북에서 음성으로 To-Do 던지기</em>
-          </div>
+      </div>
+      <div class="day-step reveal">
+        <div class="day-step__time">목 17:00</div>
+        <div>
+          <div class="day-step__title"><span class="day-step__tag">리마인드</span>D-1 자동 알림</div>
+          <div class="day-step__desc">마감 하루 전 항목 자동 노티. 미시작 항목은 팀원에게 직접, 진행 중 항목은 팀장에게 요약 — 노티 톤은 압박이 아닌 정보 제공.</div>
         </div>
-        <div class="layer">
-          <div class="layer__label">Notify</div>
-          <div class="layer__content">
-            <strong>Teams 1:1 채팅 · 팀 채널</strong>
-            <em>나에게도, 팀원에게도 — 양방향 노티. 진행 단계 가시화</em>
-          </div>
-        </div>
-        <div class="layer">
-          <div class="layer__label">Report</div>
-          <div class="layer__content">
-            <strong>Power BI 대시보드</strong>
-            <em>마당 캘린더 raw 데이터 분석 → 팀원 활동성 통계 자동화</em>
-          </div>
+      </div>
+      <div class="day-step reveal">
+        <div class="day-step__time">금 16:00</div>
+        <div>
+          <div class="day-step__title"><span class="day-step__tag">리포트</span>주간 회의 자료 자동 생성</div>
+          <div class="day-step__desc">Copilot이 한 주 SharePoint List 변동 + 마당 캘린더 활동 데이터 합쳐 주간 리포트(Word) 작성. 완료/미완료 비율, 팀원별 처리량, 다음 주 이월 항목 정리. 팀장은 첨삭만.</div>
         </div>
       </div>
     </div>
+
+    <!-- 5-3 · 데이터 모델 -->
+    <div class="sub-header reveal">
+      <div class="sub-header__num">5-3 · Data Model</div>
+      <h3 class="sub-header__title">SharePoint List 스키마</h3>
+      <p class="sub-header__desc">에이전트의 메모리. 한 시트가 자동화 전체의 사실 원본(Single Source of Truth) 역할.</p>
+    </div>
+
+    <div class="schema reveal">
+      <div class="schema__title">List: WeeklyTasks</div>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Title</td><td>Single Line</td><td>할 일 요약 (Copilot이 음성에서 추출)</td></tr>
+          <tr><td>Assignee</td><td>Person</td><td>담당자 — 본인 또는 팀원 1명</td></tr>
+          <tr><td>DueDate</td><td>DateTime</td><td>마감 기한 (자연어 → 날짜 변환)</td></tr>
+          <tr><td>Status</td><td>Choice</td><td>Not Started / In Progress / Almost Done / Done</td></tr>
+          <tr><td>Source</td><td>Choice</td><td>Voice / Text / Meeting / Email</td></tr>
+          <tr><td>CreatedBy</td><td>Person</td><td>지시한 사람 — 팀장 본인 고정</td></tr>
+          <tr><td>WeekTag</td><td>Single Line</td><td>2026-W20 형식 — 주차별 필터링용</td></tr>
+          <tr><td>RelatedEvent</td><td>Lookup</td><td>마당 캘린더 일정 연결 (선택)</td></tr>
+          <tr><td>LastReminded</td><td>DateTime</td><td>마지막 알림 시각 — 중복 노티 방지</td></tr>
+          <tr><td>CarryOverFrom</td><td>Lookup</td><td>이월된 경우 원본 항목 ID</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5-4 · 메시지 샘플 -->
+    <div class="sub-header reveal">
+      <div class="sub-header__num">5-4 · Agent Output</div>
+      <h3 class="sub-header__title">에이전트가 실제로 보내는 메시지</h3>
+      <p class="sub-header__desc">팀원이 "감시받는다"고 느끼지 않을 톤. 명령이 아닌 정보 전달.</p>
+    </div>
+
+    <div class="msg-group">
+      <div class="msg reveal">
+        <div class="msg__title-tag">월요일 아침 — 본인</div>
+        <div class="msg__header">
+          <div class="msg__avatar">🤖</div>
+          <div>
+            <div class="msg__sender">Team Assistant</div>
+            <div class="msg__time">Mon 08:00</div>
+          </div>
+        </div>
+        <div class="msg__body">
+          좋은 아침입니다 팀장님 👋<br/>
+          <strong>오늘 일정 3건 · 이번 주 To-Do 7건</strong>
+          <ul class="msg__list">
+            <li class="due">우리은행 보고서 초안 — D-1</li>
+            <li>LGU+ 미팅 자료 — D-2</li>
+            <li>주간 회의 — 14:00</li>
+          </ul>
+          상세 보기 → SharePoint
+        </div>
+      </div>
+
+      <div class="msg reveal">
+        <div class="msg__title-tag">화요일 — 팀원에게</div>
+        <div class="msg__header">
+          <div class="msg__avatar">🤖</div>
+          <div>
+            <div class="msg__sender">Team Assistant</div>
+            <div class="msg__time">Tue 09:30</div>
+          </div>
+        </div>
+        <div class="msg__body">
+          김OO 책임님, 오늘 진행 상황만 한 번 눌러주시면 됩니다.<br/><br/>
+          📋 <strong>우리은행 보고서 초안</strong><br/>
+          <em style="color:var(--text-tertiary);font-size:12px;">기한: 내일 18:00</em>
+          <ul class="msg__list" style="margin-top:10px;">
+            <li>[ 시작 ]  [ 진행 중 ]</li>
+            <li>[ 거의 완료 ]  [ 완료 ✓ ]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="msg reveal">
+        <div class="msg__title-tag">금요일 오후 — 주간 리포트</div>
+        <div class="msg__header">
+          <div class="msg__avatar">🤖</div>
+          <div>
+            <div class="msg__sender">Team Assistant</div>
+            <div class="msg__time">Fri 16:00</div>
+          </div>
+        </div>
+        <div class="msg__body">
+          <strong>이번 주 처리 현황 (W20)</strong>
+          <ul class="msg__list">
+            <li class="done">완료 6건 — 우리은행 보고서, LGU+ 자료 외</li>
+            <li>진행 중 2건 — KB FCC 제안</li>
+            <li class="due">이월 1건 — 한투 PoC 일정 조율</li>
+          </ul>
+          📎 주간 회의록 초안.docx — 첨삭만 부탁드려요.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5-5 · 마당 연동 시나리오 -->
+    <div class="sub-header reveal">
+      <div class="sub-header__num">5-5 · Madang Integration</div>
+      <h3 class="sub-header__title">마당 캘린더 연동 — Plan A / B</h3>
+      <p class="sub-header__desc">사내 IT팀의 API 개방 여부에 따라 두 가지 경로. 어느 쪽이든 활동성 통계 산출은 가능하다.</p>
+    </div>
+
+    <div class="plan-grid">
+      <div class="plan plan--a reveal">
+        <div class="plan__label">★ Plan A · 권장</div>
+        <h4 class="plan__title">사내 API 직결</h4>
+        <div class="plan__when">조건 — 마당 OpenAPI 또는 SSO 토큰 발급 가능 시</div>
+        <ul class="plan__steps">
+          <li>사내 IT팀에 API 엔드포인트·인증 방식 협의서 제출</li>
+          <li>Power Automate Custom Connector 등록 (1회)</li>
+          <li>매일 23:00 — 당일 일정·참석자 데이터 자동 수집</li>
+          <li>SharePoint List에 정규화하여 적재</li>
+          <li>Power BI 대시보드에서 실시간 통계 조회</li>
+        </ul>
+      </div>
+
+      <div class="plan plan--b reveal">
+        <div class="plan__label">Plan B · 백업</div>
+        <h4 class="plan__title">RPA 우회</h4>
+        <div class="plan__when">조건 — API 미개방 또는 협의 지연 시</div>
+        <ul class="plan__steps">
+          <li>Power Automate Desktop으로 마당 UI 자동 조작</li>
+          <li>매주 금요일 17:00 — 사내 노트북에서 자동 로그인</li>
+          <li>"내 캘린더 다운로드" 버튼 클릭 → CSV 저장</li>
+          <li>SharePoint 자동 업로드 → Power BI 갱신</li>
+          <li>API 개방 시 Plan A로 무중단 전환 가능한 구조</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5-6 · 보안·비용 -->
+    <div class="sub-header reveal">
+      <div class="sub-header__num">5-6 · Security &amp; Cost</div>
+      <h3 class="sub-header__title">보안 모델과 비용 추정</h3>
+      <p class="sub-header__desc">사내망 안에 머무르는 설계의 본질 — 새 라이선스 0, 새 인프라 0, 새 보안 승인 0.</p>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger__col reveal">
+        <div class="ledger__head">🔒 보안 모델</div>
+        <div class="ledger__row"><span class="ledger__row-label">인증</span><span class="ledger__row-value">M365 SSO · Azure AD</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">데이터 위치</span><span class="ledger__row-value">한국 리전 테넌트 내</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">외부 LLM 호출</span><span class="ledger__row-value">없음</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">감사 로그</span><span class="ledger__row-value">M365 Purview 자동</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">권한 위임</span><span class="ledger__row-value">팀장 단위 격리</span></div>
+        <div class="ledger__note">사내 보안 정책에 추가 승인 사항 없음. Copilot Studio는 이미 도입된 M365 라이선스의 부속 기능으로 작동.</div>
+      </div>
+
+      <div class="ledger__col reveal">
+        <div class="ledger__head">💰 비용 추정 (월 기준)</div>
+        <div class="ledger__row"><span class="ledger__row-label">M365 라이선스</span><span class="ledger__row-value">기존 + 0</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">Copilot 라이선스</span><span class="ledger__row-value">기존 + 0 (도입 완료)</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">Power Automate</span><span class="ledger__row-value">M365 포함분 내</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">SharePoint</span><span class="ledger__row-value">M365 포함분 내</span></div>
+        <div class="ledger__row"><span class="ledger__row-label">개발·도입 인건비</span><span class="ledger__row-value">3주 × 1명</span></div>
+        <div class="ledger__note">Power Automate 무료 액션 한도(분당) 초과 시 Premium Connector 검토 — Phase 3 팀 확장 시점에 재산정.</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
