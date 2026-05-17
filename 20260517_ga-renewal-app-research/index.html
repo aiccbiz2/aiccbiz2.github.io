@@ -169,6 +169,102 @@
   }
   .tldr-card__hl { color: var(--apple-blue); font-weight: 600; }
 
+  /* WHY block — "왜 갱신 알림으로 가면 지는가" */
+  .why-wrap {
+    margin-top: 64px;
+    padding-top: 56px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+  .why-eyebrow {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-secondary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--apple-gutter);
+  }
+  .why-card {
+    background: var(--apple-bg-light);
+    border-radius: var(--apple-radius-card);
+    padding: clamp(28px, 3.5vw, 40px);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .why-num {
+    font-size: 13px; font-weight: 600;
+    color: var(--apple-red);
+    letter-spacing: 0.04em;
+  }
+  .why-title {
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 600; letter-spacing: -0.01em;
+  }
+  .why-body {
+    font-size: 15px; color: var(--apple-text-secondary);
+    line-height: 1.6;
+  }
+  .why-body strong { color: var(--apple-text-primary); font-weight: 600; }
+  @media (max-width: 720px) { .why-grid { grid-template-columns: 1fr; } }
+
+  .why-flip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
+    padding: clamp(32px, 4vw, 56px);
+    background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
+    border-radius: var(--apple-radius-card);
+    color: var(--apple-text-on-dark);
+  }
+  .why-flip__label {
+    font-size: 13px;
+    color: var(--apple-text-on-dark-2);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .why-flip__msg {
+    font-size: clamp(20px, 2.4vw, 30px);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    background: linear-gradient(135deg, var(--apple-blue) 0%, var(--apple-purple) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .why-pains { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .why-pains li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 15px;
+    color: var(--apple-text-on-dark);
+    line-height: 1.5;
+  }
+  .why-pains li strong { display: block; font-weight: 600; }
+  .why-pains li span:last-child { display: block; color: var(--apple-text-on-dark-2); font-size: 14px; }
+  .why-pain-icon { font-size: 22px; }
+  @media (max-width: 720px) { .why-flip { grid-template-columns: 1fr; gap: 24px; } }
+
+  .why-conclusion {
+    margin-top: 32px;
+    padding: 24px 28px;
+    background: #fff;
+    border-left: 4px solid var(--apple-blue);
+    border-radius: 8px;
+    font-size: var(--apple-body-size);
+    color: var(--apple-text-primary);
+    line-height: 1.55;
+  }
+  .why-conclusion strong { color: var(--apple-blue); font-weight: 600; }
+
   /* THE IDEA — 5 fields */
   .fields {
     display: grid;
@@ -437,6 +533,45 @@
       <p class="tldr-card__text">
         제품은 <span class="tldr-card__hl">"갱신 알림 앱"</span> 으로 포지셔닝하는 순간 진다.<br/>
         진짜 무기는 <span class="tldr-card__hl">GA가 회사로부터 독립할 수 있게 해주는 자산 금고</span> 라는 정체성이다.
+      </p>
+    </div>
+
+    <div class="why-wrap reveal">
+      <div class="why-eyebrow">왜 "갱신 알림"으로 가면 지는가</div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-num">01</div>
+          <h3 class="why-title">Commodity 함정</h3>
+          <p class="why-body">"갱신 알림"은 이미 카카오톡 캘린더·휴대폰 미리알림·구글 캘린더가 <strong>무료로 제공</strong>한다. "더 편한 알림 앱" 메시지로는 GA가 굳이 새 앱을 다운받을 이유가 없다. 결국 가격 경쟁으로 끌려가고, 무료 경쟁자에게 진다.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">02</div>
+          <h3 class="why-title">검색 의도 부재</h3>
+          <p class="why-body">GA 설계사는 "<strong>갱신 알림 앱</strong>"을 검색하지 않는다. 페인은 느끼지만 "이걸 앱이 해결한다"는 카테고리 인식 자체가 없다. → 광고비를 태워도 도달 자체가 안 된다. ASO·SEO 모두 무력하다.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-num">03</div>
+          <h3 class="why-title">"회사가 알려주는 것" 인식</h3>
+          <p class="why-body">갱신 알림 = <strong>회사 CRM이 이미 보내주는 것</strong>으로 인식된다. GA가 "회사 거 말고 내 거"라고 분리해서 인식하지 않으면 새 앱 설치 동기가 0이다. 통화에서 이성우 담당이 지적한 "회사 종속" 페인이 그대로 작동.</p>
+        </div>
+      </div>
+
+      <div class="why-flip">
+        <div class="why-flip__left">
+          <div class="why-flip__label">진짜 페인 3개를 묶는 메시지</div>
+          <div class="why-flip__msg">"GA가 회사로부터 독립할 수 있게 해주는 자산 금고."</div>
+        </div>
+        <div class="why-flip__right">
+          <ul class="why-pains">
+            <li><span class="why-pain-icon">💰</span><strong>2029 수수료 7년 분급제</strong><span>갱신 누락 = 즉시 수수료 손실</span></li>
+            <li><span class="why-pain-icon">🚪</span><strong>이직률 54%</strong><span>고객 데이터 = 평생 winback 무기</span></li>
+            <li><span class="why-pain-icon">🔐</span><strong>회사 종속 탈출</strong><span>"내 폰에만 데이터" = 1인 사업자 독립</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="why-conclusion">
+        "갱신 알림"이라는 단어는 위 3개 페인 중 <strong>하나(돈)만 담는다</strong>. "자산 금고"는 <strong>3개를 모두 담는다</strong>. 메시지 한 줄이 시장 한 채를 바꾼다.
       </p>
     </div>
   </div>
@@ -860,7 +995,6 @@
 </section>
 
 <footer class="footer">
-  <div class="footer__line">2026.05.17 (일) · 양준모 × LGU+ 이성우 담당 통화 기반 종합 리서치</div>
   <div class="footer__line">시장 · 고객 · 경쟁사 · 자리톡 벤치마크 · 빌드/GTM · 5장 분석</div>
   <div class="footer__links">
     <a href="https://aiccbiz2.github.io/20260517_yang-junmo-call-summary/">통화 원본 정리</a>
