@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GA 갱신 알림 앱 — 양준모 × 이성우 통화 정리</title>
+<style>
+  :root {
+    --apple-bg-white: #fbfbfd;
+    --apple-bg-light: #f5f5f7;
+    --apple-bg-dark: #1d1d1f;
+    --apple-bg-black: #000000;
+    --apple-text-primary: #1d1d1f;
+    --apple-text-secondary: #6e6e73;
+    --apple-text-tertiary: #86868b;
+    --apple-text-on-dark: #f5f5f7;
+    --apple-link: #0066cc;
+    --apple-link-hover: #0077ed;
+    --apple-blue: #0071e3;
+
+    --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Apple SD Gothic Neo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --apple-hero-size: clamp(44px, 7vw, 88px);
+    --apple-headline-size: clamp(30px, 4.6vw, 56px);
+    --apple-title-size: clamp(22px, 3vw, 40px);
+    --apple-subtitle-size: clamp(18px, 1.9vw, 26px);
+    --apple-body-size: clamp(15px, 1.15vw, 19px);
+    --apple-caption-size: clamp(12px, 0.95vw, 15px);
+
+    --apple-section-pad-xl: clamp(80px, 12vw, 200px);
+    --apple-section-pad-lg: clamp(60px, 8vw, 120px);
+    --apple-section-pad-md: clamp(40px, 5vw, 80px);
+
+    --apple-gutter: 22px;
+    --apple-max-width: 980px;
+    --apple-wide-width: 1440px;
+
+    --apple-radius-card: 18px;
+    --apple-radius-btn: 980px;
+
+    --apple-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --apple-duration-reveal: 1200ms;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--apple-font);
+    color: var(--apple-text-primary);
+    background: var(--apple-bg-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+
+  /* Nav */
+  .nav {
+    position: sticky;
+    top: 0;
+    height: 44px;
+    background: rgba(251, 251, 253, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--apple-gutter);
+    font-size: 12px;
+    letter-spacing: -0.01em;
+    border-bottom: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .nav__brand { font-weight: 600; color: var(--apple-text-primary); text-decoration: none; }
+  .nav__meta { color: var(--apple-text-secondary); font-size: 11px; }
+
+  /* Hero */
+  .hero {
+    background: var(--apple-bg-black);
+    color: var(--apple-text-on-dark);
+    text-align: center;
+    padding: var(--apple-section-pad-xl) var(--apple-gutter);
+  }
+  .hero__eyebrow {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-tertiary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero__title {
+    font-size: var(--apple-hero-size);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #c9c9cf 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero__subtitle {
+    font-size: var(--apple-subtitle-size);
+    font-weight: 400;
+    color: #a1a1a6;
+    max-width: 640px;
+    margin: 0 auto 36px;
+  }
+  .hero__meta {
+    display: inline-flex;
+    gap: 16px;
+    align-items: center;
+    color: var(--apple-text-tertiary);
+    font-size: var(--apple-caption-size);
+  }
+  .hero__dot { width: 4px; height: 4px; background: var(--apple-text-tertiary); border-radius: 50%; }
+
+  /* Section base */
+  section { padding: var(--apple-section-pad-lg) var(--apple-gutter); }
+  .container { max-width: var(--apple-max-width); margin: 0 auto; }
+  .container--wide { max-width: var(--apple-wide-width); margin: 0 auto; }
+
+  .section-light { background: var(--apple-bg-white); color: var(--apple-text-primary); }
+  .section-grey { background: var(--apple-bg-light); color: var(--apple-text-primary); }
+  .section-dark { background: var(--apple-bg-dark); color: var(--apple-text-on-dark); }
+  .section-black { background: var(--apple-bg-black); color: var(--apple-text-on-dark); }
+
+  .eyebrow {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .section-dark .eyebrow, .section-black .eyebrow { color: #a1a1a6; }
+
+  .headline {
+    font-size: var(--apple-headline-size);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
+  }
+  .lede {
+    font-size: var(--apple-subtitle-size);
+    color: var(--apple-text-secondary);
+    line-height: 1.4;
+    max-width: 720px;
+  }
+  .section-dark .lede, .section-black .lede { color: #a1a1a6; }
+
+  /* TL;DR card */
+  .tldr-card {
+    background: var(--apple-bg-light);
+    border-radius: var(--apple-radius-card);
+    padding: clamp(36px, 5vw, 64px);
+    margin-top: 40px;
+    text-align: center;
+  }
+  .tldr-card__text {
+    font-size: clamp(20px, 2.4vw, 32px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .tldr-card__highlight {
+    color: var(--apple-blue);
+    font-weight: 600;
+  }
+
+  /* Stats grid */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--apple-gutter);
+    margin-top: 48px;
+  }
+  .stat {
+    text-align: center;
+    padding: 32px 20px;
+  }
+  .stat__value {
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--apple-text-on-dark);
+  }
+  .stat__label {
+    font-size: var(--apple-body-size);
+    color: #a1a1a6;
+  }
+  @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Feature grid */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--apple-gutter);
+    margin-top: 48px;
+  }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--apple-bg-white);
+    border-radius: var(--apple-radius-card);
+    padding: clamp(32px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .section-grey .card { background: #ffffff; }
+  .section-dark .card { background: #2c2c2e; color: var(--apple-text-on-dark); }
+
+  .card__eyebrow {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .section-dark .card__eyebrow { color: #a1a1a6; }
+
+  .card__title {
+    font-size: var(--apple-title-size);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .card__body {
+    font-size: var(--apple-body-size);
+    color: var(--apple-text-secondary);
+    line-height: 1.55;
+  }
+  .section-dark .card__body { color: #a1a1a6; }
+
+  /* Pain points list */
+  .pain-list {
+    list-style: none;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border-radius: var(--apple-radius-card);
+    overflow: hidden;
+  }
+  .pain-list__item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    padding: 28px 32px;
+    background: var(--apple-bg-dark);
+    align-items: baseline;
+  }
+  .pain-list__label {
+    font-size: var(--apple-body-size);
+    color: #a1a1a6;
+    font-weight: 500;
+  }
+  .pain-list__value {
+    font-size: var(--apple-body-size);
+    color: var(--apple-text-on-dark);
+    line-height: 1.5;
+  }
+  .pain-list__value strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  @media (max-width: 720px) {
+    .pain-list__item { grid-template-columns: 1fr; gap: 6px; padding: 22px 24px; }
+  }
+
+  /* MVP spec — 5 fields */
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+  .field-chip {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 32px 18px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 400ms var(--apple-ease-out), box-shadow 400ms var(--apple-ease-out);
+  }
+  .field-chip:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  }
+  .field-chip__num {
+    font-size: 13px;
+    color: var(--apple-text-tertiary);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .field-chip__name {
+    font-size: clamp(16px, 1.7vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 720px) {
+    .fields { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Strategy steps */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--apple-gutter);
+    margin-top: 48px;
+  }
+  .step {
+    padding: 36px 28px;
+    background: #ffffff;
+    border-radius: var(--apple-radius-card);
+  }
+  .step__num {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--apple-blue);
+    margin-bottom: 12px;
+  }
+  .step__title {
+    font-size: var(--apple-subtitle-size);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .step__body {
+    font-size: 15px;
+    color: var(--apple-text-secondary);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
+
+  /* Quote */
+  .quote-section { text-align: center; }
+  .quote {
+    font-size: clamp(24px, 3.2vw, 44px);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    max-width: 860px;
+    margin: 0 auto 32px;
+  }
+  .quote__attribution {
+    font-size: var(--apple-body-size);
+    color: var(--apple-text-secondary);
+  }
+  .section-dark .quote__attribution { color: #a1a1a6; }
+
+  /* Next steps */
+  .checklist {
+    list-style: none;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .checklist__item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #ffffff;
+    padding: 22px 28px;
+    border-radius: 14px;
+    font-size: var(--apple-body-size);
+  }
+  .checklist__box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--apple-text-tertiary);
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .checklist__owner {
+    font-weight: 600;
+    color: var(--apple-blue);
+    margin-right: 8px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 60px var(--apple-gutter) 40px;
+    background: var(--apple-bg-light);
+    text-align: center;
+    color: var(--apple-text-tertiary);
+    font-size: var(--apple-caption-size);
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .footer__line { margin-bottom: 8px; }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--apple-duration-reveal) var(--apple-ease-out),
+                transform var(--apple-duration-reveal) var(--apple-ease-out);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav__brand">aiccbiz2</a>
+  <span class="nav__meta">2026.05.17 · 통화 정리</span>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__eyebrow">Call Memo · 2026.05.17</div>
+  <h1 class="hero__title">GA를 위한<br/>가장 단순한 알림.</h1>
+  <p class="hero__subtitle">30만 보험설계사가 매일 메모장으로 관리하는 갱신일.<br/>딱 그 한 가지만 해주는 앱.</p>
+  <div class="hero__meta">
+    <span>양준모</span>
+    <span class="hero__dot"></span>
+    <span>LGU+ 이성우 담당</span>
+    <span class="hero__dot"></span>
+    <span>오전 9:37</span>
+  </div>
+</header>
+
+<!-- TL;DR -->
+<section class="section-light">
+  <div class="container">
+    <div class="eyebrow reveal">한 줄 요약</div>
+    <h2 class="headline reveal">병원 마케팅 분석 공유,<br/>그리고 새 아이디어 하나.</h2>
+    <p class="lede reveal">양준모는 병원 마케팅 분석 진행 상황을 공유했고, 이성우 담당은 영업 메모장 시장을 더 버티컬로 파고들 신규 SaaS 아이디어를 꺼냈다.</p>
+
+    <div class="tldr-card reveal">
+      <p class="tldr-card__text">
+        영업 메모장 시장에서 <span class="tldr-card__highlight">GA(보험대리점) 설계사</span>로 더 내려가자.<br/>
+        기능은 <span class="tldr-card__highlight">갱신 알림 단 하나</span>. 다운로드 극대화로 확산한다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PART 1: 양준모 진행 상황 -->
+<section class="section-grey">
+  <div class="container">
+    <div class="eyebrow reveal">Part 1 · 양준모</div>
+    <h2 class="headline reveal">병원 마케팅 분석,<br/>다섯 가지 트랙으로 진행 중.</h2>
+
+    <div class="grid-2 reveal">
+      <div class="card">
+        <span class="card__eyebrow">법규</span>
+        <h3 class="card__title">의료법 개정</h3>
+        <p class="card__body">과대·과장 광고 과태료가 5,000만원에서 <strong>10억원</strong>으로 상향. 필터링 로직이 우선 과제다.</p>
+      </div>
+      <div class="card">
+        <span class="card__eyebrow">비용 구조</span>
+        <h3 class="card__title">월 506만원 절감</h3>
+        <p class="card__body">현재 마케팅 비용을 3개 카테고리로 분해해 실효성을 검증하고, 줄일 수 있는 라인을 찾는 중.</p>
+      </div>
+      <div class="card">
+        <span class="card__eyebrow">레퍼런스</span>
+        <h3 class="card__title">알림톡 활용 사례</h3>
+        <p class="card__body">카카오톡·알림톡을 잘 쓴 채널톡 사례를 벤치마크로 추가 스터디 중.</p>
+      </div>
+      <div class="card">
+        <span class="card__eyebrow">시장 조사</span>
+        <h3 class="card__title">강남언니 모델</h3>
+        <p class="card__body">병원 투자·운영 자회사까지 확장한 플랫폼 비즈니스 구조를 함께 분석.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 2: 시장 페인 포인트 -->
+<section class="section-dark">
+  <div class="container">
+    <div class="eyebrow reveal">Part 2 · 시장</div>
+    <h2 class="headline reveal">왜 GA 설계사인가.</h2>
+    <p class="lede reveal">고객 데이터는 회사 소유. 이직률은 절반 이상. 갱신 한 번 놓치면 7년치 수수료가 날아간다. 모든 페인이 한 점으로 모인다.</p>
+
+    <div class="stats reveal">
+      <div class="stat">
+        <div class="stat__value">30만+</div>
+        <div class="stat__label">국내 GA 설계사</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value">54%</div>
+        <div class="stat__label">연 이직률</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value">7년</div>
+        <div class="stat__label">갱신 유지 의무</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value">0</div>
+        <div class="stat__label">표준 관리 도구</div>
+      </div>
+    </div>
+
+    <ul class="pain-list reveal">
+      <li class="pain-list__item">
+        <div class="pain-list__label">데이터 소유</div>
+        <div class="pain-list__value">회사 CRM에 종속 → <strong>이직 시 고객 자산을 가져갈 수 없다.</strong></div>
+      </li>
+      <li class="pain-list__item">
+        <div class="pain-list__label">현재 관리 방식</div>
+        <div class="pain-list__value">휴대폰 메모장 / 카카오톡 / 종이 수첩 — <strong>표준화 X</strong></div>
+      </li>
+      <li class="pain-list__item">
+        <div class="pain-list__label">기존 솔루션</div>
+        <div class="pain-list__value">보험사 제공 CRM은 "안 쓴다." 자립톡 같은 앱은 <strong>UI 친화적이지 않다.</strong></div>
+      </li>
+      <li class="pain-list__item">
+        <div class="pain-list__label">돈과 직결</div>
+        <div class="pain-list__value">법 개정 — <strong>7년간 고객 갱신을 유지해야 수수료를 전액 받는다.</strong></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- PART 3: 제품 컨셉 -->
+<section class="section-light">
+  <div class="container">
+    <div class="eyebrow reveal">Part 3 · 제품</div>
+    <h2 class="headline reveal">기능은 하나.<br/>입력은 다섯 개.</h2>
+    <p class="lede reveal">음성 요약도, 통화 분석도, 다 걷어냈다. "갱신 놓치면 OOO만큼 날아갑니다" — 이 메시지를 가장 빠르게 전달하는 앱.</p>
+
+    <div class="fields reveal">
+      <div class="field-chip"><div class="field-chip__num">01</div><div class="field-chip__name">성별</div></div>
+      <div class="field-chip"><div class="field-chip__num">02</div><div class="field-chip__name">이름</div></div>
+      <div class="field-chip"><div class="field-chip__num">03</div><div class="field-chip__name">나이</div></div>
+      <div class="field-chip"><div class="field-chip__num">04</div><div class="field-chip__name">가입일</div></div>
+      <div class="field-chip"><div class="field-chip__num">05</div><div class="field-chip__name">갱신일</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 4: 비즈니스 전략 -->
+<section class="section-grey">
+  <div class="container">
+    <div class="eyebrow reveal">Part 4 · 전략</div>
+    <h2 class="headline reveal">확산 우선, 기능 나중.</h2>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step__num">01</div>
+        <h3 class="step__title">최소 인프라</h3>
+        <p class="step__body">유지·보수 비용이 가장 적게 드는 구조로 시작.</p>
+      </div>
+      <div class="step">
+        <div class="step__num">02</div>
+        <h3 class="step__title">무료 코어</h3>
+        <p class="step__body">갱신 알림은 무조건 무료. 다운로드 극대화.</p>
+      </div>
+      <div class="step">
+        <div class="step__num">03</div>
+        <h3 class="step__title">유료 확장</h3>
+        <p class="step__body">사용자 보이스가 모이면 기능 추가하며 유료화.</p>
+      </div>
+      <div class="step">
+        <div class="step__num">04</div>
+        <h3 class="step__title">수평 확대</h3>
+        <p class="step__body">학습지 총판 등 동일 패턴 영업조직으로 확장.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="section-black quote-section">
+  <div class="container reveal">
+    <p class="quote">"아주 심플해야 돼. 그냥 갱신 알림음이야.<br/>전화 와가지고 요약해주고 그런 거 싹 다 걷어내고,<br/>딱 재계약 갱신이고 실패하면 얼만큼 니 돈 날라간다."</p>
+    <p class="quote__attribution">— 이성우 담당</p>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section class="section-grey">
+  <div class="container">
+    <div class="eyebrow reveal">Next Steps</div>
+    <h2 class="headline reveal">다음 통화 전까지.</h2>
+
+    <ul class="checklist reveal">
+      <li class="checklist__item">
+        <span class="checklist__box"></span>
+        <span><span class="checklist__owner">양준모</span>보험설계사 시장 재스터디 (예전 자료 + 신규 조사)</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__box"></span>
+        <span><span class="checklist__owner">이성우</span>매형 친구 GA C 등 인터뷰 진행, 페인 포인트 구체화</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__box"></span>
+        <span><span class="checklist__owner">공동</span>다음 통화 — 인터뷰 결과 공유 + MVP 스펙 정의</span>
+      </li>
+      <li class="checklist__item">
+        <span class="checklist__box"></span>
+        <span><span class="checklist__owner">원칙</span>ID·기획만 좋은 것 ≠ 시장 확산. 확산 가능한 구조로만 좁혀서 간다.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__line">2026.05.17 (일) 오전 9:37 · 통화 시간 약 20분</div>
+  <div class="footer__line">익시오 STT 기반 정리 · aiccbiz2.github.io</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
