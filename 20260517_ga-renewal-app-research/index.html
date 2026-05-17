@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GA 갱신 앱 — 종합 리서치 리포트</title>
+<meta name="description" content="30만 보험설계사를 위한 1인 SaaS 아이디어. 시장·고객·경쟁사·자리톡 벤치마크·빌드/GTM 분석." />
+<style>
+  :root {
+    --apple-bg-white: #fbfbfd;
+    --apple-bg-light: #f5f5f7;
+    --apple-bg-dark: #1d1d1f;
+    --apple-bg-black: #000000;
+    --apple-text-primary: #1d1d1f;
+    --apple-text-secondary: #6e6e73;
+    --apple-text-tertiary: #86868b;
+    --apple-text-on-dark: #f5f5f7;
+    --apple-text-on-dark-2: #a1a1a6;
+    --apple-link: #0066cc;
+    --apple-link-hover: #0077ed;
+    --apple-blue: #0071e3;
+    --apple-green: #30d158;
+    --apple-orange: #ff9f0a;
+    --apple-red: #ff3b30;
+    --apple-purple: #bf5af2;
+
+    --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Apple SD Gothic Neo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --apple-hero-size: clamp(44px, 8vw, 104px);
+    --apple-headline-size: clamp(30px, 5vw, 64px);
+    --apple-title-size: clamp(22px, 3vw, 40px);
+    --apple-subtitle-size: clamp(18px, 1.9vw, 26px);
+    --apple-body-size: clamp(15px, 1.15vw, 19px);
+    --apple-caption-size: clamp(12px, 0.95vw, 15px);
+
+    --apple-section-pad-xl: clamp(80px, 12vw, 200px);
+    --apple-section-pad-lg: clamp(60px, 8vw, 120px);
+    --apple-section-pad-md: clamp(40px, 5vw, 80px);
+
+    --apple-gutter: 22px;
+    --apple-max-width: 980px;
+    --apple-wide-width: 1280px;
+
+    --apple-radius-card: 18px;
+    --apple-radius-btn: 980px;
+
+    --apple-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --apple-duration-reveal: 1200ms;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--apple-font);
+    color: var(--apple-text-primary);
+    background: var(--apple-bg-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+  }
+  a { color: var(--apple-link); text-decoration: none; transition: color 200ms; }
+  a:hover { color: var(--apple-link-hover); }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: 0; height: 48px;
+    background: rgba(251, 251, 253, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--apple-gutter);
+    font-size: 13px; letter-spacing: -0.01em;
+    border-bottom: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .nav__brand { font-weight: 600; color: var(--apple-text-primary); }
+  .nav__menu { display: flex; gap: 24px; }
+  .nav__menu a { color: var(--apple-text-secondary); font-size: 12px; }
+  .nav__menu a:hover { color: var(--apple-text-primary); }
+  @media (max-width: 720px) { .nav__menu { display: none; } }
+
+  /* Section base */
+  section { padding: var(--apple-section-pad-lg) var(--apple-gutter); position: relative; }
+  .container { max-width: var(--apple-max-width); margin: 0 auto; }
+  .container--wide { max-width: var(--apple-wide-width); margin: 0 auto; }
+
+  .section-light { background: var(--apple-bg-white); color: var(--apple-text-primary); }
+  .section-grey { background: var(--apple-bg-light); color: var(--apple-text-primary); }
+  .section-dark { background: var(--apple-bg-dark); color: var(--apple-text-on-dark); }
+  .section-black { background: var(--apple-bg-black); color: var(--apple-text-on-dark); }
+
+  .eyebrow {
+    font-size: var(--apple-caption-size);
+    color: var(--apple-text-secondary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .section-dark .eyebrow, .section-black .eyebrow { color: var(--apple-text-on-dark-2); }
+
+  .headline {
+    font-size: var(--apple-headline-size);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-bottom: 24px;
+  }
+  .lede {
+    font-size: var(--apple-subtitle-size);
+    color: var(--apple-text-secondary);
+    line-height: 1.4;
+    max-width: 720px;
+  }
+  .section-dark .lede, .section-black .lede { color: var(--apple-text-on-dark-2); }
+
+  /* HERO */
+  .hero {
+    background: radial-gradient(ellipse at top, #1d1d1f 0%, #000 70%);
+    color: var(--apple-text-on-dark);
+    text-align: center;
+    padding: clamp(100px, 14vw, 220px) var(--apple-gutter) clamp(80px, 10vw, 160px);
+    overflow: hidden;
+    position: relative;
+  }
+  .hero__eyebrow {
+    font-size: 13px; letter-spacing: 0.08em;
+    color: var(--apple-text-on-dark-2);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .hero__title {
+    font-size: var(--apple-hero-size);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.022em;
+    margin-bottom: 28px;
+    background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero__subtitle {
+    font-size: clamp(19px, 2.2vw, 30px);
+    font-weight: 400; color: #c9c9cf;
+    max-width: 720px; margin: 0 auto 40px;
+    line-height: 1.35;
+  }
+  .hero__meta {
+    display: inline-flex; gap: 18px; align-items: center;
+    color: var(--apple-text-tertiary);
+    font-size: 13px; flex-wrap: wrap; justify-content: center;
+  }
+  .hero__dot { width: 4px; height: 4px; background: var(--apple-text-tertiary); border-radius: 50%; }
+
+  /* TL;DR */
+  .tldr-card {
+    background: var(--apple-bg-light);
+    border-radius: var(--apple-radius-card);
+    padding: clamp(36px, 5vw, 64px);
+    margin-top: 40px;
+    text-align: center;
+  }
+  .tldr-card__text {
+    font-size: clamp(20px, 2.4vw, 32px);
+    font-weight: 500; line-height: 1.35;
+    letter-spacing: -0.01em;
+    max-width: 800px; margin: 0 auto;
+  }
+  .tldr-card__hl { color: var(--apple-blue); font-weight: 600; }
+
+  /* THE IDEA — 5 fields */
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px; margin-top: 56px;
+  }
+  .field-chip {
+    background: #fff;
+    border-radius: 14px; padding: 32px 14px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 400ms var(--apple-ease-out), box-shadow 400ms;
+  }
+  .field-chip:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
+  .field-chip__num { font-size: 13px; color: var(--apple-text-tertiary); font-weight: 500; margin-bottom: 8px; }
+  .field-chip__name { font-size: clamp(15px, 1.7vw, 22px); font-weight: 600; letter-spacing: -0.01em; }
+  @media (max-width: 720px) { .fields { grid-template-columns: repeat(2, 1fr); } }
+
+  /* STATS */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--apple-gutter);
+    margin-top: 56px;
+  }
+  .stat { text-align: center; padding: 28px 16px; }
+  .stat__value {
+    font-size: clamp(40px, 5.2vw, 78px);
+    font-weight: 600; line-height: 1;
+    letter-spacing: -0.022em;
+    margin-bottom: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat__label { font-size: var(--apple-body-size); color: var(--apple-text-on-dark-2); }
+  .stat__sub { font-size: 13px; color: var(--apple-text-tertiary); margin-top: 4px; }
+  @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+  /* 2029 catalyst */
+  .catalyst {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 48px; align-items: center; margin-top: 56px;
+  }
+  .catalyst__big {
+    font-size: clamp(80px, 12vw, 180px);
+    font-weight: 700; line-height: 0.9;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--apple-blue) 0%, var(--apple-purple) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .catalyst__big-label {
+    font-size: var(--apple-subtitle-size);
+    color: var(--apple-text-secondary);
+    margin-top: 8px;
+  }
+  .catalyst__list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+  .catalyst__item {
+    padding: 22px 26px;
+    background: #fff; border-radius: 14px;
+    font-size: var(--apple-body-size); line-height: 1.5;
+  }
+  .catalyst__item strong { color: var(--apple-blue); }
+  @media (max-width: 720px) { .catalyst { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* PERSONAS */
+  .personas {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: var(--apple-gutter); margin-top: 48px;
+  }
+  .persona {
+    background: #fff; border-radius: var(--apple-radius-card);
+    padding: clamp(28px, 3.5vw, 44px);
+    display: flex; flex-direction: column; gap: 16px;
+    border-top: 4px solid var(--apple-blue);
+  }
+  .persona--a { border-top-color: var(--apple-red); }
+  .persona--b { border-top-color: var(--apple-orange); }
+  .persona--c { border-top-color: var(--apple-purple); }
+  .persona__rank { font-size: 13px; font-weight: 600; color: var(--apple-text-tertiary); letter-spacing: 0.06em; text-transform: uppercase; }
+  .persona__title { font-size: clamp(20px, 2.2vw, 28px); font-weight: 600; letter-spacing: -0.01em; }
+  .persona__row { display: flex; flex-direction: column; gap: 4px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06); }
+  .persona__label { font-size: 12px; color: var(--apple-text-tertiary); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+  .persona__value { font-size: var(--apple-body-size); color: var(--apple-text-primary); line-height: 1.5; }
+  .persona__value--strong { font-weight: 600; }
+  .persona__intent { display: inline-flex; gap: 2px; }
+  .persona__star { color: #ff9f0a; font-size: 18px; }
+  @media (max-width: 980px) { .personas { grid-template-columns: 1fr; } }
+
+  /* COMPETITORS */
+  .comp-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: var(--apple-gutter); margin-top: 48px;
+  }
+  .comp {
+    background: #2c2c2e;
+    border-radius: var(--apple-radius-card);
+    padding: 28px;
+    color: var(--apple-text-on-dark);
+  }
+  .comp__threat { display: flex; gap: 2px; color: #ff9f0a; font-size: 14px; margin-bottom: 12px; }
+  .comp__name { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .comp__cat { font-size: 13px; color: var(--apple-text-on-dark-2); margin-bottom: 16px; }
+  .comp__data { display: flex; gap: 16px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .comp__data-item { flex: 1; }
+  .comp__data-num { font-size: 20px; font-weight: 600; }
+  .comp__data-label { font-size: 11px; color: var(--apple-text-on-dark-2); text-transform: uppercase; letter-spacing: 0.04em; }
+  .comp__weak { font-size: 14px; color: var(--apple-text-on-dark-2); line-height: 1.5; }
+  .comp__weak strong { color: var(--apple-text-on-dark); }
+  @media (max-width: 980px) { .comp-grid { grid-template-columns: 1fr; } }
+
+  /* ZARITALK */
+  .zari-hero {
+    text-align: center; margin-top: 48px;
+    padding: 56px 32px;
+    background: #fff; border-radius: var(--apple-radius-card);
+  }
+  .zari-hero__name { font-size: clamp(40px, 5vw, 64px); font-weight: 700; letter-spacing: -0.02em; }
+  .zari-hero__tag { font-size: var(--apple-subtitle-size); color: var(--apple-text-secondary); margin-top: 8px; }
+  .zari-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; margin-top: 40px;
+  }
+  .zari-stat { text-align: center; }
+  .zari-stat__val { font-size: clamp(28px, 3.5vw, 44px); font-weight: 600; letter-spacing: -0.02em; }
+  .zari-stat__lbl { font-size: 13px; color: var(--apple-text-secondary); margin-top: 4px; }
+  @media (max-width: 720px) { .zari-stats { grid-template-columns: repeat(2, 1fr); } }
+
+  .insights {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 20px; margin-top: 56px;
+  }
+  .insight {
+    background: #fff; padding: 28px 32px; border-radius: 14px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .insight__num { font-size: 13px; font-weight: 600; color: var(--apple-blue); letter-spacing: 0.04em; }
+  .insight__title { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  .insight__body { font-size: 15px; color: var(--apple-text-secondary); line-height: 1.55; }
+  @media (max-width: 720px) { .insights { grid-template-columns: 1fr; } }
+
+  /* BUILD + GTM */
+  .build-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; margin-top: 48px;
+  }
+  .build-card {
+    background: #fff; padding: 40px;
+    border-radius: var(--apple-radius-card);
+  }
+  .build-card h3 {
+    font-size: var(--apple-title-size);
+    font-weight: 600; letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+  .build-card p { font-size: var(--apple-body-size); color: var(--apple-text-secondary); line-height: 1.55; margin-bottom: 16px; }
+  .build-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .build-card li { font-size: 15px; color: var(--apple-text-primary); padding-left: 24px; position: relative; line-height: 1.5; }
+  .build-card li::before { content: "→"; position: absolute; left: 0; color: var(--apple-blue); font-weight: 600; }
+  @media (max-width: 720px) { .build-row { grid-template-columns: 1fr; } }
+
+  .gtm-steps {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: var(--apple-gutter); margin-top: 32px;
+  }
+  .gtm-step {
+    background: #fff; padding: 36px 28px;
+    border-radius: var(--apple-radius-card);
+    position: relative;
+  }
+  .gtm-step__phase { font-size: 13px; font-weight: 600; color: var(--apple-blue); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .gtm-step__num { font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: var(--apple-text-primary); margin-bottom: 16px; }
+  .gtm-step__title { font-size: var(--apple-subtitle-size); font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .gtm-step__body { font-size: 14px; color: var(--apple-text-secondary); line-height: 1.55; }
+  @media (max-width: 720px) { .gtm-steps { grid-template-columns: 1fr; } }
+
+  /* QUOTE */
+  .quote-section { text-align: center; }
+  .quote {
+    font-size: clamp(26px, 3.4vw, 48px);
+    font-weight: 500; line-height: 1.2;
+    letter-spacing: -0.018em;
+    max-width: 960px; margin: 0 auto 32px;
+  }
+  .quote__hl {
+    background: linear-gradient(135deg, var(--apple-blue) 0%, var(--apple-purple) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .quote__attr { font-size: var(--apple-body-size); color: var(--apple-text-on-dark-2); }
+
+  /* NEXT */
+  .checklist { list-style: none; margin-top: 40px; display: flex; flex-direction: column; gap: 14px; }
+  .checklist__item {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: #fff; padding: 24px 28px; border-radius: 14px;
+    font-size: var(--apple-body-size); line-height: 1.5;
+  }
+  .checklist__num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: var(--apple-blue); color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600;
+  }
+
+  /* Verdict */
+  .verdict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; }
+  .verdict-col h3 { font-size: var(--apple-subtitle-size); font-weight: 600; margin-bottom: 16px; letter-spacing: -0.01em; }
+  .verdict-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .verdict-list li { padding: 14px 18px; background: rgba(255,255,255,0.05); border-radius: 10px; font-size: 15px; line-height: 1.5; }
+  .verdict-list--pro li { border-left: 3px solid var(--apple-green); }
+  .verdict-list--con li { border-left: 3px solid var(--apple-orange); }
+  @media (max-width: 720px) { .verdict-grid { grid-template-columns: 1fr; } }
+
+  /* Footer */
+  .footer {
+    padding: 60px var(--apple-gutter) 40px;
+    background: var(--apple-bg-light);
+    text-align: center;
+    color: var(--apple-text-tertiary);
+    font-size: var(--apple-caption-size);
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .footer__line { margin-bottom: 8px; }
+  .footer__links { margin-top: 16px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity var(--apple-duration-reveal) var(--apple-ease-out), transform var(--apple-duration-reveal) var(--apple-ease-out); }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav__brand">aiccbiz2 · GA Research</span>
+  <div class="nav__menu">
+    <a href="#market">시장</a>
+    <a href="#customer">고객</a>
+    <a href="#competitor">경쟁사</a>
+    <a href="#zaritalk">자리톡</a>
+    <a href="#build">빌드/GTM</a>
+    <a href="#next">Next</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__eyebrow">Research Report · 2026.05.17</div>
+  <h1 class="hero__title">GA 1인 사업자를<br/>위한 자산 금고.</h1>
+  <p class="hero__subtitle">30만 보험설계사는 매달 메모장으로 갱신일을 관리한다.<br/>그 한 가지만 해결하는 1인 SaaS의 시장·고객·경쟁사·실행 분석.</p>
+  <div class="hero__meta">
+    <span>양준모 × LGU+ 이성우 담당 통화 기반</span>
+    <span class="hero__dot"></span>
+    <span>전 5장 종합 리서치</span>
+  </div>
+</header>
+
+<!-- ONE-LINER VERDICT -->
+<section class="section-light">
+  <div class="container">
+    <div class="eyebrow reveal">결론 한 줄</div>
+    <h2 class="headline reveal">빌드 6주.<br/>영업 6개월.</h2>
+    <div class="tldr-card reveal">
+      <p class="tldr-card__text">
+        제품은 <span class="tldr-card__hl">"갱신 알림 앱"</span> 으로 포지셔닝하는 순간 진다.<br/>
+        진짜 무기는 <span class="tldr-card__hl">GA가 회사로부터 독립할 수 있게 해주는 자산 금고</span> 라는 정체성이다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- THE IDEA -->
+<section class="section-grey">
+  <div class="container">
+    <div class="eyebrow reveal">The Idea</div>
+    <h2 class="headline reveal">기능은 하나.<br/>입력은 다섯 개.</h2>
+    <p class="lede reveal">음성 요약도, 통화 분석도, 다 걷어냈다.<br/>"갱신 놓치면 7년치 수수료가 회사로 돌아갑니다" — 이 메시지를 가장 빠르게 전달하는 앱.</p>
+    <div class="fields reveal">
+      <div class="field-chip"><div class="field-chip__num">01</div><div class="field-chip__name">성별</div></div>
+      <div class="field-chip"><div class="field-chip__num">02</div><div class="field-chip__name">이름</div></div>
+      <div class="field-chip"><div class="field-chip__num">03</div><div class="field-chip__name">나이</div></div>
+      <div class="field-chip"><div class="field-chip__num">04</div><div class="field-chip__name">가입일</div></div>
+      <div class="field-chip"><div class="field-chip__num">05</div><div class="field-chip__name">갱신일</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market" class="section-dark">
+  <div class="container">
+    <div class="eyebrow reveal">① Market</div>
+    <h2 class="headline reveal">30만 GA, 연 18조 시장.</h2>
+    <p class="lede reveal">전체 보험설계사 56만 중 30만이 GA(독립대리점). 매년 16% 성장. 그리고 2029년 한 줄 정책이 이 시장을 다시 그린다.</p>
+
+    <div class="stats reveal">
+      <div class="stat">
+        <div class="stat__value">30.1만</div>
+        <div class="stat__label">GA 소속 설계사</div>
+        <div class="stat__sub">전년 25.9만 → +16%</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value">18조</div>
+        <div class="stat__label">전체 GA 매출</div>
+        <div class="stat__sub">연 20%+ 성장</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value">54%</div>
+        <div class="stat__label">연 이직률</div>
+        <div class="stat__sub">매년 시장의 절반</div>
+      </div>
+      <div class="stat">
+        <div class="stat__value">5.5만</div>
+        <div class="stat__label">결제 중인 시장</div>
+        <div class="stat__sub">모두GA 연 구독료</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2029 CATALYST -->
+<section class="section-light">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">The Catalyst</div>
+    <h2 class="headline reveal">2029년, 시장 타이밍이 바뀐다.</h2>
+    <div class="catalyst reveal">
+      <div>
+        <div class="catalyst__big">2029</div>
+        <div class="catalyst__big-label">수수료 7년 분급제 시행</div>
+      </div>
+      <ul class="catalyst__list">
+        <li class="catalyst__item">신계약 시 첫해 몰빵 → <strong>7년 분할 지급</strong>. 계약 깨지면 즉시 수수료 중단.</li>
+        <li class="catalyst__item"><strong>갱신 도구가 사치품 → 필수품</strong>으로 격상.</li>
+        <li class="catalyst__item">신계약 효율 <strong>1.47% → 0.85%</strong> 급감. 유지·winback이 더 중요해짐.</li>
+        <li class="catalyst__item"><strong>2027~2028 시장 진입 골든타임.</strong> GA들이 "어떻게 관리하지?" 패닉 시작.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER — PERSONAS -->
+<section id="customer" class="section-grey">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">② Customer</div>
+    <h2 class="headline reveal">세 명의 GA.<br/>한 가지 페인.</h2>
+    <p class="lede reveal">표면 페인은 "갱신 알림". 진짜 페인은 "**나는 1인 사업자인데 도구가 없다.**" 4가지 페인이 한 메시지로 묶인다.</p>
+
+    <div class="personas reveal">
+      <div class="persona persona--a">
+        <div class="persona__rank">⭐ 1순위 타겟</div>
+        <h3 class="persona__title">A. 이직 직전·직후 GA</h3>
+        <div class="persona__row">
+          <span class="persona__label">규모</span>
+          <span class="persona__value persona__value--strong">매년 약 15만명</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">상태</span>
+          <span class="persona__value">회사 떠나며 7년치 수수료 위기 / 새 회사에서 0부터.</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">진짜 페인</span>
+          <span class="persona__value">"내가 관리한 고객 200~500명, 어떻게 들고 가지?"</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">결제 의향</span>
+          <span class="persona__intent"><span class="persona__star">★</span><span class="persona__star">★</span><span class="persona__star">★</span><span class="persona__star">★</span><span class="persona__star">★</span></span>
+        </div>
+      </div>
+
+      <div class="persona persona--b">
+        <div class="persona__rank">성장 잠재</div>
+        <h3 class="persona__title">B. 1년차 신입 GA</h3>
+        <div class="persona__row">
+          <span class="persona__label">규모</span>
+          <span class="persona__value persona__value--strong">매년 8~10만명</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">상태</span>
+          <span class="persona__value">정착률 25~30% 게임. 모든 도구 시도.</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">진짜 페인</span>
+          <span class="persona__value">"뭐가 진짜 효과 있는지 모름. 시간 낭비 두려움."</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">결제 의향</span>
+          <span class="persona__intent"><span class="persona__star">★</span><span class="persona__star">★</span><span class="persona__star">★</span></span>
+        </div>
+      </div>
+
+      <div class="persona persona--c">
+        <div class="persona__rank">인플루언서</div>
+        <h3 class="persona__title">C. 보험왕급 베테랑</h3>
+        <div class="persona__row">
+          <span class="persona__label">규모</span>
+          <span class="persona__value persona__value--strong">약 3만명</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">상태</span>
+          <span class="persona__value">억대 연봉. 영업소 운영. 본인 시스템 정착.</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">진짜 페인</span>
+          <span class="persona__value">팀 후배들 이탈·갱신 누락 답답.</span>
+        </div>
+        <div class="persona__row">
+          <span class="persona__label">결제 의향</span>
+          <span class="persona__intent"><span class="persona__star">★</span><span class="persona__star">★</span><span class="persona__star">★</span><span class="persona__star">★</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITORS -->
+<section id="competitor" class="section-dark">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">③ Competitor</div>
+    <h2 class="headline reveal">경쟁사는 많다.<br/>같은 자리에 있진 않다.</h2>
+    <p class="lede reveal">5개 경쟁사 모두 "보험 통합조회·청구"에 몰려있다. "이직 winback"이라는 카테고리는 비어 있다. 그리고 쿠콘+한자산이 곧 들어온다 — 우리에게 6~12개월 윈도우.</p>
+
+    <div class="comp-grid reveal">
+      <div class="comp">
+        <div class="comp__threat">★★★★★</div>
+        <div class="comp__name">쿠콘 + 한자산홀딩스</div>
+        <div class="comp__cat">통합 플랫폼 (개발 중)</div>
+        <div class="comp__data">
+          <div class="comp__data-item">
+            <div class="comp__data-num">2026.05</div>
+            <div class="comp__data-label">발표</div>
+          </div>
+          <div class="comp__data-item">
+            <div class="comp__data-num">미공개</div>
+            <div class="comp__data-label">가격</div>
+          </div>
+        </div>
+        <p class="comp__weak"><strong>임박 위협</strong>. 자본력 + 한자산 GA 본사 강제 배포. 출시 전 6~12개월이 우리의 자산.</p>
+      </div>
+
+      <div class="comp">
+        <div class="comp__threat">★★★★</div>
+        <div class="comp__name">모두GA</div>
+        <div class="comp__cat">GA 전용 PC 소프트웨어</div>
+        <div class="comp__data">
+          <div class="comp__data-item">
+            <div class="comp__data-num">2.6만</div>
+            <div class="comp__data-label">유료 사용자</div>
+          </div>
+          <div class="comp__data-item">
+            <div class="comp__data-num">연 5.5만</div>
+            <div class="comp__data-label">가격</div>
+          </div>
+        </div>
+        <p class="comp__weak"><strong>가장 직접 경쟁</strong>. 그러나 PC 중심·모바일 약함. 갱신 알림 부재. 우리 빈틈.</p>
+      </div>
+
+      <div class="comp">
+        <div class="comp__threat">★★★</div>
+        <div class="comp__name">보케어</div>
+        <div class="comp__cat">상위 1% 영업관리</div>
+        <div class="comp__data">
+          <div class="comp__data-item">
+            <div class="comp__data-num">2.2만</div>
+            <div class="comp__data-label">사용자</div>
+          </div>
+          <div class="comp__data-item">
+            <div class="comp__data-num">유료</div>
+            <div class="comp__data-label">가격</div>
+          </div>
+        </div>
+        <p class="comp__weak">"상위 1%" 브랜딩 → <strong>신입·이직 GA 진입장벽</strong>. 우리는 그 빈자리.</p>
+      </div>
+
+      <div class="comp">
+        <div class="comp__threat">★★★</div>
+        <div class="comp__name">보맵플래너</div>
+        <div class="comp__cat">B2C 거인의 그림자</div>
+        <div class="comp__data">
+          <div class="comp__data-item">
+            <div class="comp__data-num">1만</div>
+            <div class="comp__data-label">설계사</div>
+          </div>
+          <div class="comp__data-item">
+            <div class="comp__data-num">320만</div>
+            <div class="comp__data-label">B2C DL</div>
+          </div>
+        </div>
+        <p class="comp__weak">데이터가 <strong>보맵 종속</strong> → GA 핵심 페인 오히려 악화. 우리는 정반대.</p>
+      </div>
+
+      <div class="comp">
+        <div class="comp__threat">★★</div>
+        <div class="comp__name">디레몬 / 레몬브릿지</div>
+        <div class="comp__cat">B2C+B2B 인슈어테크</div>
+        <div class="comp__data">
+          <div class="comp__data-item">
+            <div class="comp__data-num">50만</div>
+            <div class="comp__data-label">다운로드</div>
+          </div>
+          <div class="comp__data-item">
+            <div class="comp__data-num">무료</div>
+            <div class="comp__data-label">가격</div>
+          </div>
+        </div>
+        <p class="comp__weak">보험사가 깔아주는 앱 → <strong>회사 종속 함정</strong>. GA가 잘 안 씀.</p>
+      </div>
+
+      <div class="comp">
+        <div class="comp__threat">★★</div>
+        <div class="comp__name">시그널플래너</div>
+        <div class="comp__cat">상담 채널 앱</div>
+        <div class="comp__data">
+          <div class="comp__data-item">
+            <div class="comp__data-num">250만</div>
+            <div class="comp__data-label">B2C DL</div>
+          </div>
+          <div class="comp__data-item">
+            <div class="comp__data-num">무료</div>
+            <div class="comp__data-label">가격</div>
+          </div>
+        </div>
+        <p class="comp__weak">B2C 중심 (고객용). 설계사 1인 사업자 워크플로우는 <strong>비어 있음</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZARITALK BENCHMARK -->
+<section id="zaritalk" class="section-light">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">④ Benchmark</div>
+    <h2 class="headline reveal">자리톡이 검증해준<br/>네 가지 가설.</h2>
+    <p class="lede reveal">보험 도메인은 아니지만 1인 사업자(임대인) 대상 자동화 + Freemium의 표준 케이스. 매년 60% 성장 중인 부동산 임대관리 플랫폼.</p>
+
+    <div class="zari-hero reveal">
+      <div class="zari-hero__name">자리톡</div>
+      <div class="zari-hero__tag">임대인의 감정노동을 자동화한 부동산 임대관리 플랫폼</div>
+      <div class="zari-stats">
+        <div class="zari-stat">
+          <div class="zari-stat__val">480만</div>
+          <div class="zari-stat__lbl">세입자</div>
+        </div>
+        <div class="zari-stat">
+          <div class="zari-stat__val">67만</div>
+          <div class="zari-stat__lbl">임대인</div>
+        </div>
+        <div class="zari-stat">
+          <div class="zari-stat__val">126억</div>
+          <div class="zari-stat__lbl">2025 매출</div>
+        </div>
+        <div class="zari-stat">
+          <div class="zari-stat__val">+60%</div>
+          <div class="zari-stat__lbl">연 성장률</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insights reveal">
+      <div class="insight">
+        <div class="insight__num">INSIGHT 01</div>
+        <h3 class="insight__title">진짜 페인은 감정노동 회피</h3>
+        <p class="insight__body">표면 페인 = "수납 관리". 진짜 페인 = "세입자에게 미납 독촉하기 어색하다." → 중립적 제3자(자리톡)가 카톡 발송 → 미납 90% 감소. <strong>우리도 "GA → 고객 갱신 안내" 자동화 가능.</strong></p>
+      </div>
+      <div class="insight">
+        <div class="insight__num">INSIGHT 02</div>
+        <h3 class="insight__title">무료 워크플로우 락인 → 부가 유료</h3>
+        <p class="insight__body">임대인은 100% 무료. 세입자 카드결제 수수료·환급 서비스로 수익화. <strong>우리도 동일 구조 — 갱신 알림 무료, 알림톡·세무·B2B 영업소로 유료화.</strong></p>
+      </div>
+      <div class="insight">
+        <div class="insight__num">INSIGHT 03</div>
+        <h3 class="insight__title">카카오톡이 핵심 인프라</h3>
+        <p class="insight__body">한국 1인 사업자 도구는 카톡을 어떻게 쓰느냐가 승부. 자리톡의 카톡 고지서 = 우리의 카톡 알림톡. <strong>동일한 인프라 위에서 동일한 차별화 작동.</strong></p>
+      </div>
+      <div class="insight">
+        <div class="insight__num">INSIGHT 04</div>
+        <h3 class="insight__title">양면 시장은 자본 게임</h3>
+        <p class="insight__body">자리톡 480만 트래픽 = 10년 + 수십억. 1인 SaaS가 그대로 따라하면 위험. <strong>우리는 단면(GA)으로 시작 → 인플루언서·영업소 침투로 1만 명까지.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD + GTM -->
+<section id="build" class="section-grey">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">⑤ Build + GTM</div>
+    <h2 class="headline reveal">빌드는 쉽다.<br/>딜리버리가 진짜 게임.</h2>
+
+    <div class="build-row reveal">
+      <div class="build-card">
+        <h3>BUILD — 6주, 1인 가능</h3>
+        <p>5필드 CRUD + 푸시알림 = To-Do 앱 수준. Flutter+Supabase 또는 PWA+카카오톡.</p>
+        <ul>
+          <li>주 1~2: 와이어프레임 + 디자인 + DB 스키마</li>
+          <li>주 3~4: 핵심 CRUD + 알림 로직</li>
+          <li>주 5: 푸시/알림톡 통합 + 회원가입</li>
+          <li>주 6: 베타 테스트 (인터뷰한 GA 10명)</li>
+        </ul>
+      </div>
+      <div class="build-card">
+        <h3>GTM — 광고는 안 먹힌다</h3>
+        <p>40~50대 GA는 SNS 광고 핏 아님. 신뢰 산업 → 광고 한 번에 자기 고객 DB 안 넣음. 작동하는 채널은 셋:</p>
+        <ul>
+          <li>동료 추천 (전환률 30~50%)</li>
+          <li>네이버 카페 / 카톡 오픈챗 (전환률 5~10%)</li>
+          <li>영업소 단위 시연 (1소 = 30~80명 도입)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size: var(--apple-title-size); font-weight: 600; letter-spacing: -0.01em; margin-top: 64px;" class="reveal">3단계 GTM 플레이북</h3>
+    <div class="gtm-steps reveal">
+      <div class="gtm-step">
+        <div class="gtm-step__phase">PHASE 1 · 0~3개월</div>
+        <div class="gtm-step__num">100</div>
+        <h4 class="gtm-step__title">Trust Building</h4>
+        <p class="gtm-step__body">인터뷰한 GA 10명 → 베타 전환. 동료 5명씩 소개. 네이버 카페·카톡방 침투. 광고 0원.</p>
+      </div>
+      <div class="gtm-step">
+        <div class="gtm-step__phase">PHASE 2 · 3~9개월</div>
+        <div class="gtm-step__num">1K</div>
+        <h4 class="gtm-step__title">Champion-Led Growth</h4>
+        <p class="gtm-step__body"><strong>인플루언서 GA 1명 락인</strong> → 영업소 30~80명 도입. 이직 모먼트 콘텐츠. "이직해도 고객 따라옵니다" 메시지.</p>
+      </div>
+      <div class="gtm-step">
+        <div class="gtm-step__phase">PHASE 3 · 9~24개월</div>
+        <div class="gtm-step__num">10K</div>
+        <h4 class="gtm-step__title">Network + Paid</h4>
+        <p class="gtm-step__body">레퍼럴 프로그램. 카카오모먼트·유튜브 광고. 월 ARR 470만원 → 연 5.6억 매출.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section class="section-dark">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">Verdict</div>
+    <h2 class="headline reveal">유리 5 · 위험 5.</h2>
+    <div class="verdict-grid reveal">
+      <div class="verdict-col">
+        <h3 style="color: var(--apple-green);">✓ 유리</h3>
+        <ul class="verdict-list verdict-list--pro">
+          <li><strong>TAM 충분</strong> — 30만 × 5% × 4,900원 = 연 88억</li>
+          <li><strong>2029 분급제</strong> — 갱신 도구가 필수품으로 격상</li>
+          <li><strong>이직률 54%</strong> — 매년 시장의 절반이 winback 모먼트</li>
+          <li><strong>결제 인프라 ✓</strong> — 모두GA 연 5.5만원 결제 시장</li>
+          <li><strong>경쟁 빈자리</strong> — "GA 1인 사업자 자산" 카테고리 무주공산</li>
+        </ul>
+      </div>
+      <div class="verdict-col">
+        <h3 style="color: var(--apple-orange);">⚠ 위험</h3>
+        <ul class="verdict-list verdict-list--con">
+          <li><strong>쿠콘+한자산</strong> — 6~12개월 윈도우</li>
+          <li><strong>카톡 알림 commodity 위협</strong> — 메시지로 풀어야 함</li>
+          <li><strong>고령화</strong> — UX 단순함이 생존 조건</li>
+          <li><strong>무료 함정</strong> — 헌신도 낮으면 락인 약함</li>
+          <li><strong>빅4 GA 자체 솔루션</strong> — top-down 도입 시 위축</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE MESSAGE -->
+<section class="section-black quote-section">
+  <div class="container reveal">
+    <p class="quote">"이직해도 고객은 따라옵니다.<br/><span class="quote__hl">1초 만에 통째로 들고 가세요.</span>"</p>
+    <p class="quote__attr">— 우리 제품의 1번 메시지</p>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section id="next" class="section-light">
+  <div class="container">
+    <div class="eyebrow reveal">Next Actions</div>
+    <h2 class="headline reveal">다음 한 달.</h2>
+    <ul class="checklist reveal">
+      <li class="checklist__item"><span class="checklist__num">1</span><span><strong>페이크도어 랜딩 1장</strong> — "이직해도 고객을 통째로 들고 가는 GA 전용 자산 금고" 메시지로 50명 대기자 검증.</span></li>
+      <li class="checklist__item"><span class="checklist__num">2</span><span><strong>GA 인터뷰 5명+</strong> — "지금 어떤 앱?", "월 4,900원이면?", "이직 시 어떻게?" 필수 질문 4개.</span></li>
+      <li class="checklist__item"><span class="checklist__num">3</span><span><strong>인플루언서 GA 후보 3명 리스트업</strong> — 이성우 담당 매형 친구 GA C + 추가 2명.</span></li>
+      <li class="checklist__item"><span class="checklist__num">4</span><span><strong>모두GA 7일 직접 체험</strong> — UI/UX 약점 직접 확인.</span></li>
+      <li class="checklist__item"><span class="checklist__num">5</span><span><strong>자리톡 임대인 모드 7일 사용</strong> — 감정노동 자동화 디자인 패턴 학습.</span></li>
+      <li class="checklist__item"><span class="checklist__num">6</span><span><strong>카카오 알림톡 비즈채널 개설 신청</strong> — 심사 2~3주 소요, 미리 시작.</span></li>
+      <li class="checklist__item"><span class="checklist__num">7</span><span><strong>쿠콘+한자산 IR·보도 추적</strong> — 출시 일정 = 우리 데드라인.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__line">2026.05.17 (일) · 양준모 × LGU+ 이성우 담당 통화 기반 종합 리서치</div>
+  <div class="footer__line">시장 · 고객 · 경쟁사 · 자리톡 벤치마크 · 빌드/GTM · 5장 분석</div>
+  <div class="footer__links">
+    <a href="https://aiccbiz2.github.io/20260517_yang-junmo-call-summary/">통화 원본 정리</a>
+    <span style="color: var(--apple-text-tertiary);">·</span>
+    <a href="https://aiccbiz2.github.io/">aiccbiz2.github.io</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
