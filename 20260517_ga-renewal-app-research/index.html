@@ -398,9 +398,12 @@
   .footer__line { margin-bottom: 8px; }
   .footer__links { margin-top: 16px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
 
-  /* Reveal */
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity var(--apple-duration-reveal) var(--apple-ease-out), transform var(--apple-duration-reveal) var(--apple-ease-out); }
-  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  /* Reveal — JS-guarded so content is visible by default (SEO + no-JS fallback) */
+  .js .reveal { opacity: 0; transform: translateY(30px); transition: opacity var(--apple-duration-reveal) var(--apple-ease-out), transform var(--apple-duration-reveal) var(--apple-ease-out); }
+  .js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -871,12 +874,18 @@
 </footer>
 
 <script>
+  document.documentElement.classList.add('js');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+  const els = document.querySelectorAll('.reveal');
+  els.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) { el.classList.add('is-visible'); }
+    else { observer.observe(el); }
+  });
 </script>
 
 </body>
