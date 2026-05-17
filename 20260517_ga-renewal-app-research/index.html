@@ -407,6 +407,71 @@
   .insight__body { font-size: 15px; color: var(--apple-text-secondary); line-height: 1.55; }
   @media (max-width: 720px) { .insights { grid-template-columns: 1fr; } }
 
+  /* SOLUTION ROADMAP — 4 Layers */
+  .layers {
+    display: flex; flex-direction: column;
+    gap: 16px; margin-top: 48px;
+  }
+  .layer {
+    display: grid;
+    grid-template-columns: 100px 1fr 200px;
+    gap: 28px;
+    align-items: center;
+    padding: 28px 32px;
+    background: #fff;
+    border-radius: var(--apple-radius-card);
+    border-left: 5px solid var(--apple-blue);
+    transition: transform 300ms var(--apple-ease-out);
+  }
+  .layer:hover { transform: translateX(4px); }
+  .layer--l1 { border-left-color: var(--apple-green); }
+  .layer--l2 { border-left-color: var(--apple-blue); }
+  .layer--l3 { border-left-color: var(--apple-orange); }
+  .layer--l4 { border-left-color: var(--apple-text-tertiary); opacity: 0.85; }
+  .layer__num {
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 700; letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--apple-text-primary);
+  }
+  .layer--l4 .layer__num { color: var(--apple-text-tertiary); }
+  .layer__body { display: flex; flex-direction: column; gap: 6px; }
+  .layer__name { font-size: clamp(18px, 2.2vw, 24px); font-weight: 600; letter-spacing: -0.01em; }
+  .layer__desc { font-size: 14px; color: var(--apple-text-secondary); line-height: 1.5; }
+  .layer__desc strong { color: var(--apple-text-primary); }
+  .layer__meta { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .layer__timing { font-size: 12px; color: var(--apple-text-tertiary); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+  .layer__tag {
+    font-size: 11px; padding: 4px 10px;
+    background: var(--apple-bg-light); color: var(--apple-text-secondary);
+    border-radius: 980px; font-weight: 500;
+  }
+  .layer--l1 .layer__tag { background: rgba(48,209,88,0.15); color: #15803d; }
+  .layer--l4 .layer__tag { background: rgba(255,159,10,0.15); color: #c2410c; }
+  @media (max-width: 720px) {
+    .layer { grid-template-columns: 1fr; gap: 12px; }
+    .layer__meta { flex-direction: row; justify-content: space-between; align-items: center; }
+  }
+
+  .roadmap-note {
+    margin-top: 40px;
+    padding: 28px 32px;
+    background: var(--apple-bg-light);
+    border-radius: var(--apple-radius-card);
+    border-left: 4px solid var(--apple-purple);
+  }
+  .roadmap-note h4 {
+    font-size: var(--apple-subtitle-size);
+    font-weight: 600; letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .roadmap-note p {
+    font-size: var(--apple-body-size);
+    color: var(--apple-text-secondary);
+    line-height: 1.55;
+  }
+  .roadmap-note strong { color: var(--apple-text-primary); }
+
   /* BUILD + GTM */
   .build-row {
     display: grid; grid-template-columns: 1fr 1fr;
@@ -507,6 +572,7 @@
     <a href="#customer">고객</a>
     <a href="#competitor">경쟁사</a>
     <a href="#zaritalk">자리톡</a>
+    <a href="#solution">솔루션</a>
     <a href="#build">빌드/GTM</a>
     <a href="#next">Next</a>
   </div>
@@ -887,10 +953,74 @@
   </div>
 </section>
 
+<!-- SOLUTION ROADMAP -->
+<section id="solution" class="section-light">
+  <div class="container container--wide">
+    <div class="eyebrow reveal">⑤ Solution Roadmap</div>
+    <h2 class="headline reveal">"갱신 알림" 너머.<br/>무엇을 더할 것인가.</h2>
+    <p class="lede reveal">"갱신 알림"만으론 부족하다 — 사용 빈도가 낮아 락인이 약하다. 매일 워크플로우와 지식 자산이 들어가야 진짜 자산 금고가 된다. 단, <strong>한 번에 다 넣으면 죽는다.</strong> 4계층 단계적 진화.</p>
+
+    <div class="layers reveal">
+      <div class="layer layer--l1">
+        <div class="layer__num">L1</div>
+        <div class="layer__body">
+          <div class="layer__name">Asset Vault — 자산 금고</div>
+          <div class="layer__desc">5필드 + 갱신 알림 + 데이터 export. <strong>이직해도 고객은 따라옵니다.</strong></div>
+        </div>
+        <div class="layer__meta">
+          <span class="layer__timing">0~6주</span>
+          <span class="layer__tag">⭐ MVP</span>
+        </div>
+      </div>
+
+      <div class="layer layer--l2">
+        <div class="layer__num">L2</div>
+        <div class="layer__body">
+          <div class="layer__name">Daily Workspace — 매일의 작업대</div>
+          <div class="layer__desc">고객별 메모 + Timeline + 음성→자동요약 + 카톡 import. <strong>매일 여는 1인 사업자 워크스페이스.</strong> 메모가 쌓일수록 떠나기 어려워짐.</div>
+        </div>
+        <div class="layer__meta">
+          <span class="layer__timing">3~6개월</span>
+          <span class="layer__tag">필수</span>
+        </div>
+      </div>
+
+      <div class="layer layer--l3">
+        <div class="layer__num">L3</div>
+        <div class="layer__body">
+          <div class="layer__name">AI Co-pilot — 지식 동반자 (RAG)</div>
+          <div class="layer__desc">약관·상품·의료지식 RAG로 즉문즉답. 고객 컨텍스트 위에서 갱신 추천 자동. <strong>약관 찾을 시간에 고객 한 명 더.</strong></div>
+        </div>
+        <div class="layer__meta">
+          <span class="layer__timing">6~12개월</span>
+          <span class="layer__tag">검증 후</span>
+        </div>
+      </div>
+
+      <div class="layer layer--l4">
+        <div class="layer__num">L4</div>
+        <div class="layer__body">
+          <div class="layer__name">Network Graph — 관계망 시각화</div>
+          <div class="layer__desc">고객 ↔ 가족 ↔ 소개인 그래프. 보험왕급에게만 유용, 평균 GA는 리스트로 충분. <strong>같은 가치 1/10 비용으로 "관계 필드+검색"으로 흡수 가능.</strong></div>
+        </div>
+        <div class="layer__meta">
+          <span class="layer__timing">12개월+</span>
+          <span class="layer__tag">보류 권장</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-note reveal">
+      <h4>Graph View에 대한 솔직한 의견</h4>
+      <p>아이디어 자체는 매력적이지만, 빌드 비용 <strong>★★★★★</strong> vs 실 사용자 가치 <strong>★★</strong>. 평균 GA(100명 미만 고객 관리, 평균 연령 40+)에게 Graph 인터랙션은 직관적이지 않다. <strong>"가족"·"소개인" 필드 + 관계 검색</strong>으로 같은 영업 인사이트를 1/10 비용으로 얻을 수 있다. Layer 4는 PMF 강력 확인 후, 상위 1% 영업소 프리미엄 기능으로만 검토.</p>
+    </div>
+  </div>
+</section>
+
 <!-- BUILD + GTM -->
 <section id="build" class="section-grey">
   <div class="container container--wide">
-    <div class="eyebrow reveal">⑤ Build + GTM</div>
+    <div class="eyebrow reveal">⑥ Build + GTM</div>
     <h2 class="headline reveal">빌드는 쉽다.<br/>딜리버리가 진짜 게임.</h2>
 
     <div class="build-row reveal">
