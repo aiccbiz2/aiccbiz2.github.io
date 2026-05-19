@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<!--
+  Google I/O '26 Keynote Summary
+  Design: Material Design 3 (Material You)
+  Tokens — Google Blue #4285F4 / Red #EA4335 / Yellow #FBBC04 / Green #34A853
+  Surface #F8F9FA · Text #202124 / #5F6368 · Border #DADCE0
+  Single-file, no external dependencies.
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google I/O '26 — Keynote Summary</title>
+<style>
+:root {
+    --blue: #4285F4;
+    --red: #EA4335;
+    --yellow: #FBBC04;
+    --green: #34A853;
+    --blue-d: #1A73E8;
+    --ink: #202124;
+    --ink-2: #5F6368;
+    --ink-3: #80868B;
+    --surface: #FFFFFF;
+    --surface-2: #F8F9FA;
+    --surface-3: #F1F3F4;
+    --border: #DADCE0;
+    --font: 'Google Sans', 'Google Sans Text', 'Product Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Apple SD Gothic Neo', sans-serif;
+    --elev-1: 0 1px 2px rgba(60,64,67,0.30), 0 1px 3px 1px rgba(60,64,67,0.15);
+    --elev-2: 0 1px 3px rgba(60,64,67,0.30), 0 4px 8px 3px rgba(60,64,67,0.15);
+    --radius: 16px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+    font-family:var(--font);
+    background:var(--surface-2);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+}
+
+/* ── Top Bar ── */
+.topbar {
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    position:sticky; top:0; z-index:50;
+}
+.logo {
+    font-size:22px; font-weight:700; letter-spacing:-0.5px;
+    display:flex; align-items:center;
+}
+.logo .g1{color:var(--blue);} .logo .g2{color:var(--red);}
+.logo .g3{color:var(--yellow);} .logo .g4{color:var(--blue);}
+.logo .g5{color:var(--green);} .logo .g6{color:var(--red);}
+.logo-io { color:var(--ink); margin-left:8px; font-weight:500; }
+.topbar .tag {
+    margin-left:auto; font-size:12px; font-weight:600;
+    color:var(--ink-2); background:var(--surface-3);
+    padding:6px 14px; border-radius:980px;
+}
+
+/* ── Hero ── */
+.hero {
+    text-align:center;
+    padding:80px 24px 64px;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(66,133,244,0.10), transparent 42%),
+        radial-gradient(circle at 85% 25%, rgba(234,67,53,0.10), transparent 42%),
+        radial-gradient(circle at 25% 90%, rgba(251,188,4,0.12), transparent 42%),
+        radial-gradient(circle at 80% 85%, rgba(52,168,83,0.10), transparent 42%),
+        var(--surface);
+}
+.hero .eyebrow {
+    font-size:14px; font-weight:600; letter-spacing:0.8px;
+    color:var(--blue-d); text-transform:uppercase;
+    margin-bottom:18px;
+}
+.hero h1 {
+    font-size:clamp(44px, 8vw, 88px);
+    font-weight:700; letter-spacing:-2.5px; line-height:1.05;
+    margin-bottom:20px;
+}
+.hero h1 .io {
+    background:linear-gradient(120deg, var(--blue), var(--green) 40%, var(--yellow) 65%, var(--red));
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.hero p {
+    font-size:clamp(17px, 2.4vw, 21px);
+    color:var(--ink-2); max-width:620px; margin:0 auto 28px;
+}
+.hero .date-chip {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:14px; font-weight:500; color:var(--ink-2);
+    background:var(--surface-2); border:1px solid var(--border);
+    padding:8px 18px; border-radius:980px;
+}
+.hero .dot { width:8px; height:8px; border-radius:50%; background:var(--green); }
+
+/* ── Tab Nav ── */
+.tabs-wrap {
+    position:sticky; top:57px; z-index:40;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+}
+.tabs {
+    max-width:1100px; margin:0 auto;
+    display:flex; gap:4px; overflow-x:auto;
+    padding:0 16px;
+    scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar { display:none; }
+.tab {
+    flex-shrink:0;
+    background:none; border:none; cursor:pointer;
+    font-family:var(--font); font-size:15px; font-weight:500;
+    color:var(--ink-2);
+    padding:16px 18px;
+    border-bottom:3px solid transparent;
+    transition:color .15s, border-color .15s;
+    white-space:nowrap;
+}
+.tab:hover { color:var(--ink); }
+.tab.active { color:var(--blue-d); border-bottom-color:var(--blue); font-weight:600; }
+
+/* ── Section / Panels ── */
+.container { max-width:1100px; margin:0 auto; padding:56px 24px 80px; }
+.panel { display:none; animation:fade .35s ease; }
+.panel.active { display:block; }
+@keyframes fade { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+.panel-head { margin-bottom:36px; }
+.panel-head .kicker {
+    display:inline-block; font-size:13px; font-weight:600;
+    letter-spacing:0.5px; padding:5px 12px; border-radius:980px;
+    margin-bottom:14px;
+}
+.panel-head h2 {
+    font-size:clamp(30px, 5vw, 42px);
+    font-weight:700; letter-spacing:-1px; line-height:1.15;
+}
+.panel-head p { font-size:17px; color:var(--ink-2); margin-top:8px; }
+
+/* accent variants */
+.ac-blue   .kicker { background:rgba(66,133,244,0.12);  color:var(--blue-d); }
+.ac-red    .kicker { background:rgba(234,67,53,0.12);   color:var(--red); }
+.ac-yellow .kicker { background:rgba(251,188,4,0.20);   color:#B06000; }
+.ac-green  .kicker { background:rgba(52,168,83,0.14);   color:var(--green); }
+
+/* ── Stat strip ── */
+.stats {
+    display:flex; flex-wrap:wrap; gap:14px; margin-bottom:36px;
+}
+.stat {
+    flex:1; min-width:150px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:22px 24px;
+}
+.stat .num { font-size:34px; font-weight:700; letter-spacing:-1px; line-height:1; }
+.stat .lbl { font-size:14px; color:var(--ink-2); margin-top:8px; }
+.stat.s-blue .num{color:var(--blue);} .stat.s-red .num{color:var(--red);}
+.stat.s-yellow .num{color:#E8A400;} .stat.s-green .num{color:var(--green);}
+
+/* ── Card grid ── */
+.grid { display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); }
+.card {
+    background:var(--surface); border-radius:var(--radius);
+    box-shadow:var(--elev-1);
+    padding:28px;
+    transition:box-shadow .2s, transform .2s;
+    border-top:4px solid var(--border);
+}
+.card:hover { box-shadow:var(--elev-2); transform:translateY(-3px); }
+.card.t-blue{border-top-color:var(--blue);}
+.card.t-red{border-top-color:var(--red);}
+.card.t-yellow{border-top-color:var(--yellow);}
+.card.t-green{border-top-color:var(--green);}
+.card .ic {
+    width:48px; height:48px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; margin-bottom:16px;
+}
+.ic.b-blue{background:rgba(66,133,244,0.12);}
+.ic.b-red{background:rgba(234,67,53,0.12);}
+.ic.b-yellow{background:rgba(251,188,4,0.18);}
+.ic.b-green{background:rgba(52,168,83,0.14);}
+.card h3 { font-size:21px; font-weight:600; letter-spacing:-0.4px; }
+.card .sub {
+    font-size:13px; font-weight:600; color:var(--ink-3);
+    margin:4px 0 14px; text-transform:uppercase; letter-spacing:0.4px;
+}
+.card p { font-size:15px; color:var(--ink-2); }
+.card ul { list-style:none; margin-top:14px; }
+.card li {
+    font-size:15px; color:var(--ink-2);
+    padding:7px 0 7px 24px; position:relative;
+    border-top:1px solid var(--surface-3);
+}
+.card li:first-child { border-top:none; }
+.card li::before {
+    content:""; position:absolute; left:2px; top:15px;
+    width:8px; height:8px; border-radius:50%; background:var(--blue);
+}
+.card.t-red li::before{background:var(--red);}
+.card.t-yellow li::before{background:var(--yellow);}
+.card.t-green li::before{background:var(--green);}
+.card .pill {
+    display:inline-block; margin-top:16px;
+    font-size:12px; font-weight:600;
+    background:var(--surface-3); color:var(--ink-2);
+    padding:6px 13px; border-radius:980px;
+}
+
+/* ── Compare table ── */
+.compare {
+    margin-top:28px; background:var(--surface);
+    border:1px solid var(--border); border-radius:var(--radius);
+    overflow:hidden;
+}
+.compare table { width:100%; border-collapse:collapse; }
+.compare caption {
+    text-align:left; font-size:16px; font-weight:600;
+    padding:20px 24px 8px;
+}
+.compare th, .compare td {
+    text-align:left; padding:14px 24px; font-size:15px;
+    border-top:1px solid var(--surface-3);
+}
+.compare thead th {
+    font-size:13px; font-weight:600; color:var(--ink-3);
+    text-transform:uppercase; letter-spacing:0.4px;
+    background:var(--surface-2);
+}
+.compare tbody td:first-child { font-weight:600; color:var(--ink); }
+.compare .v2 { color:var(--blue-d); font-weight:600; }
+
+/* ── Footer ── */
+.footer {
+    background:var(--surface); border-top:1px solid var(--border);
+    padding:40px 24px; text-align:center;
+}
+.footer .bar {
+    height:4px; width:120px; margin:0 auto 24px;
+    border-radius:980px;
+    background:linear-gradient(90deg, var(--blue) 0 25%, var(--red) 25% 50%, var(--yellow) 50% 75%, var(--green) 75% 100%);
+}
+.footer p { font-size:13px; color:var(--ink-3); margin:4px 0; }
+
+/* ── Responsive ── */
+@media (max-width:640px) {
+    .hero { padding:56px 20px 44px; }
+    .container { padding:40px 16px 64px; }
+    .card { padding:22px; }
+    .tab { padding:14px 12px; font-size:14px; }
+    .compare th, .compare td { padding:12px 14px; font-size:14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <span class="logo">
+        <span class="g1">G</span><span class="g2">o</span><span class="g3">o</span><span class="g4">g</span><span class="g5">l</span><span class="g6">e</span>
+        <span class="logo-io">I/O '26</span>
+    </span>
+    <span class="tag">Keynote Summary</span>
+</div>
+
+<header class="hero">
+    <div class="eyebrow">Developer Keynote</div>
+    <h1>Google <span class="io">I/O '26</span><br>키노트 요약</h1>
+    <p>2026년 5월 19일 발표된 Google I/O 키노트의 핵심 발표 내용을 6개 영역으로 정리했습니다.</p>
+    <span class="date-chip"><span class="dot"></span>2026. 05. 19 · Mountain View, CA</span>
+</header>
+
+<nav class="tabs-wrap">
+    <div class="tabs" id="tabs">
+        <button class="tab active" data-target="p1">AI 모델</button>
+        <button class="tab" data-target="p2">AI 에이전트</button>
+        <button class="tab" data-target="p3">검색 혁신</button>
+        <button class="tab" data-target="p4">쇼핑 &amp; 커머스</button>
+        <button class="tab" data-target="p5">창작 도구</button>
+        <button class="tab" data-target="p6">과학 &amp; 하드웨어</button>
+    </div>
+</nav>
+
+<main class="container">
+
+    <!-- ── Panel 1: AI 모델 ── -->
+    <section class="panel active ac-blue" id="p1">
+        <div class="panel-head">
+            <span class="kicker">AI 모델</span>
+            <h2>차세대 Gemini 모델 라인업</h2>
+            <p>속도와 멀티모달 이해력을 끌어올린 3종의 신규 Gemini 모델이 공개됐습니다.</p>
+        </div>
+        <div class="stats">
+            <div class="stat s-blue"><div class="num">3종</div><div class="lbl">신규 Gemini 모델</div></div>
+            <div class="stat s-red"><div class="num">4×</div><div class="lbl">타사 프론티어 대비 생성 속도</div></div>
+            <div class="stat s-yellow"><div class="num">1M</div><div class="lbl">입력 토큰 (Flash)</div></div>
+            <div class="stat s-green"><div class="num">30+</div><div class="lbl">MCP 서드파티 통합</div></div>
+        </div>
+        <div class="grid">
+            <div class="card t-blue">
+                <div class="ic b-blue">⚡</div>
+                <h3>Gemini 3.5 Flash</h3>
+                <div class="sub">출시 완료</div>
+                <p>타사 프론티어 모델 대비 4배 빠른 생성 속도를 갖춘 경량 고속 모델입니다.</p>
+                <ul>
+                    <li>입력 1M 토큰 / 출력 65,536 토큰</li>
+                    <li>저지연 실시간 응답 최적화</li>
+                </ul>
+            </div>
+            <div class="card t-red">
+                <div class="ic b-red">🧠</div>
+                <h3>Gemini 3.5 Pro</h3>
+                <div class="sub">2026년 6월 출시 예정</div>
+                <p>고난도 추론과 장문 컨텍스트 처리를 위한 플래그십 모델입니다.</p>
+                <span class="pill">Coming June 2026</span>
+            </div>
+            <div class="card t-green">
+                <div class="ic b-green">🌐</div>
+                <h3>Gemini Omni Flash</h3>
+                <div class="sub">멀티모달</div>
+                <p>물리 법칙 이해를 기반으로 한 멀티모달 모델로, 영상 생성과 편집을 지원합니다.</p>
+                <ul>
+                    <li>물리 시뮬레이션 기반 추론</li>
+                    <li>영상 생성 · 편집 네이티브 지원</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Panel 2: AI 에이전트 ── -->
+    <section class="panel ac-red" id="p2">
+        <div class="panel-head">
+            <span class="kicker">AI 에이전트</span>
+            <h2>스스로 일하는 에이전트의 시대</h2>
+            <p>데스크톱부터 온디바이스까지, 자율적으로 작업을 수행하는 에이전트 제품군입니다.</p>
+        </div>
+        <div class="grid">
+            <div class="card t-blue">
+                <div class="ic b-blue">🖥️</div>
+                <h3>Antigravity 2.0</h3>
+                <div class="sub">독립 데스크톱 앱</div>
+                <p>브라우저 확장에서 독립 데스크톱 애플리케이션으로 진화했습니다.</p>
+                <ul>
+                    <li>다중 에이전트 병렬 처리</li>
+                    <li>음성 명령 통합</li>
+                </ul>
+            </div>
+            <div class="card t-yellow">
+                <div class="ic b-yellow">✨</div>
+                <h3>Gemini Spark</h3>
+                <div class="sub">Ultra 구독자 선공개</div>
+                <p>24시간 내내 백그라운드에서 자율적으로 작업을 수행하는 에이전트입니다.</p>
+                <span class="pill">Ultra 선공개</span>
+            </div>
+            <div class="card t-green">
+                <div class="ic b-green">📱</div>
+                <h3>Android Halo</h3>
+                <div class="sub">2026년 연말 출시</div>
+                <p>모바일에서 동작하는 온디바이스 에이전트 시스템입니다.</p>
+                <span class="pill">Coming Late 2026</span>
+            </div>
+        </div>
+        <div class="compare">
+            <table>
+                <caption>Antigravity 1.0 vs 2.0</caption>
+                <thead>
+                    <tr><th>항목</th><th>1.0</th><th>2.0</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>형태</td><td>브라우저 확장</td><td class="v2">독립 데스크톱 앱</td></tr>
+                    <tr><td>에이전트 처리</td><td>단일 처리</td><td class="v2">다중 병렬 처리</td></tr>
+                    <tr><td>입력 방식</td><td>텍스트</td><td class="v2">텍스트 + 음성 명령</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ── Panel 3: 검색 혁신 ── -->
+    <section class="panel ac-yellow" id="p3">
+        <div class="panel-head">
+            <span class="kicker">검색 혁신</span>
+            <h2>질문하는 검색에서 일하는 검색으로</h2>
+            <p>멀티모달 검색과 자동 추적으로 검색 경험이 능동형으로 바뀝니다.</p>
+        </div>
+        <div class="grid">
+            <div class="card t-blue">
+                <div class="ic b-blue">🔍</div>
+                <h3>인텔리전트 서치박스</h3>
+                <div class="sub">멀티모달 검색</div>
+                <p>파일 · 비디오 · 사진을 아우르는 멀티모달 검색과 실시간 대시보드 생성을 지원합니다.</p>
+                <ul>
+                    <li>파일 / 비디오 / 사진 통합 검색</li>
+                    <li>실시간 대시보드 자동 생성</li>
+                </ul>
+            </div>
+            <div class="card t-green">
+                <div class="ic b-green">🔔</div>
+                <h3>Information Agent</h3>
+                <div class="sub">능동형 추적</div>
+                <p>관심 주제를 자동으로 추적하고 변화가 생기면 푸시 알림으로 전달합니다.</p>
+                <ul>
+                    <li>자동 추적</li>
+                    <li>푸시 알림</li>
+                </ul>
+            </div>
+            <div class="card t-red">
+                <div class="ic b-red">🗺️</div>
+                <h3>Ask Maps / Ask YouTube</h3>
+                <div class="sub">자연어 통합</div>
+                <p>지도와 영상 서비스에 자연어로 질문하고 답을 얻는 통합 검색 기능입니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Panel 4: 쇼핑 & 커머스 ── -->
+    <section class="panel ac-green" id="p4">
+        <div class="panel-head">
+            <span class="kicker">쇼핑 &amp; 커머스</span>
+            <h2>에이전트가 대신 사주는 쇼핑</h2>
+            <p>오픈 커머스 프로토콜 기반으로 검색부터 결제까지 한 흐름으로 묶습니다.</p>
+        </div>
+        <div class="grid">
+            <div class="card t-green">
+                <div class="ic b-green">🛒</div>
+                <h3>Universal Cart</h3>
+                <div class="sub">UCP · AP2 기반</div>
+                <p>Universal Commerce Protocol(UCP)과 AP2 기반으로 동작하는 통합 장바구니입니다.</p>
+                <ul>
+                    <li>실시간 가격 추적</li>
+                    <li>호환성 분석</li>
+                    <li>원클릭 결제</li>
+                    <li>재입고 알림</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Panel 5: 창작 도구 ── -->
+    <section class="panel ac-blue" id="p5">
+        <div class="panel-head">
+            <span class="kicker">창작 도구</span>
+            <h2>생성형 크리에이티브 스튜디오</h2>
+            <p>영상 · 음악 · 이미지 · UI까지, Gemini Omni가 창작 도구 전반에 들어갑니다.</p>
+        </div>
+        <div class="grid">
+            <div class="card t-blue">
+                <div class="ic b-blue">🎬</div>
+                <h3>Google Flow</h3>
+                <div class="sub">영상 생성</div>
+                <p>Gemini Omni 통합으로 최대 16개의 비디오를 동시에 생성할 수 있습니다.</p>
+                <span class="pill">16개 동시 생성</span>
+            </div>
+            <div class="card t-red">
+                <div class="ic b-red">🎵</div>
+                <h3>Flow Music</h3>
+                <div class="sub">음악 생성</div>
+                <p>영상 워크플로와 연결되는 음악 생성 기능입니다.</p>
+            </div>
+            <div class="card t-yellow">
+                <div class="ic b-yellow">🖼️</div>
+                <h3>Google Pics</h3>
+                <div class="sub">2026년 여름 공개 예정</div>
+                <p>AI 리터칭과 객체 삭제를 지원하는 사진 편집 도구입니다.</p>
+                <span class="pill">Coming Summer 2026</span>
+            </div>
+            <div class="card t-green">
+                <div class="ic b-green">🧵</div>
+                <h3>Google Stitch</h3>
+                <div class="sub">UI/UX 디자인</div>
+                <p>실시간으로 UI/UX를 업데이트하는 디자인 생성 도구입니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Panel 6: 과학 & 하드웨어 ── -->
+    <section class="panel ac-red" id="p6">
+        <div class="panel-head">
+            <span class="kicker">과학 &amp; 하드웨어</span>
+            <h2>연구실과 일상으로 들어간 AI</h2>
+            <p>과학 연구용 AI와 협업형 스마트 글래스로 확장됩니다.</p>
+        </div>
+        <div class="grid">
+            <div class="card t-blue">
+                <div class="ic b-blue">🔬</div>
+                <h3>Gemini for Science</h3>
+                <div class="sub">연구용 AI</div>
+                <p>AlphaFold와 연계되는 과학 연구 전용 AI 도구입니다.</p>
+                <ul>
+                    <li>AlphaFold 연계</li>
+                    <li>연구 워크플로 지원</li>
+                </ul>
+            </div>
+            <div class="card t-green">
+                <div class="ic b-green">👓</div>
+                <h3>오디오 글래시스</h3>
+                <div class="sub">스마트 글래스</div>
+                <p>삼성 · 젠틀몬스터와 협력해 개발한 오디오 중심 스마트 글래스입니다.</p>
+                <span class="pill">삼성 × 젠틀몬스터</span>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <div class="bar"></div>
+    <p>본 페이지는 Google I/O '26 키노트 발표 내용을 정리한 <strong>비공식 요약 자료</strong>입니다.</p>
+    <p>AI사업2팀 · 2026. 05. 20</p>
+</footer>
+
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.tab');
+    var panels = document.querySelectorAll('.panel');
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            var target = tab.getAttribute('data-target');
+            tabs.forEach(function (t) { t.classList.remove('active'); });
+            panels.forEach(function (p) { p.classList.remove('active'); });
+            tab.classList.add('active');
+            document.getElementById(target).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
