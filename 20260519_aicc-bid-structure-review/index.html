@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>구축형 AICC 입찰 구도 검토 회의 요약 | aiccbiz2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --card: #1e293b;
+    --card2: #172033;
+    --border: rgba(255,255,255,0.08);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --blue: #3b82f6;
+    --blue-light: #60a5fa;
+    --accent: #e8b800;
+    --green: #22c55e;
+    --red: #f87171;
+    --amber: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+  a { color: var(--blue-light); }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #050c1a 0%, #0d1f3c 60%, #050c1a 100%);
+    border-bottom: 1px solid rgba(59,130,246,0.2);
+    padding: 2.5rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .back-link {
+    display: inline-block; font-size: 0.75rem; color: var(--muted);
+    text-decoration: none; margin-bottom: 1.25rem; position: relative;
+  }
+  .back-link:hover { color: var(--blue-light); }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(232,184,0,0.12); border: 1px solid rgba(232,184,0,0.35);
+    color: var(--accent); font-size: 0.72rem; font-weight: 700;
+    padding: 4px 14px; border-radius: 20px; margin-bottom: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+  header h1 { font-size: 1.95rem; font-weight: 900; line-height: 1.3; margin-bottom: 0.6rem; position: relative; }
+  header h1 span { color: var(--blue-light); }
+  header .meta { color: var(--muted); font-size: 0.82rem; position: relative; }
+
+  main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* Disclaimer */
+  .disclaimer {
+    background: rgba(248,113,113,0.07);
+    border: 1px solid rgba(248,113,113,0.28);
+    border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 2.5rem;
+    font-size: 0.8rem; color: #fca5a5;
+  }
+  .disclaimer strong { color: #fecaca; }
+
+  /* Section */
+  section { margin-bottom: 2.75rem; }
+  .section-title {
+    font-size: 1.15rem; font-weight: 900; margin-bottom: 1.1rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(59,130,246,0.15); color: var(--blue-light);
+    font-size: 0.85rem; font-weight: 900;
+  }
+
+  /* Legend table */
+  .legend {
+    background: var(--card2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 0.5rem 1.25rem;
+  }
+  .legend .row {
+    display: flex; gap: 1rem; padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border); font-size: 0.85rem;
+  }
+  .legend .row:last-child { border-bottom: none; }
+  .legend .k {
+    flex-shrink: 0; width: 96px; font-weight: 700; color: var(--blue-light);
+  }
+  .legend .v { color: var(--muted); }
+
+  /* Generic card */
+  .box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem 1.4rem;
+  }
+
+  ul.clean { list-style: none; }
+  ul.clean li {
+    position: relative; padding-left: 1.2rem; margin-bottom: 0.55rem;
+    font-size: 0.9rem;
+  }
+  ul.clean li::before {
+    content: ''; position: absolute; left: 0; top: 0.6rem;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+  }
+  ul.clean li:last-child { margin-bottom: 0; }
+  ul.clean li b { color: var(--text); font-weight: 700; }
+
+  /* Scenario cards */
+  .scenarios { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .scenario {
+    border-radius: 12px; padding: 1.2rem 1.35rem;
+    border: 1px solid var(--border); background: var(--card);
+  }
+  .scenario.rec { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.06); }
+  .scenario.warn { background: var(--card); }
+  .scenario .s-head {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .scenario .s-tag {
+    font-size: 0.66rem; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+    letter-spacing: 0.4px;
+  }
+  .s-tag.t-low  { background: rgba(248,113,113,0.16); color: #fca5a5; border: 1px solid rgba(248,113,113,0.3); }
+  .s-tag.t-mid  { background: rgba(34,197,94,0.16);  color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
+  .scenario .s-name { font-size: 0.98rem; font-weight: 800; }
+  .scenario p { font-size: 0.86rem; color: var(--muted); }
+
+  /* Premise / risk */
+  .pill-list { display: grid; gap: 0.7rem; }
+  .pill {
+    display: flex; gap: 0.85rem; align-items: flex-start;
+    background: var(--card2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.88rem;
+  }
+  .pill .ico { font-size: 1.05rem; flex-shrink: 0; line-height: 1.5; }
+
+  /* Next action */
+  .actions { display: grid; gap: 0.7rem; }
+  .action {
+    display: flex; gap: 0.85rem; align-items: flex-start;
+    border-left: 3px solid var(--accent);
+    background: var(--card2); padding: 0.85rem 1.1rem;
+    border-radius: 0 10px 10px 0; font-size: 0.88rem;
+  }
+  .action .step {
+    flex-shrink: 0; font-weight: 900; color: var(--accent); font-size: 0.85rem;
+  }
+
+  .note {
+    margin-top: 1rem; font-size: 0.8rem; color: var(--muted);
+    background: rgba(255,255,255,0.03); border: 1px dashed var(--border);
+    border-radius: 10px; padding: 0.85rem 1.1rem;
+  }
+  .note b { color: var(--text); }
+
+  footer {
+    text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border);
+    font-size: 0.74rem; color: var(--muted);
+  }
+  footer a { text-decoration: none; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.45rem; }
+    .legend .k { width: 78px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="../">← 분석 허브로</a>
+  <div class="header-badge">🗂️ 내부 회의 요약 — 익명화본</div>
+  <h1>구축형 AICC 사업<br/><span>입찰 구도 검토 회의 요약</span></h1>
+  <div class="meta">2026.05.19 · 영업 · 사업 · 컨설팅 합동 검토</div>
+</header>
+
+<main>
+
+  <div class="disclaimer">
+    <strong>안내.</strong> 본 문서는 내부 회의 녹취록을 <strong>익명화·요약</strong>한 자료입니다.
+    개인 실명, 구체 금액, 특정 업체에 대한 평가성 발언은 모두 제외했으며,
+    경쟁 구도와 의사결정 쟁점만 정리했습니다. 외부 인용·공유에 유의해 주세요.
+  </div>
+
+  <!-- 범례 -->
+  <section>
+    <div class="section-title"><span class="num">0</span>범례</div>
+    <div class="legend">
+      <div class="row"><div class="k">고객사 W</div><div class="v">금융권 은행 — 구축형 AICC(콜봇·챗봇 고도화) 발주처</div></div>
+      <div class="row"><div class="k">당사</div><div class="v">AICC 솔루션·인프라 사업자 (본 부문)</div></div>
+      <div class="row"><div class="k">C사 / D사</div><div class="v">대형 시스템통합(SI) 경쟁사</div></div>
+      <div class="row"><div class="k">K사</div><div class="v">통신·SI 사업자</div></div>
+      <div class="row"><div class="k">협력 솔루션사</div><div class="v">시나리오·녹취·멀티모달 등 영역별 외부 솔루션 파트너</div></div>
+    </div>
+  </section>
+
+  <!-- 1. 회의 개요 -->
+  <section>
+    <div class="section-title"><span class="num">1</span>회의 개요</div>
+    <div class="box">
+      <ul class="clean">
+        <li>고객사 W의 <b>구축형 AICC(콜봇·챗봇 고도화)</b> 사업을 앞두고, 당사의 참여 포지션(구도)을 확정하기 위한 내부 검토 회의.</li>
+        <li>영업 · 사업 · 컨설팅 라인 합동 논의로 진행.</li>
+        <li>제안서 작성 일정이 임박하여 <b>"금주 내 구도 확정"</b>이 핵심 요구사항으로 제기됨.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. 경쟁 구도 -->
+  <section>
+    <div class="section-title"><span class="num">2</span>경쟁 구도</div>
+    <div class="box">
+      <ul class="clean">
+        <li>사업은 <b>대형 SI 중심의 경쟁 입찰</b>로 전개될 가능성. 주사업자(마더) 후보군은 <b>C사 · D사 · K사 · 당사</b>.</li>
+        <li>사업 물량의 <b>2/3 이상이 SI성 개발</b> — 솔루션 보유보다 SI 수행 역량이 당락을 좌우.</li>
+        <li>당사 단독 주사업자(앞단) 경쟁은 승산이 낮다고 평가:
+          금융권 콜봇 SI 레퍼런스 부족, 대규모 SI 수행 인력·경험 부족, 자체 풀스택 솔루션 부재(영역별 외부 솔루션 의존).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. 당사의 자산과 한계 -->
+  <section>
+    <div class="section-title"><span class="num">3</span>당사의 확실한 자산과 한계</div>
+    <div class="box">
+      <ul class="clean">
+        <li><b>확보 가능 영역</b> — 콜 인프라 연계(보이스 게이트웨이 / 기존 IPCC 연동 인터페이스), 멀티모달, STT.</li>
+        <li><b>핵심 차별 역량</b> — 금융권 콜봇 시나리오(천여 개 규모)의 분석·컨버팅 경험. 국내에서 수행 가능한 사업자가 소수에 불과.</li>
+        <li><b>한계</b> — LLM 콜봇 등 신규 개발(AO) 영역은 당사 포션 확보 난이도가 높음.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. 참여 시나리오 비교 -->
+  <section>
+    <div class="section-title"><span class="num">4</span>참여 시나리오 비교</div>
+    <div class="scenarios">
+
+      <div class="scenario warn">
+        <div class="s-head">
+          <span class="s-tag t-low">포션 제한</span>
+          <span class="s-name">시나리오 A — C사 컨소시엄 하위 참여</span>
+        </div>
+        <p>C사가 자체 솔루션을 보유 → 당사가 시나리오·라우팅 영역을 요구할 명분이 약함.
+        당사 포션이 인프라 연계·TTS 수준으로 축소될 우려.</p>
+      </div>
+
+      <div class="scenario rec">
+        <div class="s-head">
+          <span class="s-tag t-mid">실무진 선호</span>
+          <span class="s-name">시나리오 B — D사 컨소시엄 하위 참여</span>
+        </div>
+        <p>D사는 금융권 콜봇 시나리오 수행 경험이 상대적으로 약함 →
+        당사의 시나리오 컨버팅 역량을 지렛대로 개발 포션 확보 가능성.
+        당사가 기존 시나리오 자산을 이관·분석하고, 인터페이스·포털 개발은 D사가 수행하는 역할 분담 구도.</p>
+      </div>
+
+      <div class="scenario warn">
+        <div class="s-head">
+          <span class="s-tag t-low">수주성 낮음</span>
+          <span class="s-name">시나리오 C — 당사 주사업자(마더)</span>
+        </div>
+        <p>외부 솔루션을 묶어 통합 매출 볼륨은 키울 수 있으나,
+        SI 수행 리스크와 금융권 레퍼런스 공백으로 수주 가능성이 낮음.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. 실무 전제조건 -->
+  <section>
+    <div class="section-title"><span class="num">5</span>실무 전제조건</div>
+    <div class="pill-list">
+      <div class="pill"><span class="ico">①</span><div><b>C사를 당사 하위 사업자로 세우는 구도</b>는 현실성이 낮다.</div></div>
+      <div class="pill"><span class="ico">②</span><div><b>D사와 K사가 단일 진영으로 결합</b>하는 상황은 피해야 한다.</div></div>
+      <div class="pill"><span class="ico">▶</span><div>위 전제가 바뀌면 당사 주사업자 구도도 재검토 가능하나, 현 시점에서는
+        <b>"마더 하위 참여 + 양 진영 모두에 인터페이스 견적 제공"</b> 전략이 현실적.</div></div>
+    </div>
+  </section>
+
+  <!-- 6. 미결 쟁점 / 리스크 -->
+  <section>
+    <div class="section-title"><span class="num">6</span>미결 쟁점 · 리스크</div>
+    <div class="pill-list">
+      <div class="pill"><span class="ico">⚠️</span><div>영업·사업 라인은 과거 "당사 앞단" 합의가 있었다고 인식하나, 협력사 측 이견으로 구도가 미확정 상태.</div></div>
+      <div class="pill"><span class="ico">⏳</span><div>제안서 작성에 약 2주가 소요 → 금주 내 구도 확정 필요. 실무진 단독으로 해결 불가, <b>임원 레벨 의사결정</b>이 요구됨.</div></div>
+      <div class="pill"><span class="ico">💬</span><div>사업 규모 및 연계 딜(타 고객사 물량 연계)에 대한 기대치 격차 존재 — 비현실적 기대는 배제 필요.</div></div>
+    </div>
+  </section>
+
+  <!-- 7. Next Action -->
+  <section>
+    <div class="section-title"><span class="num">7</span>Next Action</div>
+    <div class="actions">
+      <div class="action"><span class="step">01</span><div>금주 내 구도 확정 — 임원 의사결정 및 공식 커뮤니케이션 라인 가동.</div></div>
+      <div class="action"><span class="step">02</span><div>구도 확정 시 제안서 골격 작업 착수, 양 진영 대상 인터페이스 견적 표준화.</div></div>
+      <div class="action"><span class="step">03</span><div>협력 솔루션사(시나리오·멀티모달) 사전 락인(lock-in) 협의.</div></div>
+    </div>
+    <div class="note">
+      <b>회의 후반 별건.</b> 타 금융지주(JB) 사업 관련하여 지역 영업 지원 체계 미비 이슈가 짧게 논의됨 →
+      고객 접촉 리스트 정비 및 영업 정보 공유 체계 마련 필요.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 AX사업부문 · 내부 검토용 익명화 요약 |
+  <a href="https://github.com/aiccbiz2">aiccbiz2</a> GitHub
+</footer>
+
+</body>
+</html>
