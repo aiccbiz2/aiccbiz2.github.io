@@ -129,10 +129,15 @@ body {
 .tab.active { color:var(--blue-d); border-bottom-color:var(--blue); font-weight:600; }
 
 /* ── Section / Panels ── */
-.container { max-width:1100px; margin:0 auto; padding:56px 24px 80px; }
-.panel { display:none; animation:fade .35s ease; }
-.panel.active { display:block; }
-@keyframes fade { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+.container { max-width:1100px; margin:0 auto; padding:56px 24px 40px; }
+.panel {
+    display:block;
+    scroll-margin-top:124px;
+    padding-bottom:56px;
+    margin-bottom:56px;
+    border-bottom:1px solid var(--border);
+}
+.panel:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
 
 .panel-head { margin-bottom:36px; }
 .panel-head .kicker {
@@ -292,7 +297,7 @@ body {
 <main class="container">
 
     <!-- ── Panel 1: AI 모델 ── -->
-    <section class="panel active ac-blue" id="p1">
+    <section class="panel ac-blue" id="p1">
         <div class="panel-head">
             <span class="kicker">AI 모델</span>
             <h2>차세대 Gemini 모델 라인업</h2>
@@ -518,18 +523,30 @@ body {
 
 <script>
 (function () {
-    var tabs = document.querySelectorAll('.tab');
-    var panels = document.querySelectorAll('.panel');
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('data-target')); });
+
+    // 탭 클릭 → 해당 섹션으로 스크롤
     tabs.forEach(function (tab) {
         tab.addEventListener('click', function () {
-            var target = tab.getAttribute('data-target');
-            tabs.forEach(function (t) { t.classList.remove('active'); });
-            panels.forEach(function (p) { p.classList.remove('active'); });
-            tab.classList.add('active');
-            document.getElementById(target).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            var target = document.getElementById(tab.getAttribute('data-target'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
+
+    // 스크롤 위치에 따라 현재 섹션 탭 하이라이트 (scroll spy)
+    function syncActive() {
+        var offset = 160;
+        var current = 0;
+        for (var i = 0; i < panels.length; i++) {
+            if (panels[i] && panels[i].getBoundingClientRect().top <= offset) current = i;
+        }
+        tabs.forEach(function (t, i) {
+            t.classList.toggle('active', i === current);
+        });
+    }
+    syncActive();
+    window.addEventListener('scroll', syncActive, { passive: true });
 })();
 </script>
 
