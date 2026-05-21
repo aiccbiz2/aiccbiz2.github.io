@@ -4,187 +4,236 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>구축형 AICC 입찰 구도 검토 회의 요약 | aiccbiz2</title>
+<title>구축형 AICC 입찰 구도 검토 회의 요약 | LG U+</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e1a;
-    --bg2: #111827;
-    --card: #1e293b;
-    --card2: #172033;
-    --border: rgba(255,255,255,0.08);
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-    --blue: #3b82f6;
-    --blue-light: #60a5fa;
-    --accent: #e8b800;
-    --green: #22c55e;
-    --red: #f87171;
-    --amber: #fbbf24;
+    --magenta: #E6007E;
+    --magenta-deep: #B30062;
+    --magenta-soft: #FFF0F7;
+    --ink: #16161A;
+    --ink-soft: #2E2E33;
+    --gray: #6B6B70;
+    --gray-light: #9A9AA0;
+    --line: #ECECEF;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F7F8;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
-  a { color: var(--blue-light); }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--magenta); border-radius: 4px; }
+  a { color: var(--magenta); }
+
+  /* Brand top bar */
+  .brandbar { height: 4px; background: var(--magenta); }
 
   /* Header */
   header {
-    background: linear-gradient(135deg, #050c1a 0%, #0d1f3c 60%, #050c1a 100%);
-    border-bottom: 1px solid rgba(59,130,246,0.2);
-    padding: 2.5rem 1.5rem 3rem;
-    text-align: center;
+    background: var(--ink);
+    color: #fff;
+    padding: 2.75rem 1.5rem 3rem;
     position: relative;
     overflow: hidden;
   }
   header::before {
     content: '';
-    position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 400px;
-    background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
+    position: absolute; top: -160px; right: -80px;
+    width: 480px; height: 480px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(230,0,126,0.45) 0%, transparent 68%);
     pointer-events: none;
   }
+  .header-inner { max-width: 880px; margin: 0 auto; position: relative; }
   .back-link {
-    display: inline-block; font-size: 0.75rem; color: var(--muted);
-    text-decoration: none; margin-bottom: 1.25rem; position: relative;
+    display: inline-block; font-size: 0.78rem; color: rgba(255,255,255,0.55);
+    text-decoration: none; margin-bottom: 1.5rem;
   }
-  .back-link:hover { color: var(--blue-light); }
+  .back-link:hover { color: #fff; }
+  .brand-tag {
+    display: inline-flex; align-items: baseline; gap: 2px;
+    font-weight: 900; font-size: 1.15rem; letter-spacing: -0.5px;
+    margin-bottom: 1.1rem;
+  }
+  .brand-tag .u { color: #fff; }
+  .brand-tag .plus { color: var(--magenta); font-size: 1.35rem; }
+  .brand-tag .div {
+    margin: 0 10px; width: 1px; height: 14px;
+    background: rgba(255,255,255,0.25); align-self: center;
+  }
+  .brand-tag .dept { color: rgba(255,255,255,0.7); font-weight: 700; font-size: 0.8rem; }
   .header-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(232,184,0,0.12); border: 1px solid rgba(232,184,0,0.35);
-    color: var(--accent); font-size: 0.72rem; font-weight: 700;
-    padding: 4px 14px; border-radius: 20px; margin-bottom: 1.1rem;
-    letter-spacing: 0.5px;
+    background: var(--magenta); color: #fff;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px;
+    padding: 5px 13px; border-radius: 4px; margin-bottom: 1.1rem;
   }
-  header h1 { font-size: 1.95rem; font-weight: 900; line-height: 1.3; margin-bottom: 0.6rem; position: relative; }
-  header h1 span { color: var(--blue-light); }
-  header .meta { color: var(--muted); font-size: 0.82rem; position: relative; }
+  header h1 {
+    font-size: 2.05rem; font-weight: 900; line-height: 1.32;
+    letter-spacing: -0.7px;
+  }
+  header h1 .hl {
+    color: var(--magenta);
+    background: linear-gradient(transparent 62%, rgba(230,0,126,0.18) 62%);
+  }
+  header .meta {
+    margin-top: 0.85rem; color: rgba(255,255,255,0.6);
+    font-size: 0.82rem;
+  }
 
-  main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  main { max-width: 880px; margin: 0 auto; padding: 2.75rem 1.5rem 4rem; }
 
   /* Disclaimer */
   .disclaimer {
-    background: rgba(248,113,113,0.07);
-    border: 1px solid rgba(248,113,113,0.28);
-    border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 2.5rem;
-    font-size: 0.8rem; color: #fca5a5;
+    background: var(--magenta-soft);
+    border: 1px solid rgba(230,0,126,0.22);
+    border-left: 4px solid var(--magenta);
+    border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 2.75rem;
+    font-size: 0.81rem; color: var(--ink-soft);
   }
-  .disclaimer strong { color: #fecaca; }
+  .disclaimer strong { color: var(--magenta-deep); }
 
   /* Section */
-  section { margin-bottom: 2.75rem; }
+  section { margin-bottom: 2.85rem; }
   .section-title {
-    font-size: 1.15rem; font-weight: 900; margin-bottom: 1.1rem;
-    display: flex; align-items: center; gap: 10px;
+    font-size: 1.18rem; font-weight: 900; margin-bottom: 1.15rem;
+    display: flex; align-items: center; gap: 11px; letter-spacing: -0.4px;
   }
   .section-title .num {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
-    background: rgba(59,130,246,0.15); color: var(--blue-light);
-    font-size: 0.85rem; font-weight: 900;
+    width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+    background: var(--magenta); color: #fff;
+    font-size: 0.9rem; font-weight: 900;
   }
 
-  /* Legend table */
+  /* Legend */
   .legend {
-    background: var(--card2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 0.5rem 1.25rem;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 12px; padding: 0.4rem 1.3rem;
   }
   .legend .row {
-    display: flex; gap: 1rem; padding: 0.6rem 0;
-    border-bottom: 1px solid var(--border); font-size: 0.85rem;
+    display: flex; gap: 1rem; padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line); font-size: 0.85rem;
   }
   .legend .row:last-child { border-bottom: none; }
   .legend .k {
-    flex-shrink: 0; width: 96px; font-weight: 700; color: var(--blue-light);
+    flex-shrink: 0; width: 100px; font-weight: 800; color: var(--magenta-deep);
   }
-  .legend .v { color: var(--muted); }
+  .legend .v { color: var(--gray); }
 
-  /* Generic card */
+  /* Box */
   .box {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.25rem 1.4rem;
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: 12px; padding: 1.3rem 1.45rem;
   }
 
   ul.clean { list-style: none; }
   ul.clean li {
-    position: relative; padding-left: 1.2rem; margin-bottom: 0.55rem;
-    font-size: 0.9rem;
+    position: relative; padding-left: 1.35rem; margin-bottom: 0.6rem;
+    font-size: 0.9rem; color: var(--ink-soft);
   }
   ul.clean li::before {
-    content: ''; position: absolute; left: 0; top: 0.6rem;
-    width: 6px; height: 6px; border-radius: 50%; background: var(--blue);
+    content: ''; position: absolute; left: 0; top: 0.62rem;
+    width: 7px; height: 7px; border-radius: 2px; background: var(--magenta);
   }
   ul.clean li:last-child { margin-bottom: 0; }
-  ul.clean li b { color: var(--text); font-weight: 700; }
+  ul.clean li b { color: var(--ink); font-weight: 800; }
 
-  /* Scenario cards */
+  /* Scenarios */
   .scenarios { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   .scenario {
-    border-radius: 12px; padding: 1.2rem 1.35rem;
-    border: 1px solid var(--border); background: var(--card);
+    border-radius: 12px; padding: 1.25rem 1.4rem;
+    border: 1px solid var(--line); background: var(--bg);
   }
-  .scenario.rec { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.06); }
-  .scenario.warn { background: var(--card); }
+  .scenario.rec {
+    border: 1px solid rgba(230,0,126,0.4);
+    background: var(--magenta-soft);
+    box-shadow: 0 6px 22px rgba(230,0,126,0.08);
+  }
   .scenario .s-head {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 9px; margin-bottom: 0.65rem;
     flex-wrap: wrap;
   }
   .scenario .s-tag {
-    font-size: 0.66rem; font-weight: 700; padding: 2px 9px; border-radius: 20px;
-    letter-spacing: 0.4px;
+    font-size: 0.65rem; font-weight: 800; padding: 3px 10px; border-radius: 4px;
+    letter-spacing: 0.3px;
   }
-  .s-tag.t-low  { background: rgba(248,113,113,0.16); color: #fca5a5; border: 1px solid rgba(248,113,113,0.3); }
-  .s-tag.t-mid  { background: rgba(34,197,94,0.16);  color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
-  .scenario .s-name { font-size: 0.98rem; font-weight: 800; }
-  .scenario p { font-size: 0.86rem; color: var(--muted); }
+  .s-tag.t-low  { background: #F0F0F2; color: var(--gray); }
+  .s-tag.t-mid  { background: var(--magenta); color: #fff; }
+  .scenario .s-name { font-size: 1rem; font-weight: 900; letter-spacing: -0.3px; }
+  .scenario p { font-size: 0.87rem; color: var(--gray); }
+  .scenario.rec p { color: var(--ink-soft); }
 
   /* Premise / risk */
   .pill-list { display: grid; gap: 0.7rem; }
   .pill {
-    display: flex; gap: 0.85rem; align-items: flex-start;
-    background: var(--card2); border: 1px solid var(--border);
-    border-radius: 10px; padding: 0.85rem 1.1rem; font-size: 0.88rem;
+    display: flex; gap: 0.9rem; align-items: flex-start;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 10px; padding: 0.9rem 1.15rem; font-size: 0.88rem;
+    color: var(--ink-soft);
   }
-  .pill .ico { font-size: 1.05rem; flex-shrink: 0; line-height: 1.5; }
+  .pill .ico {
+    flex-shrink: 0; line-height: 1.5; font-weight: 900;
+    color: var(--magenta); font-size: 0.95rem;
+  }
+  .pill b { color: var(--ink); font-weight: 800; }
 
   /* Next action */
   .actions { display: grid; gap: 0.7rem; }
   .action {
-    display: flex; gap: 0.85rem; align-items: flex-start;
-    border-left: 3px solid var(--accent);
-    background: var(--card2); padding: 0.85rem 1.1rem;
-    border-radius: 0 10px 10px 0; font-size: 0.88rem;
+    display: flex; gap: 0.95rem; align-items: flex-start;
+    border: 1px solid var(--line); border-left: 4px solid var(--magenta);
+    background: var(--bg); padding: 0.9rem 1.15rem;
+    border-radius: 0 10px 10px 0; font-size: 0.88rem; color: var(--ink-soft);
   }
   .action .step {
-    flex-shrink: 0; font-weight: 900; color: var(--accent); font-size: 0.85rem;
+    flex-shrink: 0; font-weight: 900; color: var(--magenta); font-size: 0.85rem;
   }
 
   .note {
-    margin-top: 1rem; font-size: 0.8rem; color: var(--muted);
-    background: rgba(255,255,255,0.03); border: 1px dashed var(--border);
-    border-radius: 10px; padding: 0.85rem 1.1rem;
+    margin-top: 1rem; font-size: 0.8rem; color: var(--gray);
+    background: var(--bg-soft); border: 1px dashed #D6D6DA;
+    border-radius: 10px; padding: 0.9rem 1.15rem;
   }
-  .note b { color: var(--text); }
+  .note b { color: var(--ink); font-weight: 800; }
 
+  /* Footer */
   footer {
-    text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border);
-    font-size: 0.74rem; color: var(--muted);
+    background: var(--ink); color: rgba(255,255,255,0.55);
+    text-align: center; padding: 2rem 1.5rem; font-size: 0.74rem;
   }
-  footer a { text-decoration: none; }
+  footer .f-brand {
+    font-weight: 900; font-size: 0.95rem; color: #fff; margin-bottom: 0.4rem;
+  }
+  footer .f-brand .plus { color: var(--magenta); }
+  footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
 
   @media (max-width: 600px) {
-    header h1 { font-size: 1.45rem; }
-    .legend .k { width: 78px; }
+    header h1 { font-size: 1.5rem; }
+    .legend .k { width: 82px; }
   }
 </style>
 </head>
 <body>
 
+<div class="brandbar"></div>
+
 <header>
-  <a class="back-link" href="../">← 분석 허브로</a>
-  <div class="header-badge">🗂️ 내부 회의 요약 — 익명화본</div>
-  <h1>구축형 AICC 사업<br/><span>입찰 구도 검토 회의 요약</span></h1>
-  <div class="meta">2026.05.19 · 영업 · 사업 · 컨설팅 합동 검토</div>
+  <div class="header-inner">
+    <a class="back-link" href="../">← 분석 허브로</a>
+    <div class="brand-tag">
+      <span class="u">U</span><span class="plus">+</span>
+      <span class="div"></span>
+      <span class="dept">AX사업부문</span>
+    </div>
+    <div class="header-badge">🗂️ 내부 회의 요약 · 익명화본</div>
+    <h1>구축형 AICC 사업<br/><span class="hl">입찰 구도 검토</span> 회의 요약</h1>
+    <div class="meta">2026.05.19 · 영업 · 사업 · 컨설팅 합동 검토</div>
+  </div>
 </header>
 
 <main>
@@ -249,7 +298,7 @@
     <div class="section-title"><span class="num">4</span>참여 시나리오 비교</div>
     <div class="scenarios">
 
-      <div class="scenario warn">
+      <div class="scenario">
         <div class="s-head">
           <span class="s-tag t-low">포션 제한</span>
           <span class="s-name">시나리오 A — C사 컨소시엄 하위 참여</span>
@@ -268,7 +317,7 @@
         당사가 기존 시나리오 자산을 이관·분석하고, 인터페이스·포털 개발은 D사가 수행하는 역할 분담 구도.</p>
       </div>
 
-      <div class="scenario warn">
+      <div class="scenario">
         <div class="s-head">
           <span class="s-tag t-low">수주성 낮음</span>
           <span class="s-name">시나리오 C — 당사 주사업자(마더)</span>
@@ -295,9 +344,9 @@
   <section>
     <div class="section-title"><span class="num">6</span>미결 쟁점 · 리스크</div>
     <div class="pill-list">
-      <div class="pill"><span class="ico">⚠️</span><div>영업·사업 라인은 과거 "당사 앞단" 합의가 있었다고 인식하나, 협력사 측 이견으로 구도가 미확정 상태.</div></div>
-      <div class="pill"><span class="ico">⏳</span><div>제안서 작성에 약 2주가 소요 → 금주 내 구도 확정 필요. 실무진 단독으로 해결 불가, <b>임원 레벨 의사결정</b>이 요구됨.</div></div>
-      <div class="pill"><span class="ico">💬</span><div>사업 규모 및 연계 딜(타 고객사 물량 연계)에 대한 기대치 격차 존재 — 비현실적 기대는 배제 필요.</div></div>
+      <div class="pill"><span class="ico">!</span><div>영업·사업 라인은 과거 "당사 앞단" 합의가 있었다고 인식하나, 협력사 측 이견으로 구도가 미확정 상태.</div></div>
+      <div class="pill"><span class="ico">!</span><div>제안서 작성에 약 2주가 소요 → 금주 내 구도 확정 필요. 실무진 단독으로 해결 불가, <b>임원 레벨 의사결정</b>이 요구됨.</div></div>
+      <div class="pill"><span class="ico">!</span><div>사업 규모 및 연계 딜(타 고객사 물량 연계)에 대한 기대치 격차 존재 — 비현실적 기대는 배제 필요.</div></div>
     </div>
   </section>
 
@@ -318,7 +367,8 @@
 </main>
 
 <footer>
-  © 2026 AX사업부문 · 내부 검토용 익명화 요약 |
+  <div class="f-brand">U<span class="plus">+</span> AX사업부문</div>
+  © 2026 LG U+ AX사업부문 · 내부 검토용 익명화 요약 |
   <a href="https://github.com/aiccbiz2">aiccbiz2</a> GitHub
 </footer>
 
