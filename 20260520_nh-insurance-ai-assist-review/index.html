@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NH농협손보 AI 상담어시스트 — 견적 검토 회의 (iMessage)</title>
+<style>
+  :root {
+    --recv: #E9E9EB;
+    --sent-top: #2BA3FF;
+    --sent-bot: #007AFF;
+    --ink: #000;
+    --gray: #8E8E93;
+    --page: #ECECEE;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+            "Helvetica Neue", "Apple SD Gothic Neo", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--page);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    display: flex; justify-content: center;
+    padding: 0;
+  }
+  ::selection { background: rgba(0,122,255,0.2); }
+
+  .phone {
+    width: 100%; max-width: 600px; min-height: 100vh;
+    background: #fff;
+    box-shadow: 0 0 60px rgba(0,0,0,0.12);
+    position: relative;
+  }
+
+  /* ── Header (Messages app style) ── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid rgba(0,0,0,0.16);
+    padding: 9px 16px 11px;
+    display: grid; grid-template-columns: 60px 1fr 60px; align-items: center;
+  }
+  .nav .back {
+    color: #007AFF; font-size: 15px; display: flex; align-items: center; gap: 1px;
+  }
+  .nav .back .chev { font-size: 22px; font-weight: 500; line-height: 1; margin-top: -2px; }
+  .nav .center { text-align: center; }
+  .nav .avatars {
+    display: flex; justify-content: center; margin-bottom: 3px;
+  }
+  .nav .avatars .av {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1.5px solid #fff; margin-left: -8px;
+    font-size: 12px; font-weight: 600; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav .avatars .av:first-child { margin-left: 0; }
+  .nav .title { font-size: 12.5px; font-weight: 600; letter-spacing: -0.01em; }
+  .nav .title .chev-d { color: var(--gray); font-size: 10px; }
+  .nav .sub { font-size: 10.5px; color: var(--gray); margin-top: 1px; }
+  .nav .info {
+    justify-self: end; color: #007AFF; font-size: 19px;
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1.5px solid #007AFF; display: flex; align-items: center;
+    justify-content: center; font-weight: 600;
+  }
+
+  /* ── Chat area ── */
+  .chat { padding: 14px 14px 30px; }
+
+  .stamp {
+    text-align: center; font-size: 11px; color: var(--gray);
+    margin: 16px 0 14px; font-weight: 400;
+  }
+  .stamp b { color: #6b6b70; font-weight: 700; }
+
+  .encrypt {
+    text-align: center; font-size: 11px; color: var(--gray);
+    margin: 6px auto 18px; max-width: 320px; line-height: 1.5;
+  }
+
+  /* topic divider */
+  .topic {
+    display: flex; align-items: center; gap: 12px;
+    margin: 34px 4px 18px;
+  }
+  .topic::before, .topic::after {
+    content: ''; flex: 1; height: 0.5px; background: rgba(0,0,0,0.14);
+  }
+  .topic span {
+    font-size: 17px; font-weight: 700; color: #1d1d1f;
+    letter-spacing: -0.015em; white-space: nowrap;
+    display: inline-flex; align-items: center;
+  }
+  .topic .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #007AFF; color: #fff; font-size: 13.5px; font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* message group */
+  .group {
+    display: flex; align-items: flex-end; gap: 7px;
+    margin-bottom: 11px;
+  }
+  .group.recv { justify-content: flex-start; }
+  .group.sent { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    font-size: 11px; font-weight: 700; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1px;
+  }
+
+  .stack { display: flex; flex-direction: column; gap: 3px; max-width: 78%; }
+  .recv .stack { align-items: flex-start; }
+  .sent .stack { align-items: flex-end; }
+
+  .sender {
+    font-size: 11px; color: var(--gray); margin: 2px 11px 1px;
+    font-weight: 400;
+  }
+  .sender b { font-weight: 600; color: #6b6b70; }
+
+  .bubble {
+    padding: 8px 13px 9px; border-radius: 18px;
+    font-size: 15.5px; line-height: 1.36; letter-spacing: -0.01em;
+    word-break: keep-all;
+    animation: pop 0.34s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: translateY(7px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .recv .bubble {
+    background: var(--recv); color: var(--ink);
+  }
+  .sent .bubble {
+    background: linear-gradient(180deg, var(--sent-top), var(--sent-bot));
+    color: #fff;
+  }
+  .recv .stack .bubble:last-child { border-bottom-left-radius: 5px; }
+  .sent .stack .bubble:last-child { border-bottom-right-radius: 5px; }
+  .bubble .q { font-weight: 600; }
+  .recv .bubble em { font-style: normal; font-weight: 600; }
+  .sent .bubble em { font-style: normal; font-weight: 600; }
+
+  /* reaction tag */
+  .tag {
+    font-size: 10px; font-weight: 700; color: var(--gray);
+    margin: 1px 12px 0; letter-spacing: 0.02em;
+  }
+  .sent .tag { text-align: right; }
+
+  /* ── Summary card ── */
+  .summary-wrap { background: #F2F2F7; padding: 22px 14px 34px; }
+  .summary-lead {
+    text-align: center; font-size: 11px; color: var(--gray);
+    margin-bottom: 14px; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .card {
+    background: #fff; border-radius: 16px; padding: 20px 18px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 14px; font-weight: 700; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .card h3 .ic { font-size: 15px; }
+  .card p { font-size: 13.5px; line-height: 1.6; color: #3a3a3c; }
+  .card p b { font-weight: 600; color: #000; }
+
+  .qa-row { display: flex; gap: 10px; }
+  .qa-half { flex: 1; }
+  .qa-half .qa-t {
+    font-size: 11px; font-weight: 700; color: var(--gray);
+    margin-bottom: 7px; letter-spacing: 0.02em;
+  }
+  .qa-half .qa-p {
+    font-size: 12.5px; line-height: 1.5; color: #3a3a3c;
+  }
+  .qa-half .qa-p b { color: #000; font-weight: 600; }
+  .qa-divider { width: 0.5px; background: rgba(0,0,0,0.1); }
+
+  .list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .list li {
+    font-size: 13px; line-height: 1.5; color: #3a3a3c;
+    padding-left: 17px; position: relative;
+  }
+  .list li::before {
+    content: ''; position: absolute; left: 0; top: 6px;
+    width: 5px; height: 5px; border-radius: 50%; background: #C7C7CC;
+  }
+  .list li b { color: #000; font-weight: 600; }
+  .list li.k::before { background: #007AFF; }
+
+  .deadline {
+    background: linear-gradient(180deg, #2BA3FF, #007AFF);
+    border-radius: 16px; padding: 20px; text-align: center; color: #fff;
+  }
+  .deadline .dk { font-size: 11px; opacity: 0.85; font-weight: 600; letter-spacing: 0.04em; }
+  .deadline .dv { font-size: 21px; font-weight: 700; margin: 6px 0 4px; letter-spacing: -0.01em; }
+  .deadline .dd { font-size: 12px; opacity: 0.9; line-height: 1.5; }
+
+  .foot {
+    text-align: center; font-size: 10.5px; color: var(--gray);
+    line-height: 1.6; padding: 4px 20px 0;
+  }
+
+  /* participant roster */
+  .roster {
+    background: #fff; border-radius: 16px; padding: 4px 0 8px;
+    margin: 4px 0 6px;
+  }
+  .roster .r-grp {
+    font-size: 11px; font-weight: 700; color: var(--gray);
+    padding: 12px 15px 5px; letter-spacing: 0.03em;
+  }
+  .roster .r-row {
+    display: flex; align-items: center; gap: 11px; padding: 6px 15px;
+  }
+  .roster .r-av {
+    width: 33px; height: 33px; border-radius: 50%; flex-shrink: 0;
+    color: #fff; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .roster .r-info { flex: 1; min-width: 0; }
+  .roster .r-name { font-size: 14px; font-weight: 600; }
+  .roster .r-name .resp { font-size: 11px; color: var(--gray); font-weight: 400; }
+  .roster .r-role { font-size: 11.5px; color: var(--gray); margin-top: 1px; }
+  .roster .r-portion {
+    display: flex; align-items: center; gap: 7px; margin-top: 7px; max-width: 256px;
+  }
+  .roster .r-portion .pl {
+    font-size: 9.5px; font-weight: 700; color: var(--gray); flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .roster .r-portion .bar {
+    flex: 1; height: 7px; background: #E6E6E8; border-radius: 4px; overflow: hidden;
+  }
+  .roster .r-portion .fill { height: 100%; border-radius: 4px; }
+  .roster .r-portion .pv {
+    font-size: 12px; font-weight: 800; flex-shrink: 0; min-width: 32px; text-align: right;
+  }
+  .fill-q { background: linear-gradient(90deg,#34C759,#28A745); }
+  .fill-a { background: linear-gradient(90deg,#2BA3FF,#007AFF); }
+  .pv-q { color: #1a7a33; }
+  .pv-a { color: #007AFF; }
+  .pv-z { color: #B0B0B5; }
+  .roster .r-note {
+    font-size: 10px; color: var(--gray); padding: 10px 15px 3px; line-height: 1.5;
+  }
+  .roster .r-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 980px;
+    white-space: nowrap;
+  }
+  .r-badge.q { background: rgba(52,199,89,0.16); color: #1a7a33; }
+  .r-badge.a { background: rgba(0,122,255,0.13); color: #007AFF; }
+  .r-badge.s { background: #EBEBEC; color: var(--gray); }
+  .roster .r-div { height: 0.5px; background: rgba(0,0,0,0.07); margin: 3px 15px; }
+
+  /* avatar colors */
+  .c1 { background: linear-gradient(180deg,#34C759,#28A745); }
+  .c2 { background: linear-gradient(180deg,#30C0B0,#1FA89A); }
+  .c3 { background: linear-gradient(180deg,#5AC8A8,#3DAE8C); }
+  .ljy { background: linear-gradient(180deg,#0A84FF,#0060DF); }
+  .ckb { background: linear-gradient(180deg,#AF7BE8,#8E5BD0); }
+  .ljh { background: linear-gradient(180deg,#FF9F45,#F77F1E); }
+  .pjh { background: linear-gradient(180deg,#FF6482,#E84A6A); }
+  .sye { background: linear-gradient(180deg,#FFCC4D,#EFB01E); }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- Header -->
+  <div class="nav">
+    <div class="back"><span class="chev">‹</span>메시지</div>
+    <div class="center">
+      <div class="avatars">
+        <div class="av c1">1</div>
+        <div class="av ljy">진</div>
+        <div class="av ckb">기</div>
+      </div>
+      <div class="title">NH농협손보 · LG U+ <span class="chev-d">›</span></div>
+      <div class="sub">AI 상담어시스트 견적 검토 · 참여자 8명</div>
+    </div>
+    <div class="info">ⓘ</div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat">
+
+    <div class="stamp"><b>2026년 5월 20일 수요일</b> 오후 2:23</div>
+    <div class="encrypt">NH농협손보 AI 상담어시스트 구축 가견적 검토 회의를<br/>iMessage 형식으로 재구성했습니다 · 28분 23초</div>
+
+    <!-- 참여자 명단 -->
+    <div class="roster">
+      <div class="r-grp">🟢 NH농협손보 · 발주사 3명 · 질문</div>
+      <div class="r-row">
+        <div class="r-av c1">1</div>
+        <div class="r-info">
+          <div class="r-name">담당자 1</div>
+          <div class="r-role">회의 주관 · 사업 총괄</div>
+          <div class="r-portion">
+            <span class="pl">질문 포션</span>
+            <div class="bar"><div class="fill fill-q" style="width:65%"></div></div>
+            <span class="pv pv-q">65%</span>
+          </div>
+        </div>
+        <span class="r-badge q">주요 질문</span>
+      </div>
+      <div class="r-row">
+        <div class="r-av c2">2</div>
+        <div class="r-info">
+          <div class="r-name">담당자 2</div>
+          <div class="r-role">인프라 · 하드웨어 검토</div>
+          <div class="r-portion">
+            <span class="pl">질문 포션</span>
+            <div class="bar"><div class="fill fill-q" style="width:16%"></div></div>
+            <span class="pv pv-q">16%</span>
+          </div>
+        </div>
+        <span class="r-badge q">주요 질문</span>
+      </div>
+      <div class="r-row">
+        <div class="r-av c3">3</div>
+        <div class="r-info">
+          <div class="r-name">담당자 3</div>
+          <div class="r-role">DB · SW 검토</div>
+          <div class="r-portion">
+            <span class="pl">질문 포션</span>
+            <div class="bar"><div class="fill fill-q" style="width:19%"></div></div>
+            <span class="pv pv-q">19%</span>
+          </div>
+        </div>
+        <span class="r-badge q">주요 질문</span>
+      </div>
+
+      <div class="r-div"></div>
+      <div class="r-grp">🔵 LG U+ · 수행사 5명 · 답변</div>
+      <div class="r-row">
+        <div class="r-av ljy">진</div>
+        <div class="r-info">
+          <div class="r-name">이진용 책임</div>
+          <div class="r-role">AI사업2팀</div>
+          <div class="r-portion">
+            <span class="pl">답변 포션</span>
+            <div class="bar"><div class="fill fill-a" style="width:75%"></div></div>
+            <span class="pv pv-a">75%</span>
+          </div>
+        </div>
+        <span class="r-badge a">주요 답변</span>
+      </div>
+      <div class="r-row">
+        <div class="r-av ckb">기</div>
+        <div class="r-info">
+          <div class="r-name">최기백 책임</div>
+          <div class="r-role">금융 BD</div>
+          <div class="r-portion">
+            <span class="pl">답변 포션</span>
+            <div class="bar"><div class="fill fill-a" style="width:17%"></div></div>
+            <span class="pv pv-a">17%</span>
+          </div>
+        </div>
+        <span class="r-badge a">주요 답변</span>
+      </div>
+      <div class="r-row">
+        <div class="r-av ljh">정</div>
+        <div class="r-info">
+          <div class="r-name">이정하 책임</div>
+          <div class="r-role">AI 기술지원팀</div>
+          <div class="r-portion">
+            <span class="pl">답변 포션</span>
+            <div class="bar"><div class="fill fill-a" style="width:8%"></div></div>
+            <span class="pv pv-a">8%</span>
+          </div>
+        </div>
+        <span class="r-badge a">기술 검토</span>
+      </div>
+      <div class="r-row">
+        <div class="r-av pjh">재</div>
+        <div class="r-info">
+          <div class="r-name">박재형 팀장</div>
+          <div class="r-role">금융고객 3팀</div>
+          <div class="r-portion">
+            <span class="pl">답변 포션</span>
+            <div class="bar"><div class="fill fill-a" style="width:0%"></div></div>
+            <span class="pv pv-z">0%</span>
+          </div>
+        </div>
+        <span class="r-badge s">배석</span>
+      </div>
+      <div class="r-row">
+        <div class="r-av sye">예</div>
+        <div class="r-info">
+          <div class="r-name">송예원 사원</div>
+          <div class="r-role">금융고객 3팀</div>
+          <div class="r-portion">
+            <span class="pl">답변 포션</span>
+            <div class="bar"><div class="fill fill-a" style="width:0%"></div></div>
+            <span class="pv pv-z">0%</span>
+          </div>
+        </div>
+        <span class="r-badge s">배석</span>
+      </div>
+      <div class="r-note">※ 포션 = 녹취록 발언 비중 환산값 · 질문자(농협손보) · 답변자(LG U+) 각각 합계 100% 기준</div>
+    </div>
+
+    <!-- 1 -->
+    <div class="topic"><span><span class="n">1</span>DRM · 문서 암호화</span></div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">추가 오픈 시점에 다시 준비하려면 일정 못 맞춰요. 지금 있는 기능을 주시면 저희가 요건 검토해서 요청드릴게요.</div>
+        <div class="bubble"><span class="q">저희 파스컷 DRM 쓰고 있는데, 문서 암호화 요건은 없나요?</span></div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+ AI사업2팀</div>
+        <div class="bubble">상담 어드바이저는 기존 <em>KMS와 연동</em>해서 가져오는 구조라, 별도 암호화는 필요 없을 것 같습니다.</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljh">정</div>
+      <div class="stack">
+        <div class="sender"><b>이정하 책임</b> · LG U+ AI기술지원팀</div>
+        <div class="bubble">다만 SOP가 PDF 문서로 돼 있으면, 그걸 RAG로 당겨 쓸 때 디코딩 장치가 필요할 수 있어요.</div>
+        <div class="bubble">농협손보 쪽 SOP 문서 니즈를 한번 확인해 주시면 좋겠습니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="bubble">그건 IT 구성이 아니라 현업 요건 쪽이네요. 확인해볼게요.</div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="topic"><span><span class="n">2</span>견적서 인력 항목 · PMO·TA 누락</span></div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">견적서 인력 항목이 너무 모호해요. '데이터 분석·검증', '설치·시험', '개발자', '테스트'… 뭘 하는지 모르겠어요.</div>
+        <div class="bubble"><span class="q">STT · LLM · 상담어드바이저 · 오토QA 골자 기준으로 구체적으로 써주세요.</span></div>
+        <div class="bubble"><span class="q">그리고 PMO가 빠졌어요. 꼭 넣어주시고, TA(인프라 총괄) 인력도 없습니다.</span></div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">솔루션 PL에 TA를 같이 묶었었는데, 필요하시면 <em>별도로 구분해서 배치</em>하겠습니다.</div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="topic"><span><span class="n">3</span>커스터마이징 인력 규모</span></div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">솔직히 까놓고 말하면, 상담어시스트·오토QA 커스터마이징 인력이 타 제안사보다 좀 적어요.</div>
+        <div class="bubble">일정 지연이 생길 수 있으니 적절히 감안해 주세요.</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">네, 감안해서 보완하겠습니다.</div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="topic"><span><span class="n">4</span>서버 · GPU 구성</span></div>
+
+    <div class="group recv">
+      <div class="avatar c2">2</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 2</b> · 농협손보</div>
+        <div class="bubble">구성도부터 하나 주세요. 그리고 <span class="q">H200 GPU 2장씩 총 4장, 어떻게 산정된 건지 알 수 있을까요?</span></div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ckb">기</div>
+      <div class="stack">
+        <div class="sender"><b>최기백 책임</b> · LG U+ 금융BD</div>
+        <div class="bubble">처음엔 RTX 6000으로 생각했는데, 향후 업무 확장까지 보고 H200으로 올렸습니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c2">2</div>
+      <div class="stack">
+        <div class="bubble">모델은 H200으로 가도 되는데, <span class="q">왜 4장인지 용량 산정 근거</span>를 묻는 거예요.</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">4장은 추론 능력이 아니라 <em>서버당 개수</em>입니다. 운영 2대 · 개발 1대 · STT 학습 1대 기준이에요.</div>
+        <div class="bubble">학습 서버는 야간 배치성이라, 합산하면 더 줄일 수 있습니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c2">2</div>
+      <div class="stack">
+        <div class="bubble">GPU 장비는 NVIDIA 라이선스 포함된 가격인가요?</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="bubble">그건 확인해서 다시 알려드리겠습니다.</div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="topic"><span><span class="n">5</span>디스크 볼륨 매니저 · 약 1.5억</span></div>
+
+    <div class="group recv">
+      <div class="avatar c2">2</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 2</b> · 농협손보</div>
+        <div class="bubble">디스크 볼륨 매니저는 빠지는 거죠? 처음에 잡은 이유가 있을 텐데요.</div>
+        <div class="bubble">공유 파일시스템이나 이중화 요건이 없는지 확인이 필요해요. 나중에 필요하면 추가가 안 되니까.</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">사전 준비 리스트를 받아서 '다 들어가야 하나 보다' 하고 서버당 넣었던 건데, <em>사실 필요 없습니다.</em></div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">빠지면 1억 5천이 빠져요. 근데 비용이 갑자기 늘어나는 건 안 됩니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c3">3</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 3</b> · 농협손보</div>
+        <div class="bubble">볼륨 매니저 필요 없는 걸로 해주시고, <span class="q">미리 확정해 주셔야 해요. 구독이라 비용 처리가 다릅니다.</span></div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">CTO · 기술팀에 확인해서 최종으로 다시 말씀드리겠습니다.</div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="topic"><span><span class="n">6</span>DB 구성 · 라이선스</span></div>
+
+    <div class="group recv">
+      <div class="avatar c3">3</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 3</b> · 농협손보</div>
+        <div class="bubble">운영계 DB 진행하고, 개발계도 DB 필요하죠?</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">운영계 <em>통합 DB 한 벌</em>, 개발계는 <em>싱글 하나</em>면 됩니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">현재 개발은 싱글, 운영은 오라클 RAC 2노드예요.</div>
+        <div class="bubble"><span class="q">KMS DB로 통합하면 코어 라이선스가 얼마나 필요해요? DB 서버 사양은요?</span></div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">DB 서버는 아직 산정 안 했어요. 통합 DB라 추정치로 다시 정리해서 드리겠습니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="bubble">DB 서버 코어 올라가는 라이선스는 저희가 소화할게요.</div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="topic"><span><span class="n">7</span>오픈소스 · Redis · 유지보수</span></div>
+
+    <div class="group recv">
+      <div class="avatar c3">3</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 3</b> · 농협손보</div>
+        <div class="bubble">저희가 제우스·L2B 쓰는데, 톰캣 같은 오픈소스 따로 들어오나요? 레디스는요?</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">Redis는 <em>필수로 들어갑니다.</em> STT가 동시에 전사해서 뿌릴 때 다이렉트로 꽂으면 패킷이 누락돼서요.</div>
+        <div class="bubble">Redis에 한 번 집중화시킵니다. 구성도에 반영해서 다시 정리해 드릴게요.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c3">3</div>
+      <div class="stack">
+        <div class="bubble">유지보수도 다 되는 거죠?</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="bubble">패키지라 한꺼번에 가능합니다.</div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="topic"><span><span class="n">8</span>AI 가드레일 · LLM 모델</span></div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">AI 가드레일도 미리 준비해야 할까요? KMS 통해서만 들어오는데 필요할까 싶어서요.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">정보보호팀에 문의했더니, <em>생성형 AI가 들어가면 가드레일 솔루션·기능이 필요하다</em>고 해요.</div>
+        <div class="bubble">정확한 요건은 하반기에 명확해지는데, 타 금융권 수준은 맞춰야 합니다.</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljh">정</div>
+      <div class="stack">
+        <div class="sender"><b>이정하 책임</b> · LG U+</div>
+        <div class="bubble">금감원 가이드라인은 따로 없나요? 보통 중간 가이드라인에 적용 레벨이 정해져 있어서요.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="bubble">그것도 아직 디테일하게 안 나왔어요. 금융권 기준도 하반기에 나온다고 알고 있습니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c2">2</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 2</b> · 농협손보</div>
+        <div class="bubble">LLM 모델은 정해졌나요?</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">젬마 등 <em>파라미터 큰 오픈소스</em>를 보고 있어요. 엑사원과 글로벌 제품을 테스트해서 최종 선택할 예정입니다.</div>
+      </div>
+    </div>
+
+    <!-- closing -->
+    <div class="topic"><span>마무리 · 일정</span></div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="sender"><b>담당자 1</b> · 농협손보</div>
+        <div class="bubble">지시사항은 메일로 정리해서 드릴게요. 견적서는 빨리 주세요.</div>
+        <div class="bubble"><span class="q">금요일 오전까지 꼭 부탁드립니다.</span> 내부 보고를 해야 해서요.</div>
+      </div>
+    </div>
+
+    <div class="group sent">
+      <div class="avatar ljy">진</div>
+      <div class="stack">
+        <div class="sender"><b>이진용 책임</b> · LG U+</div>
+        <div class="bubble">최대한 노력하겠습니다.</div>
+      </div>
+    </div>
+
+    <div class="group recv">
+      <div class="avatar c1">1</div>
+      <div class="stack">
+        <div class="bubble">비용이 크게 늘어나는 부분은 미리 알려주세요. 그럼 마치겠습니다. 수고하셨습니다 🙇</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-wrap">
+    <div class="summary-lead">— 회 의 요 약 —</div>
+
+    <div class="card">
+      <h3><span class="ic">📌</span>핵심 한 줄</h3>
+      <p>NH농협손보 <b>AI 상담어시스트 구축 가견적</b>을 검토한 회의. 견적서 인력 항목·PMO/TA 누락을
+        보완하고 하드웨어·DB·라이선스·가드레일 요건을 확인. <b>최종 견적서는 금요일 오전까지 제출</b>키로 합의.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="ic">💬</span>질문 · 답변 구도</h3>
+      <div class="qa-row">
+        <div class="qa-half">
+          <div class="qa-t">🟢 주요 질문 — 농협손보</div>
+          <p class="qa-p"><b>담당자 1 · 65%</b> 사업 총괄·견적·일정<br/>
+            <b>담당자 2 · 16%</b> 서버·GPU·인프라<br/>
+            <b>담당자 3 · 19%</b> DB·오픈소스·유지보수</p>
+        </div>
+        <div class="qa-divider"></div>
+        <div class="qa-half">
+          <div class="qa-t">🔵 주요 답변 — LG U+</div>
+          <p class="qa-p"><b>이진용 책임 · 75%</b> 기술 답변 전반<br/>
+            <b>최기백 책임 · 17%</b> 견적 산정 근거<br/>
+            <b>이정하 책임 · 8%</b> 기술 리스크 검토<br/>
+            <b>박재형 팀장 · 송예원 사원 · 0%</b> 배석</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><span class="ic">✅</span>결정사항</h3>
+      <ul class="list">
+        <li>디스크 볼륨 매니저 <b>제외 방향</b> (비용 처리 차이로 최종 확정 필요)</li>
+        <li>네트워크 장비 견적 <b>제외</b>, 외부 DMZ 서버 <b>불필요</b></li>
+        <li>DB는 <b>운영계 통합 DB 1벌 + 개발계 싱글 1개</b></li>
+        <li>LLM 모델은 <b>대형 파라미터 오픈소스 우선 검토</b> 후 테스트로 확정</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3><span class="ic">📋</span>액션 아이템</h3>
+      <ul class="list">
+        <li class="k"><b>LG U+</b> 최종 견적서 제출 — <b>금요일 오전까지</b></li>
+        <li><b>LG U+</b> 시스템 구성도 재정리·공유 (Redis 반영)</li>
+        <li><b>LG U+</b> 인력 항목 구체화 + PMO·TA·사업관리 인력 반영</li>
+        <li><b>LG U+</b> NVIDIA 라이선스 포함 여부 · DB 서버 사양 확인</li>
+        <li><b>LG U+</b> 볼륨 매니저 최종 포함 여부 확인 (CTO·기술팀)</li>
+        <li><b>농협손보</b> 추가 질문 사항 메일로 정리·전달</li>
+      </ul>
+    </div>
+
+    <div class="deadline">
+      <div class="dk">가장 시급한 마감</div>
+      <div class="dv">최종 견적서 — 금요일 오전</div>
+      <div class="dd">농협손보 내부 보고(증액 검토) 일정에 맞추기 위한 최우선 과제</div>
+    </div>
+
+    <div class="foot">
+      NH농협손보 AI 상담어시스트 구축 · 견적 검토 회의 · 2026.05.20<br/>
+      내부 검토용 · 음성 녹취 자동 전사 기반으로 일부 화자·표현에 오차가 있을 수 있습니다.
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
