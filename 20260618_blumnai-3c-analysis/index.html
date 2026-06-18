@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블룸에이아이 3C 분석 | aiccbiz2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --card: #1e293b;
+    --card2: #162032;
+    --border: rgba(255,255,255,0.08);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --blue: #3b82f6;
+    --blue-light: #60a5fa;
+    --accent: #e8b800;
+    --green: #22c55e;
+    --green-light: #86efac;
+    --purple: #a855f7;
+    --purple-light: #d8b4fe;
+    --red: #ef4444;
+    --red-light: #fca5a5;
+    --teal: #14b8a6;
+    --teal-light: #5eead4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #040d1f 0%, #0a1f3c 50%, #060f20 100%);
+    border-bottom: 1px solid rgba(59,130,246,0.25);
+    padding: 3.5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 400px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 0.78rem; text-decoration: none;
+    margin-bottom: 1.5rem; position: relative;
+    transition: color 0.2s;
+  }
+  .header-back:hover { color: var(--blue-light); }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(232,184,0,0.12); border: 1px solid rgba(232,184,0,0.35);
+    color: var(--accent); font-size: 0.72rem; font-weight: 700;
+    padding: 4px 14px; border-radius: 20px; margin-bottom: 1.25rem;
+    letter-spacing: 0.5px;
+  }
+  header h1 { font-size: 2.6rem; font-weight: 900; line-height: 1.2; margin-bottom: 0.75rem; position: relative; }
+  header h1 .co { color: var(--blue-light); }
+  header .sub { color: var(--muted); font-size: 0.88rem; position: relative; }
+  .header-meta {
+    display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .header-meta span {
+    font-size: 0.72rem; color: var(--muted);
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    padding: 3px 12px; border-radius: 20px;
+  }
+  .header-meta span b { color: var(--text); }
+
+  /* KPI BAR */
+  .kpi-bar {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+  }
+  .kpi {
+    flex: 1; min-width: 120px; max-width: 180px;
+    text-align: center; padding: 1.4rem 1rem;
+    border-right: 1px solid var(--border);
+  }
+  .kpi:last-child { border-right: none; }
+  .kpi-value { font-size: 1.6rem; font-weight: 900; color: var(--blue-light); }
+  .kpi-value.accent { color: var(--accent); }
+  .kpi-value.green { color: var(--green-light); }
+  .kpi-label { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  /* SECTION */
+  .section { margin-bottom: 3.5rem; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .section-tag {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+  }
+  .tag-customer { background: rgba(59,130,246,0.15); color: var(--blue-light); border: 1px solid rgba(59,130,246,0.3); }
+  .tag-competitor { background: rgba(239,68,68,0.15); color: var(--red-light); border: 1px solid rgba(239,68,68,0.3); }
+  .tag-company { background: rgba(34,197,94,0.15); color: var(--green-light); border: 1px solid rgba(34,197,94,0.3); }
+  .tag-integration { background: rgba(232,184,0,0.15); color: var(--accent); border: 1px solid rgba(232,184,0,0.3); }
+  .tag-summary { background: rgba(168,85,247,0.15); color: var(--purple-light); border: 1px solid rgba(168,85,247,0.3); }
+  .section-title { font-size: 1.35rem; font-weight: 800; }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* CARD */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem;
+  }
+  .card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .card h3 { font-size: 0.85rem; font-weight: 700; color: var(--blue-light); margin-bottom: 0.75rem; letter-spacing: 0.3px; }
+  .card p { font-size: 0.83rem; color: var(--muted); line-height: 1.7; }
+  .card ul { padding-left: 1.1rem; }
+  .card li { font-size: 0.83rem; color: var(--muted); line-height: 1.8; }
+  .card li b { color: var(--text); }
+
+  /* EXEC SUMMARY */
+  .exec-box {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(168,85,247,0.06));
+    border: 1px solid rgba(59,130,246,0.2); border-radius: 16px; padding: 2rem;
+    margin-bottom: 3rem;
+  }
+  .exec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.25rem; }
+  .exec-item { }
+  .exec-label {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .exec-text { font-size: 0.85rem; color: var(--text); line-height: 1.65; }
+  .exec-text.highlight { color: var(--accent); font-weight: 600; }
+  .finding-list { list-style: none; padding: 0; }
+  .finding-list li {
+    font-size: 0.83rem; color: var(--muted); line-height: 1.7;
+    padding: 6px 0 6px 16px; border-left: 2px solid var(--blue);
+    margin-bottom: 8px; padding-left: 14px;
+  }
+  .finding-list li b { color: var(--text); }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin-top: 0.75rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  th {
+    background: rgba(59,130,246,0.12); color: var(--blue-light);
+    font-weight: 700; font-size: 0.72rem; letter-spacing: 0.5px;
+    padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(59,130,246,0.2);
+  }
+  td {
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    color: var(--muted); vertical-align: top; line-height: 1.55;
+  }
+  td b { color: var(--text); }
+  td.cell-name { color: var(--text); font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* COMPETITOR MATRIX */
+  .matrix-wrap { overflow-x: auto; }
+  .matrix-table { min-width: 700px; }
+  .matrix-table th:first-child { min-width: 100px; }
+  .matrix-table th { min-width: 130px; }
+  .cell-self { background: rgba(232,184,0,0.06); }
+  .cell-self b { color: var(--accent); }
+
+  /* STRENGTH / WEAKNESS */
+  .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .sw-card { background: var(--card2); border-radius: 12px; padding: 1.25rem; }
+  .sw-card.strength { border-left: 3px solid var(--green); }
+  .sw-card.weakness { border-left: 3px solid var(--red); }
+  .sw-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .sw-card.strength .sw-title { color: var(--green-light); }
+  .sw-card.weakness .sw-title { color: var(--red-light); }
+  .sw-item { font-size: 0.8rem; color: var(--muted); padding: 6px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+  .sw-item:last-child { border-bottom: none; }
+  .sw-item b { color: var(--text); }
+  .sw-badge { font-size: 0.65rem; padding: 1px 8px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+  .badge-data { background: rgba(34,197,94,0.15); color: var(--green-light); }
+  .badge-hypo { background: rgba(239,68,68,0.15); color: var(--red-light); }
+
+  /* SWEET SPOT */
+  .sweet-box {
+    background: linear-gradient(135deg, rgba(232,184,0,0.07), rgba(59,130,246,0.05));
+    border: 1px solid rgba(232,184,0,0.25); border-radius: 14px; padding: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  .sweet-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .sweet-text { font-size: 0.92rem; color: var(--text); line-height: 1.75; font-weight: 500; }
+  .sweet-text em { color: var(--accent); font-style: normal; }
+
+  /* KSF */
+  .ksf-list { list-style: none; counter-reset: ksf; }
+  .ksf-item {
+    counter-increment: ksf;
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .ksf-item:last-child { border-bottom: none; }
+  .ksf-num {
+    width: 28px; height: 28px; min-width: 28px;
+    background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.35);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 900; color: var(--blue-light);
+  }
+  .ksf-content { flex: 1; }
+  .ksf-title { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .ksf-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+
+  /* PRIORITY MATRIX */
+  .matrix-score { font-weight: 900; color: var(--accent); }
+  .matrix-badge {
+    display: inline-block; font-size: 0.62rem; padding: 2px 8px;
+    border-radius: 10px; font-weight: 700; margin-left: 6px;
+  }
+  .badge-top { background: rgba(232,184,0,0.2); color: var(--accent); border: 1px solid rgba(232,184,0,0.3); }
+  .badge-mid { background: rgba(59,130,246,0.15); color: var(--blue-light); border: 1px solid rgba(59,130,246,0.3); }
+
+  /* ROADMAP */
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem; }
+  .rm-block { background: var(--card2); border-radius: 12px; padding: 1.25rem; border-top: 3px solid; }
+  .rm-block.w1 { border-color: var(--blue); }
+  .rm-block.w2 { border-color: var(--accent); }
+  .rm-block.w3 { border-color: var(--green); }
+  .rm-period { font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .rm-block.w1 .rm-period { color: var(--blue-light); }
+  .rm-block.w2 .rm-period { color: var(--accent); }
+  .rm-block.w3 .rm-period { color: var(--green-light); }
+  .rm-block ul { padding-left: 1rem; }
+  .rm-block li { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+
+  /* RISK TABLE */
+  .risk-row td:first-child { font-weight: 700; color: var(--text); }
+  .risk-row td:nth-child(2) { color: var(--red-light); }
+  .risk-row td:nth-child(3) { color: var(--teal-light); }
+
+  /* NEXT ACTION */
+  .next-box {
+    background: linear-gradient(135deg, rgba(34,197,94,0.07), rgba(20,184,166,0.05));
+    border: 1px solid rgba(34,197,94,0.2); border-radius: 14px; padding: 1.5rem;
+  }
+  .next-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-light); margin-bottom: 10px; }
+  .next-list { list-style: none; }
+  .next-list li {
+    font-size: 0.85rem; color: var(--text); padding: 8px 0 8px 20px;
+    border-left: 2px solid var(--green); margin-bottom: 8px;
+    padding-left: 16px; line-height: 1.6;
+  }
+  .next-list li:last-child { margin-bottom: 0; }
+  .next-list li span { color: var(--muted); }
+
+  /* HYPO BOX */
+  .hypo-box {
+    background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px; padding: 1.25rem; margin-top: 1rem;
+  }
+  .hypo-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red-light); margin-bottom: 8px; }
+  .hypo-list li { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+
+  /* SOURCES */
+  .source-list { list-style: none; }
+  .source-list li { padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .source-list li:last-child { border-bottom: none; }
+  .source-list a { font-size: 0.8rem; color: var(--blue-light); text-decoration: none; }
+  .source-list a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 2rem; border-top: 1px solid var(--border);
+    font-size: 0.75rem; color: var(--muted);
+  }
+  footer a { color: var(--blue-light); text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    header h1 { font-size: 1.8rem; }
+    .exec-grid { grid-template-columns: 1fr; }
+    .card-grid-2 { grid-template-columns: 1fr; }
+    .card-grid-3 { grid-template-columns: 1fr; }
+    .sw-grid { grid-template-columns: 1fr; }
+    .roadmap { grid-template-columns: 1fr; }
+    .kpi { min-width: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="header-back" href="../">← 분석 허브로 돌아가기</a>
+  <div class="header-badge">3C 분석 리포트</div>
+  <h1><span class="co">블룸에이아이</span> 3C 분석<br/>고객·경쟁사·자사 전략 분석</h1>
+  <p class="sub">AI 고객 커뮤니케이션 SaaS 시장 포지셔닝 및 전략 방향 도출</p>
+  <div class="header-meta">
+    <span><b>작성일</b> 2026-06-18</span>
+    <span><b>모드</b> B2B Enterprise / AICC·AX</span>
+    <span><b>목적</b> 경쟁사 현황 파악 및 전략 포지셔닝</span>
+    <span><b>분석 주체</b> 블룸에이아이 관점</span>
+  </div>
+</header>
+
+<div class="kpi-bar">
+  <div class="kpi">
+    <div class="kpi-value accent">286억</div>
+    <div class="kpi-label">2024 매출</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value">25,000</div>
+    <div class="kpi-label">유료 고객사</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value green">380억</div>
+    <div class="kpi-label">2025 매출 추정</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value">100억</div>
+    <div class="kpi-label">프리IPO 추진</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-value accent">2027</div>
+    <div class="kpi-label">상장 목표</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag tag-summary">Executive Summary</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="exec-box">
+      <div class="exec-label">핵심 발견</div>
+      <ul class="finding-list">
+        <li><b>양면 레퍼런스 자산:</b> 토스·쿠팡·배달의민족 등 대형 고객 레퍼런스와 유료 고객사 25,000개라는 SMB 기반을 동시에 보유 — 중견 이하 기업에게 "대기업도 쓰는 솔루션을 우리 규모에 맞게"라는 신뢰 신호를 가장 강하게 낼 수 있는 구조</li>
+        <li><b>이중 BM의 안정성:</b> 비즈메시지(카카오 알림톡·친구톡) 구독 수익이 안정적 캐시플로를 만들고, 해피톡·콜브릿지의 에이전틱 AI 업셀링이 단가를 높이는 이중 구조 — 신제품 R&D를 기존 수익이 지탱하는 설계</li>
+        <li><b>대기업 벤더 진입의 역설:</b> SKT·카카오 등 대기업이 AICC 시장에 진입하면서 오히려 중소·중견 기업의 "대기업 오버스펙 불안"이 커짐 — 블룸에이아이의 SaaS 즉시 도입 포지션이 차별화 공간을 확보</li>
+      </ul>
+      <div class="exec-grid">
+        <div class="exec-item">
+          <div class="exec-label">Sweet Spot</div>
+          <div class="exec-text highlight">AI 전환 의지는 있으나 구축 리소스가 부족한 중견 기업에게, 기존 신뢰 관계로 즉시 도입 가능한 에이전틱 AI 번들을 SaaS로 공급하는 것 — 대형 벤더가 이 고객군에 맞춤 대응하기 어려운 동안</div>
+        </div>
+        <div class="exec-item">
+          <div class="exec-label">권장 전략</div>
+          <div class="exec-text">기존 25,000 비즈메시지·해피톡 고객 중 상위 10%(약 2,500사)를 에이전틱 AI 업셀링 대상으로 분류, 콜브릿지+해피톡 번들 파일럿 프로그램 운영 → IPO 전 케이스스터디 수치화</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. CUSTOMER -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag tag-customer">1 Customer</span>
+      <div class="section-title">고객 분석</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card-grid-2" style="margin-bottom: 1rem;">
+      <div class="card">
+        <h3>시장 규모 및 성장</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr>
+              <th>지표</th><th>수치</th><th>비고</th>
+            </tr>
+            <tr>
+              <td class="cell-name">국내 AICC 시장 (2024)</td>
+              <td><b>4,000~5,000억</b></td>
+              <td>추정 [가설]</td>
+            </tr>
+            <tr>
+              <td class="cell-name">성장률 CAGR</td>
+              <td><b>연 20~30%</b></td>
+              <td>LLM 상용화 가속</td>
+            </tr>
+            <tr>
+              <td class="cell-name">비즈메시지 시장</td>
+              <td><b>안정 성장</b></td>
+              <td>카카오 의존 구조</td>
+            </tr>
+          </table>
+        </div>
+        <p style="margin-top: 12px;"><b>주요 트렌드:</b></p>
+        <ul style="margin-top: 6px;">
+          <li>챗봇 → 에이전틱 AI: FAQ 응답에서 예약·환불·결제 실행으로 수요 이동</li>
+          <li>구축형 → SaaS형: 초기 투자 부담 없는 구독 전환 수요 확대</li>
+          <li>음성 채널 재부상: 고령 고객 대응·복잡 상담에서 AI ARS 재평가</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>고객 세그먼트</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr>
+              <th>세그먼트</th><th>규모</th><th>특징</th><th>우선순위</th>
+            </tr>
+            <tr>
+              <td class="cell-name">SMB</td>
+              <td>~2만사</td>
+              <td>셀프서비스, 저가 SaaS</td>
+              <td><b style="color: var(--blue-light);">현재 핵심</b></td>
+            </tr>
+            <tr>
+              <td class="cell-name">중견기업</td>
+              <td>성장 타깃</td>
+              <td>AX 전환 관심, 구축 리소스 부족</td>
+              <td><b style="color: var(--accent);">업셀링 핵심</b></td>
+            </tr>
+            <tr>
+              <td class="cell-name">엔터프라이즈</td>
+              <td>소수 대형</td>
+              <td>레퍼런스 가치, 고단가 커스텀</td>
+              <td><b style="color: var(--muted);">레퍼런스용</b></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid-2">
+      <div class="card">
+        <h3>핵심 니즈 / Pain Point</h3>
+        <ul>
+          <li><b>표면 니즈:</b> 상담 비용 절감, 야간·주말 자동 응대</li>
+          <li><b>근본 동기 (JTBD):</b> 상담사 채용·교육 없이 상담 품질을 유지하며 사업 성장 따라가기</li>
+          <li><b>현재 대안의 한계 — 단순 챗봇:</b> 정해진 시나리오 밖에서 막힘, 환각 오류 빈발</li>
+          <li><b>현재 대안의 한계 — 기존 IPCC:</b> 구축 기간 3~6개월, 초기 투자 수억</li>
+          <li><b>현재 대안의 한계 — 대형 벤더:</b> 중소형에게 오버스펙, 도입 복잡도 높음</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>구매 의사결정 (DMU)</h3>
+        <div class="tbl-wrap">
+          <table>
+            <tr>
+              <th>역할</th><th>실제 대상</th><th>평가 기준</th>
+            </tr>
+            <tr>
+              <td class="cell-name">Decision-Maker</td>
+              <td>CTO / IT팀장, 운영 총괄</td>
+              <td>도입 기간, 기술 안정성</td>
+            </tr>
+            <tr>
+              <td class="cell-name">User</td>
+              <td>고객센터 매니저, 상담사</td>
+              <td>UX 편의성, 오답률</td>
+            </tr>
+            <tr>
+              <td class="cell-name">Influencer</td>
+              <td>경영진</td>
+              <td>비용 ROI, 레퍼런스</td>
+            </tr>
+            <tr>
+              <td class="cell-name">Buyer</td>
+              <td>구매 / 재무</td>
+              <td>구독료 vs 절감 효과</td>
+            </tr>
+            <tr>
+              <td class="cell-name">Gatekeeper</td>
+              <td>보안팀</td>
+              <td>정보보호, ISO 인증</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. COMPETITOR -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag tag-competitor">2 Competitor</span>
+      <div class="section-title">경쟁사 분석</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>경쟁 구도</h3>
+      <div class="card-grid-3" style="margin-top: 0.75rem;">
+        <div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--red-light); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">직접 경쟁</div>
+          <ul>
+            <li><b>채널톡</b> — SMB 올인원 AI 메신저, 채팅·CRM 강세</li>
+            <li><b>솔트룩스</b> — 옴니채널 AICC, 인바운드·아웃바운드 통합</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--accent); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">간접 경쟁</div>
+          <ul>
+            <li><b>카카오 엔터프라이즈</b> — 센터플로우, 클라우드 AICC 구축형</li>
+            <li><b>SKT AI CCaaS</b> — 통신사 기반 구독형 AICC</li>
+            <li><b>KT 엔터프라이즈</b> — 대기업 AICC DX 구축</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">대체재</div>
+          <ul>
+            <li>외주 콜센터 유지</li>
+            <li>내부 상담팀 확대</li>
+            <li>"아무것도 안 함" (현상 유지)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>경쟁사 비교 매트릭스</h3>
+      <div class="matrix-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>비교축</th>
+              <th style="color:var(--accent);">블룸에이아이</th>
+              <th>채널톡</th>
+              <th>카카오 엔터프라이즈</th>
+              <th>SKT AI CCaaS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cell-name">제품·기능</td>
+              <td class="cell-self"><b>채팅+음성+비즈메시지 번들, 에이전틱 AI</b></td>
+              <td>채팅·CRM 강세, 음성 미흡</td>
+              <td>클라우드 AICC 구축형</td>
+              <td>CCaaS 구독형, 통신 연계</td>
+            </tr>
+            <tr>
+              <td class="cell-name">가격·BM</td>
+              <td class="cell-self"><b>SaaS + 구축형 이중</b></td>
+              <td>월 구독 SaaS 중심</td>
+              <td>구축형 고단가</td>
+              <td>기업 규모별 구독형</td>
+            </tr>
+            <tr>
+              <td class="cell-name">채널·영업</td>
+              <td class="cell-self"><b>직판 + 파트너</b></td>
+              <td>자체 인바운드 중심</td>
+              <td>SI 파트너 의존</td>
+              <td>대리점·기업 영업</td>
+            </tr>
+            <tr>
+              <td class="cell-name">브랜드·레퍼런스</td>
+              <td class="cell-self"><b>토스·쿠팡·배민·코웨이 (대형~엔터)</b></td>
+              <td>스타트업·중소 강세</td>
+              <td>다이소 등 유통·공공</td>
+              <td>통신 대기업 신뢰</td>
+            </tr>
+            <tr>
+              <td class="cell-name">기술·R&D</td>
+              <td class="cell-self"><b>에이전틱 AI, 환각 제어, STT/TTS</b></td>
+              <td>자체 AI 개발 중</td>
+              <td>카카오 LLM 기반</td>
+              <td>SKT AI 연구소</td>
+            </tr>
+            <tr>
+              <td class="cell-name">최근 12개월 무브</td>
+              <td class="cell-self"><b>합병→블룸에이아이 리브랜딩, 콜브릿지 론칭, 프리IPO</b></td>
+              <td>메타엠 제휴로 상담 AI 강화</td>
+              <td>센터플로우 고도화</td>
+              <td>CCaaS 신규 출시</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>White Space — 경쟁 빈틈</h3>
+      <div class="card-grid-2" style="margin-top: 0.5rem;">
+        <div>
+          <div style="font-size:0.7rem; font-weight:700; color:var(--teal-light); margin-bottom:8px;">누구도 잘 못하는 영역</div>
+          <p>채팅+음성+비즈메시지를 하나의 고객 여정으로 통합하는 것. 채널톡은 음성 미흡, 카카오·SKT는 채널 통합 UX 미흡. 블룸에이아이만이 세 채널을 단일 플랫폼으로 묶은 상태.</p>
+        </div>
+        <div>
+          <div style="font-size:0.7rem; font-weight:700; color:var(--teal-light); margin-bottom:8px;">모두가 가진 같은 한계</div>
+          <p>에이전틱 AI의 환각·오류 제어. 현재 어느 벤더도 "100% 신뢰 가능한 AI 업무 처리"를 보장하지 못함. 이 한계를 먼저 수치로 증명하는 곳이 시장을 선점한다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. COMPANY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag tag-company">3 Company</span>
+      <div class="section-title">자사 분석</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>핵심 역량 및 자산</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr>
+            <th>자산</th><th>내용</th><th>근거</th>
+          </tr>
+          <tr>
+            <td class="cell-name">고객 베이스</td>
+            <td>유료 고객사 <b>25,000개</b></td>
+            <td><span class="matrix-badge badge-top">데이터</span> 합병 후 공식 발표</td>
+          </tr>
+          <tr>
+            <td class="cell-name">대형 레퍼런스</td>
+            <td>토스·쿠팡·배달의민족·SSG·코웨이</td>
+            <td><span class="matrix-badge badge-top">데이터</span> 공개 고객사 목록</td>
+          </tr>
+          <tr>
+            <td class="cell-name">제품 번들</td>
+            <td>해피톡(채팅) + 콜브릿지(음성) + 비즈메시지 + 헤이데어(CRM)</td>
+            <td><span class="matrix-badge badge-top">데이터</span> 제품 라인업 공개</td>
+          </tr>
+          <tr>
+            <td class="cell-name">반복 매출 구조</td>
+            <td>비즈메시지 구독 기반 안정 캐시플로</td>
+            <td><span class="matrix-badge badge-top">데이터</span> 2024 매출 286억</td>
+          </tr>
+          <tr>
+            <td class="cell-name">에이전틱 AI IP</td>
+            <td>환각 제어 기술, STT/TTS 통합 노하우</td>
+            <td><span class="matrix-badge badge-mid">가설</span> 자체 주장, 외부 벤치마크 미확인</td>
+          </tr>
+          <tr>
+            <td class="cell-name">보안 인증</td>
+            <td>과기부·KISA 사이버 위기 대응 우수기업 (2025)</td>
+            <td><span class="matrix-badge badge-top">데이터</span> 공식 수상</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sw-grid" style="margin-bottom: 1rem;">
+      <div class="sw-card strength">
+        <div class="sw-title">강점 (Strengths)</div>
+        <div class="sw-item"><b>대형 레퍼런스 + 25,000 고객 기반</b> <span class="sw-badge badge-data">데이터</span><br/><span style="font-size:0.75rem; color:var(--muted);">배민·쿠팡·토스 공개 확인</span></div>
+        <div class="sw-item"><b>채팅+음성+메시지 번들</b> — 경쟁사 대비 통합도 최고 <span class="sw-badge badge-data">데이터</span></div>
+        <div class="sw-item"><b>SaaS+구축형 이중 BM</b> — 고객 규모별 대응 유연성 <span class="sw-badge badge-data">데이터</span></div>
+        <div class="sw-item"><b>비즈메시지 안정 수익</b> — R&D 지속 투자 가능 <span class="sw-badge badge-data">데이터</span></div>
+      </div>
+      <div class="sw-card weakness">
+        <div class="sw-title">약점 (Weaknesses)</div>
+        <div class="sw-item"><b>합병 조직 통합 완결성 불확실</b> <span class="sw-badge badge-hypo">가설</span><br/><span style="font-size:0.75rem; color:var(--muted);">2025년 합병 완료, 내부 마찰 가능성</span></div>
+        <div class="sw-item"><b>에이전틱 AI 기술 차별성 미검증</b> <span class="sw-badge badge-hypo">가설</span><br/><span style="font-size:0.75rem; color:var(--muted);">외부 벤치마크·제3자 인증 부재</span></div>
+        <div class="sw-item"><b>브랜드 인지도 약함</b> — "블룸에이아이" 이름이 시장에 생소 <span class="sw-badge badge-hypo">가설</span></div>
+        <div class="sw-item"><b>카카오 비즈메시지 채널 의존성</b> — 정책 변경 리스크 <span class="sw-badge badge-data">데이터</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>현재 포지셔닝 Gap</h3>
+      <div class="card-grid-3" style="margin-top: 0.5rem;">
+        <div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--muted); letter-spacing:1px; margin-bottom:6px;">현실 인식 (시장)</div>
+          <p>"해피톡 만든 회사" — 중소기업 채팅 상담 솔루션 이미지</p>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--accent); letter-spacing:1px; margin-bottom:6px;">목표 인식</div>
+          <p>"에이전틱 AI 기반 AX 파트너" — 상담을 넘어 업무 자동화까지</p>
+        </div>
+        <div>
+          <div style="font-size:0.68rem; font-weight:700; color:var(--red-light); letter-spacing:1px; margin-bottom:6px;">갭 (Gap)</div>
+          <p>AX 포지셔닝을 뒷받침할 레퍼런스 케이스와 외부 기술 검증이 필요한 단계. 리브랜딩 12개월 내 입증 필수.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. INTEGRATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag tag-integration">4 Integration</span>
+      <div class="section-title">3C 통합 분석</div>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- 4.1 Sweet Spot -->
+    <div class="sweet-box">
+      <div class="sweet-label">4.1 Sweet Spot</div>
+      <p class="sweet-text">
+        "<em>25,000 기존 비즈메시지·해피톡 고객에게 쌓인 도메인 신뢰</em>를 활용해,
+        <em>AI 전환 의지는 있으나 구축 리소스가 부족한 중견 기업</em>의
+        <em>에이전틱 업무 처리 니즈</em>를 해결하되,
+        <em>카카오·SKT 대형 벤더가 중소형 고객에게 맞춤 대응하기 어려운 구조</em> 때문에 블룸에이아이가 선점할 수 있는."
+      </p>
+    </div>
+
+    <!-- 4.2 KSF -->
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>4.2 KSF — Key Success Factors</h3>
+      <ul class="ksf-list" style="margin-top: 0.75rem;">
+        <li class="ksf-item">
+          <div class="ksf-num">1</div>
+          <div class="ksf-content">
+            <div class="ksf-title">업셀링 전환율</div>
+            <div class="ksf-desc">비즈메시지 고객 → 해피톡+콜브릿지 번들 전환율 연 20% 이상 달성. 기존 신뢰 관계가 있어 신규 영업 비용 최소화 가능.</div>
+          </div>
+        </li>
+        <li class="ksf-item">
+          <div class="ksf-num">2</div>
+          <div class="ksf-content">
+            <div class="ksf-title">에이전틱 AI 신뢰성 수치화</div>
+            <div class="ksf-desc">실 고객사 환경에서 상담 자동화율 70% 이상, 오류율 3% 이하 — 외부 발표 가능한 수치 확보. 기술 주장을 증거로 전환.</div>
+          </div>
+        </li>
+        <li class="ksf-item">
+          <div class="ksf-num">3</div>
+          <div class="ksf-content">
+            <div class="ksf-title">IPO 전 중견기업 레퍼런스 확장</div>
+            <div class="ksf-desc">현재 대형 고객 집중에서 중견기업 신규 레퍼런스 50사 이상으로 분산. 특정 고객 의존 리스크 해소 및 밸류에이션 다각화.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 4.3 Priority Matrix -->
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>4.3 전략 옵션 우선순위 매트릭스</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr>
+            <th>옵션</th>
+            <th>고객 니즈 강도</th>
+            <th>자사 차별화</th>
+            <th>경쟁 진입 난이도</th>
+            <th>합계</th>
+            <th>평가</th>
+          </tr>
+          <tr>
+            <td class="cell-name">A. 기존 25,000 고객 에이전틱 업셀링</td>
+            <td>4 / 5</td>
+            <td>5 / 5</td>
+            <td>5 / 5</td>
+            <td class="matrix-score">14</td>
+            <td><span class="matrix-badge badge-top">최우선</span></td>
+          </tr>
+          <tr>
+            <td class="cell-name">D. 카카오 외 채널(네이버·라인) 비즈메시지 확장</td>
+            <td>3 / 5</td>
+            <td>3 / 5</td>
+            <td>4 / 5</td>
+            <td class="matrix-score">10</td>
+            <td><span class="matrix-badge badge-mid">중기</span></td>
+          </tr>
+          <tr>
+            <td class="cell-name">B. 중동 등 해외 시장 신규 진출</td>
+            <td>3 / 5</td>
+            <td>3 / 5</td>
+            <td>3 / 5</td>
+            <td class="matrix-score">9</td>
+            <td><span class="matrix-badge badge-mid">중장기</span></td>
+          </tr>
+          <tr>
+            <td class="cell-name">C. 대기업 AICC 구축 수주 확대</td>
+            <td>4 / 5</td>
+            <td>2 / 5</td>
+            <td>2 / 5</td>
+            <td class="matrix-score">8</td>
+            <td><span class="matrix-badge" style="background:rgba(239,68,68,0.15);color:var(--red-light);border:1px solid rgba(239,68,68,0.3);">리스크 高</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4.4 Recommended Strategy -->
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>4.4 권장 전략 — 12주 실행 로드맵</h3>
+      <div style="padding: 1rem; background: rgba(59,130,246,0.06); border-radius: 10px; margin-bottom: 1rem; border-left: 3px solid var(--blue);">
+        <div style="font-size: 0.7rem; font-weight:700; color:var(--blue-light); margin-bottom:6px;">WHAT</div>
+        <p style="font-size:0.85rem;">비즈메시지 고객 25,000사 중 월 상담 건수 상위 10%(약 2,500사)를 에이전틱 AI 업셀링 대상으로 분류하고, 콜브릿지+해피톡 번들 파일럿 프로그램을 운영하여 IPO 전 케이스스터디 수치화</p>
+      </div>
+      <div style="padding: 1rem; background: rgba(232,184,0,0.06); border-radius: 10px; margin-bottom: 1rem; border-left: 3px solid var(--accent);">
+        <div style="font-size: 0.7rem; font-weight:700; color:var(--accent); margin-bottom:6px;">WHY (3C 근거)</div>
+        <ul style="padding-left: 1.1rem;">
+          <li style="font-size:0.83rem; color:var(--muted); line-height:1.7;"><b style="color:var(--text);">Customer:</b> AX 전환 의지는 있으나 수개월 구축 기간을 감당하기 어려운 중견 이하 기업이 가장 빠르게 움직임</li>
+          <li style="font-size:0.83rem; color:var(--muted); line-height:1.7;"><b style="color:var(--text);">Competitor:</b> 채널톡은 음성 미흡, 대형 벤더는 중소형 맞춤 대응 불가 — 번들 SaaS 공백 존재</li>
+          <li style="font-size:0.83rem; color:var(--muted); line-height:1.7;"><b style="color:var(--text);">Company:</b> 기존 신뢰 관계가 있어 신규 영업 비용 최소화, 레퍼런스 확보 속도가 경쟁사 대비 빠름</li>
+        </ul>
+      </div>
+      <div class="roadmap">
+        <div class="rm-block w1">
+          <div class="rm-period">Week 1–4</div>
+          <ul>
+            <li>기존 고객 데이터 분석</li>
+            <li>업셀링 우선순위 2,500사 리스트업</li>
+            <li>파일럿 조건 설계 (3개월 무료 or 감면)</li>
+          </ul>
+        </div>
+        <div class="rm-block w2">
+          <div class="rm-period">Week 5–8</div>
+          <ul>
+            <li>50사 파일럿 진입</li>
+            <li>에이전틱 AI KPI 측정 체계 구축</li>
+            <li>자동화율·오류율 실측 시작</li>
+          </ul>
+        </div>
+        <div class="rm-block w3">
+          <div class="rm-period">Week 9–12</div>
+          <ul>
+            <li>파일럿 결과 케이스스터디화</li>
+            <li>중견기업 대상 세일즈덱 수치 삽입</li>
+            <li>IPO 전 IR 자료 연계</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk -->
+    <div class="card" style="margin-bottom: 1rem;">
+      <h3>주요 가정 및 리스크</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr>
+            <th>가정</th><th>깨졌을 때</th><th>대응</th>
+          </tr>
+          <tr class="risk-row">
+            <td>기존 고객이 AI 전환 비용을 SaaS 요금 인상으로 수용한다</td>
+            <td>가격 저항 발생</td>
+            <td>단계형 요금제 도입 (기본 SaaS + AI 기능 애드온)</td>
+          </tr>
+          <tr class="risk-row">
+            <td>에이전틱 AI 환각·오류가 파일럿 기간 내 허용 수준으로 통제된다</td>
+            <td>오류율 기준치 초과</td>
+            <td>인간+AI 하이브리드 모드 전환, 완전 자동화 시점 후퇴</td>
+          </tr>
+          <tr class="risk-row">
+            <td>카카오 비즈메시지 정책(수수료·API)이 유지된다</td>
+            <td>정책 변경으로 수익 축소</td>
+            <td>네이버 채널 등 대체 채널 병행 가속화</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Next Action -->
+    <div class="next-box">
+      <div class="next-label">Next Action — 30일 내</div>
+      <ul class="next-list">
+        <li>비즈메시지 고객 중 월 상담 건수 상위 1,000사에 콜브릿지 파일럿 오퍼 발송 <span>→ 신규 영업 0 원으로 파이프라인 즉시 확보</span></li>
+        <li>에이전틱 AI KPI 측정 프레임워크 내부 확정 (자동화율·오류율·AHT) <span>→ 파일럿 결과를 IR·세일즈덱 수치로 전환하기 위한 전제 조건</span></li>
+        <li>카카오 외 비즈메시지 채널(네이버 등) 타당성 검토 착수 <span>→ 단일 채널 의존 리스크 분산</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- APPENDIX -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag" style="background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid var(--border);">부록</span>
+      <div class="section-title" style="font-size:1rem;">출처 및 가설 목록</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="card-grid-2">
+      <div class="card">
+        <h3>출처 (Sources)</h3>
+        <ul class="source-list">
+          <li><a href="https://thevc.kr/blumnai" target="_blank">블룸에이아이 기업정보 — THE VC</a></li>
+          <li><a href="https://www.aitimes.kr/news/articleView.html?idxno=35360" target="_blank">루나소프트-엠비아이솔루션 합병 완료 — 인공지능신문</a></li>
+          <li><a href="https://m.thebell.co.kr/m/newsview.asp?newskey=202603310802010780101342" target="_blank">블룸에이아이 100억 프리IPO 추진 — THE BELL</a></li>
+          <li><a href="https://magazine.hankyung.com/business/article/202603268601b" target="_blank">콜브릿지 론칭 — 한경 매거진</a></li>
+          <li><a href="https://m.thebell.co.kr/m/newsview.asp?newskey=202603311441089560102228" target="_blank">THE BELL 인터뷰: 김범수·박진영 대표</a></li>
+          <li><a href="https://www.hankyung.com/article/2024071536251" target="_blank">AICC 시장 경쟁 현황 — 한국경제</a></li>
+          <li><a href="https://centerflow.kakaocloud.com/" target="_blank">카카오 센터플로우 서비스 페이지</a></li>
+          <li><a href="https://blog.happytalk.io/blumnai-launch-ai-transformation" target="_blank">블룸에이아이 AX 혁신 선언 — 해피톡 블로그</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>가설 목록 <span class="matrix-badge badge-hypo">추가 조사 필요</span></h3>
+        <div class="hypo-list">
+          <ul>
+            <li>국내 AICC 시장 규모 4,000~5,000억: 공식 조사 기관 데이터 미확보</li>
+            <li>에이전틱 AI 환각 제어 기술 차별성: 블룸에이아이 자체 주장, 외부 벤치마크 없음</li>
+            <li>2025년 매출 380억: 언론 추정치, 공식 확정 실적 아님</li>
+            <li>합병 조직 통합 완결성: 루나소프트+엠비아이솔루션 내부 마찰 가능성 — 공개 정보 없음</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="../">← AX사업부문 분석 허브</a> &nbsp;|&nbsp;
+  3C 분석: 블룸에이아이 &nbsp;|&nbsp;
+  2026-06-18 &nbsp;|&nbsp;
+  <a href="https://github.com/aiccbiz2" target="_blank">aiccbiz2</a>
+</footer>
+
+</body>
+</html>
