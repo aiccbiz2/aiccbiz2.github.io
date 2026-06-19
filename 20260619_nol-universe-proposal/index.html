@@ -9,48 +9,49 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 :root{
-  --text:#1A1A1A; --dim:#5A5A5A; --dim2:#8A8A8A;
-  --line:#E2E2E2; --line2:#D0D0D0;
-  --blue:#2B5FD0; --blue-d:#1C3F93;
+  --bg:#0A0A0B; --surface:#111114; --card:#1A1A1E;
+  --text:#FFFFFF; --dim:#B5B5BC; --dim2:#7C7C84;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+  --mag:#E6007E; --mag2:#FF4DA6;
   --mono:'SF Mono',ui-monospace,Menlo,monospace;
-  --lgu-logo:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI0AAAAoCAYAAADDj3n4AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NzI0OTMxQzVGMkE4MTFFODlGQzRBNjYyOUIwMDgxQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NzI0OTMxQzZGMkE4MTFFODlGQzRBNjYyOUIwMDgxQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo3MjQ5MzFDM0YyQTgxMUU4OUZDNEE2NjI5QjAwODFBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3MjQ5MzFDNEYyQTgxMUU4OUZDNEE2NjI5QjAwODFBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PjRxqYUAABJLSURBVHja7FwHeBTV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);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#dfe3e9;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased}
+html,body{height:100%;background:#000;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased}
 
 #stage{position:fixed;top:50%;left:50%;width:1280px;height:854px;transform-origin:center center}
-.page{position:absolute;inset:0;width:1280px;height:854px;background:#fff;display:none;overflow:hidden;box-shadow:0 16px 56px rgba(20,40,80,.20)}
+.page{position:absolute;inset:0;width:1280px;height:854px;background:var(--bg);display:none;overflow:hidden}
 .page.on{display:block}
 
 /* chrome */
 .top{position:absolute;top:34px;left:56px;right:56px;display:flex;justify-content:space-between;align-items:center;z-index:3}
-.eyebrow{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--blue)}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--mag)}
 .top-r{font-size:12.5px;color:var(--dim2);letter-spacing:.06em}
-.foot{position:absolute;left:56px;right:56px;bottom:28px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;z-index:3}
+.foot{position:absolute;left:56px;right:56px;bottom:30px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:12px;z-index:3}
 .f-nol{display:flex;flex-direction:column;line-height:1;gap:2px}
-.f-nol b{font-size:15px;font-weight:900;color:var(--blue);letter-spacing:.06em}
+.f-nol b{font-size:15px;font-weight:900;color:#fff;letter-spacing:.06em}
 .f-nol span{font-size:6.5px;font-weight:700;color:var(--dim2);letter-spacing:.28em}
 .f-pg{font-family:var(--mono);font-size:12px;color:var(--dim2)}
-.lgu-logo{background:var(--lgu-logo) no-repeat center/contain;width:104px;height:29px}
+.lgu{font-size:18px;font-weight:900;letter-spacing:-.02em;color:#fff}
+.lgu i{color:var(--mag);font-style:normal}
 
 .body{position:absolute;top:96px;left:56px;right:56px;bottom:78px;display:flex;flex-direction:column}
 
 /* title block */
-.title{font-size:34px;font-weight:800;color:var(--text);letter-spacing:-.03em;line-height:1.12}
-.title em{font-style:normal;color:var(--blue-d)}
+.title{font-size:34px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.12}
+.title em{font-style:normal;color:var(--mag)}
 .desc{font-size:18px;color:var(--dim);line-height:1.6;margin-top:14px;max-width:1040px}
-.desc b{color:var(--text);font-weight:700}
+.desc b{color:#fff;font-weight:700}
 .rule{height:1px;background:var(--line);margin:24px 0}
 
-/* section header with blue bar marker */
-.blk{display:flex;align-items:center;font-size:19px;font-weight:800;color:var(--text);letter-spacing:-.01em;margin:22px 0 16px}
-.bar{display:inline-block;width:3px;height:17px;background:var(--blue);margin-right:11px}
+/* section header with magenta bar marker */
+.blk{display:flex;align-items:center;font-size:19px;font-weight:800;color:#fff;letter-spacing:-.01em;margin:22px 0 16px}
+.bar{display:inline-block;width:3px;height:17px;background:var(--mag);margin-right:11px}
 
 /* lists */
 .list{display:flex;flex-direction:column;gap:17px}
 .item{display:flex;gap:14px;font-size:18px;line-height:1.55;color:var(--dim)}
-.item b{color:var(--text);font-weight:700}
-.item .m{flex-shrink:0;width:7px;height:7px;margin-top:8px;background:var(--blue)}
+.item b{color:#fff;font-weight:700}
+.item .m{flex-shrink:0;width:7px;height:7px;margin-top:8px;background:var(--mag)}
 .item.neg .m{background:var(--dim2)}
 .item .sub{display:block;color:var(--dim2);font-size:15px;margin-top:3px}
 
@@ -60,91 +61,138 @@ html,body{height:100%;background:#dfe3e9;font-family:'Pretendard',-apple-system,
 
 /* key-value (line only) */
 .kv{display:flex;gap:20px;padding:13px 0;border-top:1px solid var(--line)}
-.kv .k{flex-shrink:0;width:104px;color:var(--blue);font-weight:700;font-size:15px;padding-top:1px}
+.kv .k{flex-shrink:0;width:104px;color:var(--mag);font-weight:700;font-size:15px;padding-top:1px}
 .kv .v{color:var(--dim);font-size:17px;line-height:1.5}
-.kv .v b{color:var(--text)}
+.kv .v b{color:#fff}
 .kv .v .note{display:block;color:var(--dim2);font-size:14px;margin-top:3px}
 
 /* seat diagram (flat) */
 .seat{display:flex;flex-direction:column;align-items:center;gap:0;padding:4px 0 2px}
-.seat-top{border:1.5px solid var(--blue);color:var(--blue-d);font-size:25px;font-weight:800;padding:10px 32px;border-radius:5px;letter-spacing:-.02em}
+.seat-top{border:1.5px solid var(--mag);color:#fff;font-size:25px;font-weight:800;padding:10px 32px;border-radius:5px;letter-spacing:-.02em}
 .seat-stem{width:1px;height:18px;background:var(--line2)}
 .seat-h{position:relative;width:280px;height:1px;background:var(--line2)}
 .seat-h i{position:absolute;top:0;width:1px;height:18px;background:var(--line2)}
 .seat-h i.l{left:18%}.seat-h i.r{right:18%}
 .seat-row{display:flex;gap:18px;margin-top:18px}
 .seat-node{border:1px solid var(--line2);border-radius:5px;padding:12px 26px;text-align:center;min-width:150px}
-.seat-num{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.seat-num{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.02em}
 .seat-lbl{font-size:14px;color:var(--dim2);margin-top:3px}
 
 /* hero number */
 .hero{display:flex;align-items:baseline}
-.hero .big{font-size:66px;font-weight:900;color:var(--blue-d);letter-spacing:-.035em;line-height:1}
-.hero .arr{color:var(--blue);font-size:50px;font-weight:300;margin:0 20px}
+.hero .big{font-size:66px;font-weight:900;color:#fff;letter-spacing:-.035em;line-height:1}
+.hero .arr{color:var(--mag);font-size:50px;font-weight:300;margin:0 20px}
 .hero .u{font-size:23px;color:var(--dim);font-weight:700;margin-left:6px}
 .hero-cap{font-size:15px;color:var(--dim2);margin-top:14px;letter-spacing:.02em}
-.conv{border-left:3px solid var(--blue);padding:4px 0 4px 18px;margin-top:22px}
-.conv .l{font-size:14px;color:var(--blue);font-weight:700;letter-spacing:.04em}
-.conv .v{font-size:20px;color:var(--text);font-weight:700;margin-top:6px;line-height:1.45}
-.conv .v b{color:var(--blue-d)}
+.conv{border-left:3px solid var(--mag);padding:4px 0 4px 18px;margin-top:22px}
+.conv .l{font-size:14px;color:var(--mag);font-weight:700;letter-spacing:.04em}
+.conv .v{font-size:20px;color:#fff;font-weight:700;margin-top:6px;line-height:1.45}
+.conv .v b{color:var(--mag2)}
 .conv .n{font-size:14px;color:var(--dim2);margin-top:6px}
 
 /* pillars (line separated, no card) */
 .pillars{display:grid;grid-template-columns:repeat(3,1fr)}
 .pillar{padding:0 30px;border-left:1px solid var(--line)}
 .pillar:first-child{padding-left:0;border-left:none}
-.pillar .pn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--blue)}
-.pillar h4{font-size:19px;font-weight:800;color:var(--text);margin:10px 0 9px;letter-spacing:-.01em}
+.pillar .pn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--mag)}
+.pillar h4{font-size:19px;font-weight:800;color:#fff;margin:10px 0 9px;letter-spacing:-.01em}
 .pillar p{font-size:16px;color:var(--dim);line-height:1.6}
-.pillar p b{color:var(--text)}
+.pillar p b{color:#fff}
+
+/* pillar cards (bordered) */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pcard{border:1px solid var(--line);border-radius:6px;padding:22px 22px 18px;display:flex;flex-direction:column}
+.pcard .pn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--mag)}
+.pcard h4{font-size:18.5px;font-weight:800;color:#fff;margin:9px 0 8px;letter-spacing:-.01em}
+.pcard p{font-size:15.5px;color:var(--dim);line-height:1.55;flex:1}
+.pcard p b{color:#fff}
+.pcard .tag{margin-top:16px;padding-top:13px;border-top:1px solid var(--line);font-size:13.5px;color:var(--dim2);letter-spacing:.01em}
+.pcard .tag b{color:var(--mag2);font-weight:700}
 
 /* table */
 .tb{width:100%;border-collapse:collapse}
-.tb th{text-align:left;color:var(--blue);font-weight:700;font-size:13.5px;letter-spacing:.04em;padding:12px 18px;border-bottom:2px solid var(--blue)}
+.tb th{text-align:left;color:var(--dim2);font-weight:700;font-size:13.5px;letter-spacing:.04em;padding:12px 18px;border-bottom:1px solid var(--line2)}
 .tb td{padding:15px 18px;border-bottom:1px solid var(--line);color:var(--dim);font-size:17px;line-height:1.5;vertical-align:top}
-.tb td b{color:var(--text);font-weight:700}
-.tb .svc{color:var(--blue-d);font-weight:800;font-size:17px;white-space:nowrap}
+.tb td b{color:#fff;font-weight:700}
+.tb .svc{color:var(--mag);font-weight:800;font-size:17px;white-space:nowrap}
 
 /* mini effect row (line, no card) */
 .fx{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:24px}
 .fx .c{padding:18px 26px 0;border-left:1px solid var(--line)}
 .fx .c:first-child{padding-left:0;border-left:none}
-.fx .c b{display:block;font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
+.fx .c b{display:block;font-size:18px;font-weight:800;color:#fff;margin-bottom:6px}
 .fx .c span{font-size:15px;color:var(--dim);line-height:1.5}
+
+/* key message banner */
+.keymsg{border:1px solid var(--line2);border-left:3px solid var(--mag);border-radius:6px;padding:22px 28px}
+.km-tag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--mag)}
+.km-txt{font-size:23px;font-weight:800;color:#fff;line-height:1.42;letter-spacing:-.01em;margin-top:10px}
+.km-txt b{color:var(--mag2)}
+.km-sub{font-size:15px;color:var(--dim2);margin-top:10px;line-height:1.5}
+
+/* AICC engine suite cards */
+.suite{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-top:24px}
+.scard{border:1px solid var(--line);border-radius:7px;padding:19px 17px;display:flex;flex-direction:column;min-height:248px;transition:border-color .15s}
+.scard:hover{border-color:var(--line2)}
+.scard .badge{align-self:flex-start;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--mag);border:1px solid rgba(230,0,126,.35);border-radius:4px;padding:4px 9px;letter-spacing:.01em}
+.scard h4{font-size:16.5px;font-weight:800;color:#fff;margin:16px 0 8px;letter-spacing:-.01em;line-height:1.25}
+.scard p{font-size:13.5px;color:var(--dim);line-height:1.5;flex:1}
+.scard .eff{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--dim2);line-height:1.45}
+.scard .eff b{color:var(--mag2);font-weight:700}
+
+/* KPI impact band */
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line2);margin-top:28px}
+.kpi .k{padding:22px 28px 0;border-left:1px solid var(--line)}
+.kpi .k:first-child{padding-left:0;border-left:none}
+.kpi .kn{font-size:30px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1}
+.kpi .kn em{font-style:normal;color:var(--mag)}
+.kpi .kl{font-size:15.5px;color:var(--dim);margin-top:11px;line-height:1.45}
+.kpi .ks{font-size:13.5px;color:var(--dim2);margin-top:5px}
+
+/* BPO mechanism flow */
+.flow{display:flex;align-items:stretch;gap:0}
+.fnode{flex:1;border:1px solid var(--line);border-radius:6px;padding:16px 16px;display:flex;flex-direction:column;justify-content:center}
+.fnode .ft{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.3}
+.fnode .fs{font-size:12.5px;color:var(--dim2);margin-top:6px;line-height:1.4}
+.fnode.last{border-color:rgba(230,0,126,.4)}
+.fnode.last .ft{color:var(--mag2)}
+.farrow{display:flex;align-items:center;color:var(--mag);font-size:22px;font-weight:300;padding:0 11px}
+.bpo-save{margin-top:18px;border:1px solid var(--line2);border-left:3px solid var(--mag);border-radius:6px;padding:15px 22px;font-size:18px;font-weight:700;color:#fff}
+.bpo-save b{color:var(--mag2);font-size:20px}
+.bpo-save span{font-size:13px;color:var(--dim2);font-weight:400;margin-left:6px}
 
 /* steps (closing) */
 .steps{display:flex;align-items:stretch;gap:0;margin-top:6px}
 .step{flex:1;border:1px solid var(--line);border-radius:5px;padding:22px 24px}
-.step .sn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--blue)}
-.step h5{font-size:19px;font-weight:800;color:var(--text);margin-top:10px;letter-spacing:-.01em}
+.step .sn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--mag)}
+.step h5{font-size:19px;font-weight:800;color:#fff;margin-top:10px;letter-spacing:-.01em}
 .step p{font-size:15px;color:var(--dim);margin-top:8px;line-height:1.55}
-.step-arrow{display:flex;align-items:center;color:var(--blue);font-size:26px;font-weight:300;padding:0 14px}
+.step-arrow{display:flex;align-items:center;color:var(--mag);font-size:26px;font-weight:300;padding:0 14px}
 .close-sum{display:flex;flex-direction:column;gap:13px}
 .close-sum .s{display:flex;gap:16px;font-size:19px;color:var(--dim);line-height:1.5}
-.close-sum .s b{color:var(--text);font-weight:700}
-.close-sum .s .k{flex-shrink:0;color:var(--blue);font-weight:800;width:96px}
-.close-msg{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-top:6px}
-.close-msg em{font-style:normal;color:var(--blue-d)}
+.close-sum .s b{color:#fff;font-weight:700}
+.close-sum .s .k{flex-shrink:0;color:var(--mag);font-weight:800;width:96px}
+.close-msg{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-top:6px}
+.close-msg em{font-style:normal;color:var(--mag)}
 
 /* ===== COVER ===== */
-#cover{background:radial-gradient(130% 120% at 100% 0%,rgba(43,95,208,.07) 0%,rgba(43,95,208,0) 46%),#fff}
+#cover{background:radial-gradient(130% 120% at 100% 0%,rgba(230,0,126,.10) 0%,rgba(230,0,126,0) 42%),var(--bg)}
 .cv-logo{position:absolute;top:54px;left:64px;display:flex;flex-direction:column;line-height:1;gap:3px}
-.cv-logo b{font-size:22px;font-weight:900;color:var(--blue);letter-spacing:.06em}
+.cv-logo b{font-size:22px;font-weight:900;color:#fff;letter-spacing:.06em}
 .cv-logo span{font-size:8px;font-weight:700;color:var(--dim2);letter-spacing:.3em}
 .cv-body{position:absolute;left:96px;top:50%;transform:translateY(-56%)}
 .cv-eyebrow{font-size:18px;font-weight:600;color:var(--dim);letter-spacing:.01em;margin-bottom:22px}
-.cv-title{font-size:58px;font-weight:900;color:var(--text);letter-spacing:-.035em;line-height:1.12}
-.cv-title em{font-style:normal;color:var(--blue-d)}
-.cv-rule{width:64px;height:4px;background:var(--blue);border-radius:2px;margin:30px 0 30px}
-.cv-date{display:inline-block;border:1px solid var(--blue);color:var(--blue-d);font-size:16px;font-weight:700;padding:7px 20px;border-radius:5px;letter-spacing:.06em}
+.cv-title{font-size:58px;font-weight:900;color:#fff;letter-spacing:-.035em;line-height:1.12}
+.cv-title em{font-style:normal;color:var(--mag)}
+.cv-rule{width:64px;height:3px;background:var(--mag);margin:30px 0 30px}
+.cv-date{display:inline-block;border:1px solid var(--mag);color:var(--mag2);font-size:16px;font-weight:700;padding:7px 20px;border-radius:5px;letter-spacing:.06em}
 .cv-lgu{position:absolute;right:64px;bottom:54px}
-.cv-lgu .lgu-logo{width:128px;height:36px}
 
 /* nav */
 #nav{position:fixed;bottom:16px;right:22px;display:flex;gap:8px;z-index:50}
-.nb{font-size:12.5px;font-weight:600;background:#fff;border:1px solid var(--line2);color:var(--dim);padding:8px 15px;border-radius:5px;cursor:pointer;box-shadow:0 2px 8px rgba(20,40,80,.10);transition:all .15s}
-.nb:hover{color:var(--blue);border-color:var(--blue)}
-#progress{position:fixed;top:0;left:0;height:3px;background:var(--blue);z-index:60;transition:width .25s}
+.nb{font-size:12.5px;font-weight:600;background:var(--card);border:1px solid var(--line2);color:var(--dim);padding:8px 15px;border-radius:5px;cursor:pointer;transition:all .15s}
+.nb:hover{color:#fff;border-color:var(--mag)}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--mag);z-index:60;transition:width .25s}
 </style>
 </head>
 <body>
@@ -160,12 +208,41 @@ html,body{height:100%;background:#dfe3e9;font-family:'Pretendard',-apple-system,
     <div class="cv-rule"></div>
     <div class="cv-date">2026. 06</div>
   </div>
-  <div class="cv-lgu"><div class="lgu-logo"></div></div>
+  <div class="cv-lgu"><span class="lgu">LG <i>U+</i></span></div>
+</div>
+
+<!-- ===== 배경 · 사업 경위 ===== -->
+<div class="page" id="s0b">
+  <div class="top"><div class="eyebrow">BACKGROUND</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="body">
+    <div class="title">왜 지금, <em>구조 전환</em>이 필요한가</div>
+    <div class="desc">콜인프라 노후화(<b>Cisco EOS</b>)로 교체는 이미 불가피한 상황입니다. 핵심은 '교체 여부'가 아니라 <b>온프레미스로 다시 짓느냐, SaaS로 전환하느냐</b>입니다.</div>
+    <div class="cols" style="margin-top:14px">
+      <div>
+        <div class="blk"><span class="bar"></span>사업 경위</div>
+        <div class="kv"><div class="k">통합 출범</div><div class="v">야놀자 <b>200석</b> + 인터파크트리플 <b>350석</b> 통합 법인<span class="note">컨택센터 통합·AI 고도화 목표</span></div></div>
+        <div class="kv"><div class="k">야놀자</div><div class="v">SK브로드밴드 통신망·콜인프라 이용, <b>2025년 계약 종료</b><span class="note">Cisco EOS(서비스 종료) 통보 → 투자 시급</span></div></div>
+        <div class="kv"><div class="k">인터파크트리플</div><div class="v">SK브로드밴드 계약 <b>2030년까지 잔여</b><span class="note">통합 구축 추진의 제약 요인</span></div></div>
+        <div class="kv"><div class="k">현재 상태</div><div class="v"><b>EOS 상태 그대로 사용</b>하겠다는 고객 의지<span class="note">야놀자 콜인프라만 교체 발주 · 전체 통합·고도화는 지난 1년간 검토</span></div></div>
+        <div class="kv" style="border-bottom:1px solid var(--line)"><div class="k">일정</div><div class="v">사업자 선정 <b>2026년말 → 2027년 연기</b><span class="note">구매팀 통보 (6/5 09:30)</span></div></div>
+      </div>
+      <div class="col-r">
+        <div class="blk"><span class="bar"></span>온프레미스 재구축 vs SaaS 전환</div>
+        <div class="list">
+          <div class="item neg"><span class="m"></span><div><b>온프레미스 재구축 = 문제의 이연</b><span class="sub">5년 뒤 똑같이 노후화·EOS·대규모 재투자 반복 — 지금의 EOS 상황을 주기적으로 되풀이하는 선택</span></div></div>
+          <div class="item"><span class="m"></span><div><b>SaaS 전환 = 구조적 탈출</b><span class="sub">노후화·재투자 반복에서 벗어나고, 통합 법인이 이미 내건 'AI 고도화' 목표의 실행 토대를 확보</span></div></div>
+          <div class="item"><span class="m"></span><div><b>지금이 선제 착수 적기</b><span class="sub">27년 연기로 확보된 시간에 여행(항공·숙박)·티켓(공연·스포츠) 도메인 학습 착수 — 학습은 시간이 걸려 지금 시작해야 오픈 시 효과·BPO 인력 절감</span></div></div>
+          <div class="item"><span class="m"></span><div><b>결론 — 같은 교체 비용, 5년 뒤 위치가 다르다</b><span class="sub">동일한 교체 의사결정이지만, 온프레미스 재구축과 SaaS 전환의 5년 후 결과는 근본적으로 다름</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">01</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 <!-- ===== Ⅰ 현황 ===== -->
 <div class="page" id="s1">
-  <div class="top"><div class="eyebrow">현황</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="top"><div class="eyebrow">CURRENT STATUS</div><div class="top-r">놀유니버스 × LG U+</div></div>
   <div class="body">
     <div class="title">컨택센터 운영 현황</div>
     <div class="desc">놀유니버스는 통합 <b>550석 규모</b>의 컨택센터를 온프레미스로 운영하고 있습니다. 비용 구조·확장성·AI 적용 측면에서 개선 여지가 있으며, 입찰 연기로 확보된 시간을 <b>사전 검증에 활용</b>할 수 있습니다.</div>
@@ -198,99 +275,127 @@ html,body{height:100%;background:#dfe3e9;font-family:'Pretendard',-apple-system,
       </div>
     </div>
   </div>
-  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">01</div><div class="lgu-logo"></div></div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">02</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 <!-- ===== Ⅱ 제안 요약 (number-centric) ===== -->
 <div class="page" id="s2">
-  <div class="top"><div class="eyebrow">제안 요약</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="top"><div class="eyebrow">PROPOSAL SUMMARY</div><div class="top-r">놀유니버스 × LG U+</div></div>
   <div class="body">
     <div class="title">놀유니버스가 얻는 것</div>
     <div class="desc">컨택센터 인프라 SaaS 전환 · AICC 도입 · BPO 효율화를 통해 <b>운영 비용을 구조적으로 낮추고</b>, 신기술을 빠르게 적용할 수 있는 기반을 확보합니다.</div>
 
     <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:50px;margin-top:30px;align-items:center">
       <div>
-        <div class="hero"><span class="big">8,000</span><span class="arr">→</span><span class="big">4,500</span><span class="u">명</span></div>
-        <div class="hero-cap">LG U+ 자사 컨택센터에 AICC 도입과 업무 프로세스 최적화 등 운영 효율화를 적용한 실증 결과</div>
+        <div class="hero"><span class="big">5,000</span><span class="arr">→</span><span class="big">4,300</span><span class="u">석</span></div>
+        <div class="hero-cap">LG U+ 자사 컨택센터 — AICC 도입·업무 프로세스 최적화로 '23년 5,000석 → '26년 4,300석, 약 14% 효율화</div>
       </div>
       <div class="conv">
-        <div class="l">놀유니버스 550석 기준 환산 — AICC 및 운영 효율화 적용 결과</div>
-        <div class="v">상담 인력 <b>약 15~25% 효율화</b> 추정<br>≈ 약 80~140석 규모 절감 여력</div>
-        <div class="n">AICC 전환 컨설팅 결과를 반영해 산정</div>
+        <div class="l">놀유니버스 550석 기준 환산 · 1석당 월 400만원 가정</div>
+        <div class="v">효율화 약 10~15% ≈ 55~85석 절감 →<br>5년 누적 <b>약 130~200억원</b> 절감</div>
+        <div class="n">전체 인건비 월 약 22억(550석) · 5년 약 1,320억 기준 · 컨설팅으로 정밀 산정</div>
       </div>
     </div>
 
-    <div class="rule" style="margin:34px 0 26px"></div>
+    <div class="rule" style="margin:26px 0 20px"></div>
 
-    <div class="pillars">
-      <div class="pillar"><div class="pn">01</div><h4>컨택센터 인프라 SaaS 전환</h4><p>초기 투자 부담을 <b>구독형으로 전환</b>하고, 신기술을 유연하게 적용합니다.</p></div>
-      <div class="pillar"><div class="pn">02</div><h4>AICC 도입</h4><p>반복 상담을 자동화해 <b>상담 인력·업무를 효율화</b>합니다.</p></div>
-      <div class="pillar"><div class="pn">03</div><h4>BPO 운영 효율화</h4><p>데이터 분석 기반 컨설팅으로 <b>운영 구조 자체를 개선</b>합니다.</p></div>
+    <div class="blk" style="margin:0 0 16px"><span class="bar"></span>3대 제안 축</div>
+    <div class="pgrid">
+      <div class="pcard">
+        <div class="pn">01</div>
+        <h4>컨택센터 인프라 SaaS 전환</h4>
+        <p>긴 구축 기간·대규모 초기 투자의 온프레미스를 <b>구독형 Cloud SaaS</b>로 전환하고, 신기술을 유연하게 적용합니다.</p>
+        <div class="tag">벤더 종속 탈피 · <b>초기 투자 ↓</b></div>
+      </div>
+      <div class="pcard">
+        <div class="pn">02</div>
+        <h4>AICC 도입</h4>
+        <p>LG U+가 자사에 검증한 <b>자체 AI 엔진</b>으로 반복 상담을 자동화해 상담 인력·업무를 효율화합니다.</p>
+        <div class="tag">반복 문의 자동화 · <b>AHT 단축</b></div>
+      </div>
+      <div class="pcard">
+        <div class="pn">03</div>
+        <h4>BPO 운영 효율화</h4>
+        <p>상담 데이터 분석 기반 컨설팅으로 단순 인력 도급을 넘어 <b>운영 구조 자체</b>를 개선합니다.</p>
+        <div class="tag">데이터 기반 운영 · <b>운영비 절감</b></div>
+      </div>
+    </div>
+
+    <div class="fx" style="margin-top:26px">
+      <div class="c"><b>운영 비용 구조 개선</b><span>구독형 전환·AICC 자동화로 비용을 예측 가능하게 재구성</span></div>
+      <div class="c"><b>신기술 적용 속도</b><span>추가 구축 없이 AI·신기능을 즉시 반영</span></div>
+      <div class="c"><b>품질·확장성 확보</b><span>전수 품질관리와 탄력적 좌석 확장을 동시 확보</span></div>
     </div>
   </div>
-  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">02</div><div class="lgu-logo"></div></div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">03</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 <!-- ===== Ⅲ-1 SaaS ===== -->
 <div class="page" id="s3">
-  <div class="top"><div class="eyebrow">제안 ① 인프라</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="top"><div class="eyebrow">PROPOSAL ① INFRA</div><div class="top-r">놀유니버스 × LG U+</div></div>
   <div class="body">
     <div class="title">컨택센터 인프라 SaaS 전환</div>
     <div class="desc">대규모 초기 투자와 긴 구축 기간의 온프레미스 구조를 구독형 Cloud SaaS로 전환합니다. <b>LG U+ 역시 Cloud SaaS(Genesys)를 직접 운영</b>하고 있어, 검증된 전환 경험을 그대로 제공합니다.</div>
     <div class="cols" style="margin-top:18px">
       <div>
-        <div class="blk"><span class="bar"></span>현 온프레미스의 한계</div>
+        <div class="blk"><span class="bar"></span>현 온프레미스의 구조적 한계</div>
         <div class="list">
-          <div class="item neg"><span class="m"></span><div>장비 구매·설치·구축에 따른 높은 초기 투자</div></div>
-          <div class="item neg"><span class="m"></span><div>장비 교체 시 6~12개월의 구축 기간</div></div>
-          <div class="item neg"><span class="m"></span><div>기능 업데이트마다 별도 프로젝트와 추가 비용</div></div>
-          <div class="item neg"><span class="m"></span><div>벤더 종속으로 전환·확장이 어려운 구조</div></div>
+          <div class="item neg"><span class="m"></span><div><b>시대 흐름에 역행</b><span class="sub">업계 표준이 온프레미스 → SaaS로 이동 중 — 온프레미스 고수는 기술 트렌드에서 뒤처짐</span></div></div>
+          <div class="item neg"><span class="m"></span><div><b>데이터 학습·즉시 반영의 한계</b><span class="sub">여행 등 업계는 데이터를 빠르게 수집·학습해 비즈니스에 즉시 반영해야 하나, 온프레미스로는 준비가 어려움</span></div></div>
+          <div class="item neg"><span class="m"></span><div><b>신규 솔루션 Add-on 확장 제약</b><span class="sub">새 솔루션 출시 시 빠르게 붙여 쓰기 어렵고, 기능마다 별도 구축·추가 비용 발생</span></div></div>
+          <div class="item neg"><span class="m"></span><div><b>높은 초기 투자·벤더 종속</b><span class="sub">대규모 초기 투자와 긴 구축 기간, 교체 시 전면 재구축으로 전환·확장이 어려움</span></div></div>
         </div>
       </div>
       <div class="col-r">
         <div class="blk"><span class="bar"></span>SaaS 전환으로 놀유니버스가 얻는 것</div>
         <div class="list">
-          <div class="item"><span class="m"></span><div><b>예측 가능한 비용</b><span class="sub">초기 투자 없이 구독형으로 예산을 관리</span></div></div>
-          <div class="item"><span class="m"></span><div><b>빠른 도입</b><span class="sub">구축 기간을 수개월에서 대폭 단축</span></div></div>
-          <div class="item"><span class="m"></span><div><b>신기술 즉시 적용</b><span class="sub">AI·신기능을 추가 구축 없이 자동 반영</span></div></div>
-          <div class="item"><span class="m"></span><div><b>탄력적 확장·축소</b><span class="sub">성수기·비수기 좌석을 유연하게 조정</span></div></div>
+          <div class="item"><span class="m"></span><div><b>업계 표준 구조로 전환</b><span class="sub">온프레미스 → SaaS 흐름에 올라타 지속 가능성 확보</span></div></div>
+          <div class="item"><span class="m"></span><div><b>데이터 학습·즉시 반영</b><span class="sub">데이터를 빠르게 수집·학습해 서비스·상담에 즉시 반영</span></div></div>
+          <div class="item"><span class="m"></span><div><b>신규 솔루션 Add-on 확장</b><span class="sub">새 솔루션·AI 기능을 추가 구축 없이 즉시 붙여 사용</span></div></div>
+          <div class="item"><span class="m"></span><div><b>예측 가능한 비용·탄력 확장</b><span class="sub">구독형 예산 관리 + 성수기·비수기 좌석 유연 조정</span></div></div>
         </div>
       </div>
     </div>
+
+    <div class="keymsg">
+      <div class="km-tag">KEY MESSAGE</div>
+      <div class="km-txt">노후 인프라 교체를 <b>벤더 종속 없는 구독형 구조</b>로 — 초기 투자(CAPEX) 부담은 운영비(OPEX)로, 신기술은 추가 구축 없이 <b>자동 반영</b>됩니다.</div>
+      <div class="km-sub">LG U+가 자사 컨택센터에 직접 적용·검증한 Cloud SaaS(Genesys) 전환 모델을 그대로 제공</div>
+    </div>
   </div>
-  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">03</div><div class="lgu-logo"></div></div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">04</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 <!-- ===== Ⅲ-2 AICC (table) ===== -->
 <div class="page" id="s4">
-  <div class="top"><div class="eyebrow">제안 ② AICC</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="top"><div class="eyebrow">PROPOSAL ② AICC</div><div class="top-r">놀유니버스 × LG U+</div></div>
   <div class="body">
     <div class="title">AICC 서비스</div>
     <div class="desc">LG U+가 자사 고객센터에 직접 적용·검증한 <b>자체 개발 AI 엔진</b>을 그대로 제공합니다. 반복 상담을 자동화해 놀유니버스의 상담 품질과 효율을 동시에 높입니다.</div>
-    <table class="tb" style="margin-top:20px">
-      <tr><th style="width:170px">서비스</th><th>기능</th><th style="width:300px">놀유니버스가 얻는 것</th></tr>
-      <tr><td><span class="svc">ixi-STT</span></td><td><b>실시간 음성인식</b> — 상담 통화를 실시간 텍스트로 변환</td><td>상담 내용 자동 기록·분석 기반 확보</td></tr>
-      <tr><td><span class="svc">ixi-TTS</span></td><td><b>음성 합성</b> — 자연스러운 합성음으로 안내 멘트 자동 생성</td><td>콜봇·IVR 안내 제작·운영 비용 절감</td></tr>
-      <tr><td><span class="svc">상담 어드바이저</span></td><td><b>상담사 실시간 지원</b> — 최적 답변·스크립트 자동 추천</td><td>평균 처리시간(AHT) 단축, 응대 품질 향상</td></tr>
-      <tr><td><span class="svc">Auto-QA</span></td><td><b>상담 품질 자동 평가</b> — 전수 통화 자동 모니터링</td><td>표본 점검을 전수 관리로 전환</td></tr>
-      <tr><td><span class="svc">AI Agent</span></td><td><b>Agentic AICC</b> — 콜봇·챗봇 기반 반복 상담 자동 처리</td><td>상담사 연결 전 단순 문의 자동 해결</td></tr>
-    </table>
-    <div class="fx">
-      <div class="c"><b>반복 문의 자동 처리</b><span>단순·반복 문의를 자동 응대해 상담사는 고부가 업무에 집중</span></div>
-      <div class="c"><b>평균 처리시간 단축</b><span>실시간 지원으로 1인당 처리 건수와 응대 속도 향상</span></div>
-      <div class="c"><b>품질 전수 관리</b><span>모든 통화를 자동 평가해 상담 품질을 일관되게 유지</span></div>
+    <div class="suite">
+      <div class="scard"><span class="badge">ixi-STT</span><h4>실시간 음성인식</h4><p>상담 통화를 실시간으로 텍스트 전사</p><div class="eff"><b>상담 자동 기록</b> · 분석 기반 확보</div></div>
+      <div class="scard"><span class="badge">ixi-TTS</span><h4>음성 합성</h4><p>자연스러운 합성음으로 안내 멘트 자동 생성</p><div class="eff"><b>콜봇·IVR 비용 절감</b></div></div>
+      <div class="scard"><span class="badge">상담 어드바이저</span><h4>상담사 실시간 지원</h4><p>최적 답변·스크립트를 실시간 자동 추천</p><div class="eff"><b>AHT 단축</b> · 응대 품질 향상</div></div>
+      <div class="scard"><span class="badge">Auto-QA</span><h4>상담 품질 자동 평가</h4><p>전수 통화를 자동 모니터링·평가</p><div class="eff">표본 점검 → <b>전수 관리</b></div></div>
+      <div class="scard"><span class="badge">AI Agent</span><h4>Agentic AICC</h4><p>콜봇·챗봇 기반 반복 상담 자동 처리</p><div class="eff"><b>1차 자동 해결</b></div></div>
+    </div>
+
+    <div class="kpi">
+      <div class="k"><div class="kn"><em>1차</em> 자동응대</div><div class="kl">단순·반복 문의를 상담사 연결 전 자동 해결</div><div class="ks">상담사는 고부가 상담에 집중</div></div>
+      <div class="k"><div class="kn">AHT <em>↓</em></div><div class="kl">실시간 지원으로 평균 처리시간 단축</div><div class="ks">1인당 처리 건수·응대 속도 향상</div></div>
+      <div class="k"><div class="kn"><em>100%</em> 전수</div><div class="kl">모든 통화를 자동 평가해 품질 관리</div><div class="ks">표본 점검을 전수 품질관리로 전환</div></div>
     </div>
   </div>
-  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">04</div><div class="lgu-logo"></div></div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">05</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 <!-- ===== Ⅲ-3 BPO ===== -->
 <div class="page" id="s5">
-  <div class="top"><div class="eyebrow">제안 ③ BPO</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="top"><div class="eyebrow">PROPOSAL ③ BPO</div><div class="top-r">놀유니버스 × LG U+</div></div>
   <div class="body">
     <div class="title">BPO 운영 효율화</div>
-    <div class="desc">데이터 분석 기반 컨설팅 결과를 바탕으로 AI 기술과 운영 전반을 개선하여, 단순 인력 도급을 넘어 <b>상담·인력 효율화와 운영비용 절감</b>을 실현합니다.</div>
-    <div class="cols" style="margin-top:18px">
+    <div class="desc"><b style="color:var(--mag2)">데이터 기반 AICC 전환 컨설팅 결과</b>를 바탕으로 AI 기술과 운영 전반을 개선하여, 단순 인력 도급을 넘어 <b>상담·인력 효율화와 운영비용 절감</b>을 실현합니다.</div>
+    <div class="cols" style="margin-top:18px;flex:0 0 auto">
       <div>
         <div class="blk"><span class="bar"></span>위탁 운영 범위</div>
         <div class="list">
@@ -312,13 +417,25 @@ html,body{height:100%;background:#dfe3e9;font-family:'Pretendard',-apple-system,
         </div>
       </div>
     </div>
+
+    <div class="blk" style="margin-top:26px"><span class="bar"></span>운영비 절감 메커니즘</div>
+    <div class="flow">
+      <div class="fnode"><div class="ft">상담 데이터 분석</div><div class="fs">통화·상담 데이터 수집·분석</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="ft">운영 진단·AICC 전환 설계</div><div class="fs">개선 과제를 정량 도출</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><div class="ft">상담 인력 효율화</div><div class="fs">반복업무 자동화·AHT 단축</div></div>
+      <div class="farrow">→</div>
+      <div class="fnode last"><div class="ft">운영비 절감</div><div class="fs">인건비 중심 구조 개선</div></div>
+    </div>
+    <div class="bpo-save">데이터 기반 BPO 효율화로 <b>5년 약 130~200억원 절감</b> 기대 <span>· 02p 550석 환산 기준</span></div>
   </div>
-  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">05</div><div class="lgu-logo"></div></div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">06</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 <!-- ===== 클로징 ===== -->
 <div class="page" id="s6">
-  <div class="top"><div class="eyebrow">제안 마무리</div><div class="top-r">놀유니버스 × LG U+</div></div>
+  <div class="top"><div class="eyebrow">CLOSING</div><div class="top-r">놀유니버스 × LG U+</div></div>
   <div class="body">
     <div class="title">함께 만들어갈 다음 단계</div>
 
@@ -339,8 +456,9 @@ html,body{height:100%;background:#dfe3e9;font-family:'Pretendard',-apple-system,
     </div>
 
     <div class="close-msg" style="margin-top:34px">입찰 전 확보된 시간, <em>사전 검증부터 함께 검토</em>를 제안드립니다.</div>
+    <div class="desc" style="margin-top:14px">제안 기회를 주시면 <b>CAPEX·OPEX 구조</b>와 <b>AI 기술 진부화에 따른 ROI 리스크</b>까지 함께 고려한 최적안을 제시하겠습니다. LG U+는 LG AI연구원(EXAONE)·OpenAI·AWS·Genesys와의 협업으로 <b>자체 4,500석 AICC</b>를 운영하며 검증한 역량을 그대로 제공합니다.</div>
   </div>
-  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">06</div><div class="lgu-logo"></div></div>
+  <div class="foot"><div class="f-nol"><b>NOL</b><span>UNIVERSE</span></div><div class="f-pg">07</div><div class="lgu">LG <i>U+</i></div></div>
 </div>
 
 </div>
